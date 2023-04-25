@@ -1,7 +1,12 @@
 from django.shortcuts import render
+from .models import DailyTest #must import all needed tables
 
 def home(request):
-    return render(request, 'daily_QA/home.html', {})
+    temperature = DailyTest.objects.all()
+    context={
+        'temperature': temperature
+    }
+    return render(request, 'daily_QA/home.html', context)
 
 
 def daily(request):

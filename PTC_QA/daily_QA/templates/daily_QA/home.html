@@ -18,5 +18,11 @@
     <a class='btn btn-primary' href="{% url 'monthly' %}">MonthlyQA</a>
   </li>
 
+  <br>
+  <br>
+  {% for temp in temperature %} 
+      {{ temp.temperature }}
+  {% endfor %}
+
 
 {% endblock %}
