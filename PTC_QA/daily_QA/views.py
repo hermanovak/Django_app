@@ -54,7 +54,7 @@ def daily(request):
 
     ic2_100 = 0 #mozna prejmenovat, ziskat z html
     ic2_170 = 0 #mozna prejmenovat, ziskat z html
-    ic2_226 = 0 #mozna prejmenovat, ziskat z html
+    ic2_226 = 0 #mozna prejmenovat , ziskat z html
 
     #MLIC
     if MLICused==True: 
@@ -65,11 +65,13 @@ def daily(request):
         #change
 
     return render(request, 'daily_QA/daily.html', {
-        "lasers": lasers, 
+        "lasers": lasers, #pro Samuel: ty "" jsou co dat do html
          "temperature": temperature,
          "pressure": pressure, 
-         "Ktp": Ktp, 
-
+         "Ktp": Ktp
+         #mlic
+         #lynx
+         #ic
     })
 
 def weekly(request):

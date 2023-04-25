@@ -56,7 +56,7 @@ ROOT_URLCONF = 'PTC_QA.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR/'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -85,6 +85,7 @@ DATABASES = {
         'HOST': '127.0.0.1',
         #'HOST': 'localhost',  
         'PORT': '3306',  
+        'PASSWORD': 'password123'
     }
 }
 
