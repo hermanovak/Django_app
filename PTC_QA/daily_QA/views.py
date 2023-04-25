@@ -62,12 +62,14 @@ def daily(request):
         mlic_170 = 0 #mozna prejmenovat, ziskat z html
         mlic_226 = 0 #mozna prejmenovat, ziskat z html
 
+        #change
+
     return render(request, 'daily_QA/daily.html', {
         "lasers": lasers, 
          "temperature": temperature,
          "pressure": pressure, 
          "Ktp": Ktp, 
-         
+
     })
 
 def weekly(request):
