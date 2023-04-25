@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Daily QA Test</h2>
+
+<form method="post">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="treatment-room-select">Select Treatment Room:</label>
+    <select class="form-control" id="treatment-room-select" name="treatment-room">
+      <option value="TR1">Treatment Room 1</option>
+      <option value="TR2">Treatment Room 2</option>
+      <option value="TR3">Treatment Room 3</option>
+      <option value="TR4">Treatment Room 4</option>
+    </select>
+  </div>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Description</th>
+        <th>Value</th>
+        <th>Unit</th>
+        <th>Prompt/Message</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Temperature</td>
+        <td><input type="number" step="0.01" name="temperature" required></td>
+        <td>°C</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Humidity</td>
+        <td><input type="number" step="0.01" name="humidity" required></td>
+        <td>%</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Pressure</td>
+        <td><input type="number" step="0.01" name="pressure" required></td>
+        <td>kPa</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Radiation Output</td>
+        <td><input type="number" step="0.01" name="radiation-output" required></td>
+        <td>Gy/min</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Beam Symmetry</td>
+        <td><input type="number" step="0.01" name="beam-symmetry" required></td>
+        <td>%</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Beam Flatness</td>
+        <td><input type="number" step="0.01" name="beam-flatness" required></td>
+        <td>%</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Field Size</td>
+        <td><input type="number" step="0.01" name="field-size" required></td>
+        <td>cm</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Wedge Angle</td>
+        <td><input type="number" step="0.01" name="wedge-angle" required></td>
+        <td>°</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Wedge Output</td>
+        <td><input type="number" step="0.01" name="wedge-output" required></td>
+        <td>Gy/min</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>MLC Position</td>
+        <td><input type="number" step="0.01" name="

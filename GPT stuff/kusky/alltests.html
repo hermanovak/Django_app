@@ -1,0 +1,43 @@
+<!--You can then add three buttons to the QA tests page that take the user to different pages for daily, weekly, and monthly QA tests. Here's an example:-->
+
+<!-- qa_tests.html -->
+{% extends "base.html" %}
+
+{% block content %}
+  <div id="calendar"></div>
+  <div>
+    <a href="{% url 'medical_physics:daily_qa_tests' date=date %}">Daily QA tests</a>
+    <a href="{% url 'medical_physics:weekly_qa_tests' date=date %}">Weekly QA tests</a>
+    <a href="{% url 'medical_physics:monthly_qa_tests' date=date %}">Monthly QA tests</a>
+  </div>
+{% endblock %}
+
+{% block script %}
+  <!-- FullCalendar code here -->
+{% endblock %}
+
+<!--In this example, we add three links to the page that take the user to different URLs for daily, weekly, and monthly QA tests. 
+You can add URL patterns and views for these pages, similar to how we handled the QA test form in my previous response.-->
+
+<!-- qa_tests.html -->
+<!-- datepicker functionality -->
+
+<!-- This code will display a calendar for the current month and a button to submit the selected date. When the user clicks on a particular date, they will be redirected to the appropriate daily QA page based on the date clicked.  -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>QA Tests</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ datepicker }}
+    <button type="submit">Go</button>
+</form>
+
+{% for date_str, link in date_links.items %}
+    <p><a href="{{ link }}">{{ date_str }}</a></p>
+{% endfor %}
+
+{% endblock %}

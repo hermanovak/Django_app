@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'daily_QA',
+    #'daily_QA',
+    'daily_QA.apps.DailyQaConfig',
 ]
 
 MIDDLEWARE = [
@@ -81,7 +82,8 @@ DATABASES = {
         'NAME': 'qa_test',
         'USER': 'root',  
         'PASSWORD': 'password123',  
-        'HOST': '127.0.0.1',  
+        'HOST': '127.0.0.1',
+        #'HOST': 'localhost',  
         'PORT': '3306',  
     }
 }
