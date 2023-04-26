@@ -227,7 +227,7 @@ class DailyTest(models.Model):
         db_table = 'daily_test'
         db_table_comment = 'Lasers stored as binary number (0-x, 1-z, 2-y)'
     def __str__(self):
-        return self.date_added
+        return str(self.date_added.strftime("%Y-%m-%d %H:%M"))
 
 class DjangoAdminLog(models.Model):
     action_time = models.DateTimeField()

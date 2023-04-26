@@ -5,7 +5,8 @@ from .models import DailyTest
 #from .models import "table"
 #admin.site.register("table")
 
-class DailyAdmin(admin.ModelAdmin):
-    list_display = ['date_added', 'temperature', 'pressure']
+#class DailyAdmin(admin.ModelAdmin):
+#    list_display = ['date_added', 'temperature', 'pressure']
 
-admin.site.register(DailyTest, DailyAdmin)
+admin.site.register(DailyTest)
+                    #, DailyAdmin)
