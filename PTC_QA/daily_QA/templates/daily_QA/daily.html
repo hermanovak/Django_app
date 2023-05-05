@@ -1,25 +1,918 @@
-{% extends 'daily_QA/base.html' %}
+{% extends "daily_QA/base.html" %}
 
 {% block content %}
 
-    <center>
-        <h1>Please complete the daily QA</h1>
+<h2>Daily QA Test</h2>
+
+<form method="post">
+    {% csrf_token %}
+    <label for="treatment-room-select">Select Treatment Room:</label>
+     <!--{{ form.gantry }}
+</br>-->
+
+    <select class="form-control" id="treatment-room-select" name="treatment-room">
+        <option value="none"><i>Get a room</i></option>
+        <option value="FBTR1" id="FBTR1opt">FBTR1</option>
+        <option value="GTR2" id="GTR2opt">GTR2</option>
+        <option value="GTR3" id="GTR3opt">GTR3</option>
+        <option value="GTR4" id="GTR4opt">GTR4</option>
+    </select>
+
+    <label for="lynx-select">Select Lynx:</label>
+    <select class="form-control" id="lynx-select" name="lynx-select">
+        <option value="none"><i>Select Lynx</i></option>
+        <option value="Lynx3" id="l3">Lynx 3</option>
+        <option value="Lynx6" id="l6">Lynx 6</option>
+        <option value="Lynx5" id="l5">Lynx 5</option>
+    </select>
+
+    <label for="komora-select">Select komora:</label>
+    <select class="form-control" id="komora-select" name="komora-select">
+        <option value="none"><i>Select komora</i></option>
+        <option value="komora3190" id="k3190">komora 3190</option>
+        <option value="komora2132" id="k2132">komora 2132</option>
+        <option value="komora3565" id="k3565">komora 3565</option>
+        <option value="komora4218" id="k4218">komora 4218</option>
+        <option value="komora5414" id="k5414">komora 5414</option>
+    </select>
+
+    <label for="mlic-select">Select MLIC:</label>
+    <select class="form-control" id="mlic-select" name="mlic-select">
+        <option value="none"><i>Select MLIC</i></option>
+        <option value="mlic1" id="mlic1">MLIC 1</option>
+        <option value="mlic2" id="mlic2">MLIC 2</option>
+    </select>
+
+    <div id="FBTR1" style="display:none">
+        <table class="table table-striped">
+            <!-- <thead>
+                <tr><th><span id="icon-all"></span></th></tr>
+                <tr>
+                    <th>Quantity</th>
+                    <th>Value</th>
+                    <th>Unit</th>
+                    <th>Check</th>
+                </tr>
+            </thead> -->
+            <tbody>
+                <tr>
+                    <td>Temperature [°C]: <input type="number" step="0.01" id="temperature" name="temperature" required><span class="check-icon" id="icon-temp" name="icon-temp"></span></td>
+                    <td>Pressure [hPa]: <input type="number" step="0.01" id="pressure" name="pressure" required><span class="check-icon" id="icon-press"></span></td>
+                    <td>k factor: <input type="number" step="0.01" id="k" name="k" required> <span class="check-icon" id="icon-k"></span></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Temperature [K]: <span id="tempOut"></span></td>
+                    <td>Pressure [hPa]: <span id="pressOut"></span></td>
+                    <td>k_sat: <span id="ksatOut"></span>&nbsp;&nbsp;|&nbsp;&nbsp;k_pol: <span id="kpolOut"></span>&nbsp;&nbsp;|&nbsp;&nbsp;k_qq: <span id="kqqOut"></span></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Flat panels <input type="checkbox" id="flat-panels" name="flat-panels"></td>
+                    <td>Laser X <input type="checkbox" id="X" name="X"></td>
+                    <td>Laser Y <input type="checkbox" id="Y" name="Y"></td>
+                    <td>Laser Z <input type="checkbox" id="Z" name="Z"></td>
+                </tr>
+                <!-- <tr>
+                    <td>Vision RT Daily QA <input type="checkbox" id="vision" name="vision"></td>
+                    <td>DynR Daily Calibration <input type="checkbox" id="dynr" name="dynr"></td>
+                    <td><span class="check-icon" id="icon-misc"></span></td>
+                    <td></td>
+                </tr> -->
+            </tbody>
+        </table>
+    </div>
+
+    <div id="GTR2" style="display:none">
+        <table class="table table-striped">
+            form.gantry.value = 2 <!--tady chci assign value co pujde do db-->
+            <!-- <thead> 
+                <tr><th><span id="icon-all"></span></th></tr>
+                <tr>
+                    <th>Quantity</th>
+                    <th>Value</th>
+                    <th>Unit</th>
+                    <th>Check</th>
+                </tr>
+            </thead> -->
+            <tbody>
+                <tr>
+                    <td>Temperature: <input type="number" step="0.01" id="temperature" name="temperature" value = '{{ form.temperature }}' °C <span class="check-icon" id="icon-temp" name="icon-temp"></span></td>
+                    <!--<td>Temperature: <input type="number" step="0.01" id="temperature" name="temperature" required> °C <span class="check-icon" id="icon-temp" name="icon-temp"></span></td>-->
+                    <td>Pressure: <input type="number" step="0.01" id="pressure" name="pressure" value = '{{ form.pressure }}' hPa <span class="check-icon" id="icon-press"></span></td>
+                    <td>k factor: <input type="number" step="0.01" id="k" name="k" required> <span class="check-icon" id="icon-k"></span></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Temperature [K]: <span id="tempOut"></span></td>
+                    <td>Pressure [hPa]: <span id="pressOut"></span></td>
+                    <td>k_sat: <span id="ksatOut"></span>&nbsp;&nbsp;|&nbsp;&nbsp;k_pol: <span id="kpolOut"></span>&nbsp;&nbsp;|&nbsp;&nbsp;k_qq: <span id="kqqOut"></span></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Flat panels <input type="checkbox" id="flat-panels" name="flat-panels"> value = </td>
+                    <td>Laser X <input type="checkbox" id="X" name="X"></td>
+                    <td>Laser Y <input type="checkbox" id="Y" name="Y"></td>
+                    <td>Laser Z <input type="checkbox" id="Z" name="Z"></td>
+                </tr>
+                <tr>
+                    <td>Vision RT Daily QA <input type="checkbox" id="vision" name="vision"></td>
+                    <td>DynR Daily Calibration <input type="checkbox" id="dynr" name="dynr"></td>
+                    <td><span class="check-icon" id="icon-misc"></span></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="GTR3" style="display:none">
+        <table class="table table-striped">
+            <!-- <thead>
+                <tr><th><span id="icon-all"></span></th></tr>
+                <tr>
+                    <th>Quantity</th>
+                    <th>Value</th>
+                    <th>Unit</th>
+                    <th>Check</th>
+                </tr>
+            </thead> -->
+            <tbody>
+                <tr>
+                    <td>Temperature: <input type="number" step="0.01" id="temperature" name="temperature" required> °C <span class="check-icon" id="icon-temp" name="icon-temp"></span></td>
+                    <td>Pressure: <input type="number" step="0.01" id="pressure" name="pressure" required> hPa <span class="check-icon" id="icon-press"></span></td>
+                    <td>k factor: <input type="number" step="0.01" id="k" name="k" required> <span class="check-icon" id="icon-k"></span></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Temperature [K]: <span id="tempOut"></span></td>
+                    <td>Pressure [hPa]: <span id="pressOut"></span></td>
+                    <td>k_sat: <span id="ksatOut"></span>&nbsp;&nbsp;|&nbsp;&nbsp;k_pol: <span id="kpolOut"></span>&nbsp;&nbsp;|&nbsp;&nbsp;k_qq: <span id="kqqOut"></span></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Flat panels <input type="checkbox" id="flat-panels" name="flat-panels"></td>
+                    <td>Laser X <input type="checkbox" id="X" name="X"></td>
+                    <td>Laser Y <input type="checkbox" id="Y" name="Y"></td>
+                    <td>Laser Z <input type="checkbox" id="Z" name="Z"></td>
+                </tr>
+                <!-- <tr>
+                    <td>Vision RT Daily QA <input type="checkbox" id="vision" name="vision"></td>
+                    <td>DynR Daily Calibration <input type="checkbox" id="dynr" name="dynr"></td>
+                    <td><span class="check-icon" id="icon-misc"></span></td>
+                    <td></td>
+                </tr> -->
+            </tbody>
+        </table>
+    </div>
+
+    <div id="GTR4" style="display:none">
+        <table class="table table-striped">
+            <!-- <thead>
+                <tr><th><span id="icon-all"></span></th></tr>
+                <tr>
+                    <th>Quantity</th>
+                    <th>Value</th>
+                    <th>Unit</th>
+                    <th>Check</th>
+                </tr>
+            </thead> -->
+            <tbody>
+                <tr>
+                    <td>Temperature: <input type="number" step="0.01" id="temperature" name="temperature" required> °C <span class="check-icon" id="icon-temp" name="icon-temp"></span></td>
+                    <td>Pressure: <input type="number" step="0.01" id="pressure" name="pressure" required> hPa <span class="check-icon" id="icon-press"></span></td>
+                    <td>k factor: <input type="number" step="0.01" id="k" name="k" required> <span class="check-icon" id="icon-k"></span></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Temperature [K]: <span id="tempOut"></span></td>
+                    <td>Pressure [hPa]: <span id="pressOut"></span></td>
+                    <td>k_sat: <span id="ksatOut"></span>&nbsp;&nbsp;|&nbsp;&nbsp;k_pol: <span id="kpolOut"></span>&nbsp;&nbsp;|&nbsp;&nbsp;k_qq: <span id="kqqOut"></span></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Flat panels <input type="checkbox" id="flat-panels" name="flat-panels"></td>
+                    <td>Laser X <input type="checkbox" id="X" name="X"></td>
+                    <td>Laser Y <input type="checkbox" id="Y" name="Y"></td>
+                    <td>Laser Z <input type="checkbox" id="Z" name="Z"></td>
+                </tr>
+                <tr>
+                    <td>Vision RT Daily QA <input type="checkbox" id="vision" name="vision"></td>
+                    <td>DynR Daily Calibration <input type="checkbox" id="dynr" name="dynr"></td>
+                    <td><span class="check-icon" id="icon-misc"></span></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <input type="submit" value="Submit">
+
+
+</form>
+
+<form method="post">
+    {% csrf_token %}
+    <div id="lynx" style="display:none">
+        <h3>Lynx</h3>
+        <table class="table table-striped">
+            <thead>115 MeV</thead>
+            <tbody>
+                <tr>
+                    <td>Gamma <95%: <input type="number" step="0.01" id="L115-95" nname="L115-95" required> % <span class="check-icon" id="iconL115-95"></span></td>
+                    <td>Gamma <99%: <input type="number" step="0.01" id="L115-95" nname="L115-99" required> % <span class="check-icon" id="iconL115-99"></span></td>
+                    <td>Average: <input type="number" step="0.01" id="L115-avg" nname="L115-avg" required></td>
+                    <td>Max: <input type="number" step="0.01" id="L115-max" nname="L115-max" required></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-striped">
+            <thead>145 MeV</thead>
+            <tbody>
+                <tr>
+                    <td>Gamma <95%: <input type="number" step="0.01" id="L145-95" nname="L145-95" required> % <span class="check-icon" id="iconL145-95"></span></td>
+                    <td>Gamma <99%: <input type="number" step="0.01" id="L145-95" nname="L145-99" required> % <span class="check-icon" id="iconL145-99"></span></td>
+                    <td>Average: <input type="number" step="0.01" id="L145-avg" nname="L145-avg" required></td>
+                    <td>Max: <input type="number" step="0.01" id="L145-max" nname="L145-max" required></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-striped">
+            <thead>226 MeV</thead>
+            <tbody>
+                <tr>
+                    <td>Gamma <95%: <input type="number" step="0.01" id="L226-95" nname="L226-95" required> % <span class="check-icon" id="iconL226-95"></span></td>
+                    <td>Gamma <99%: <input type="number" step="0.01" id="L226-95" nname="L226-99" required> % <span class="check-icon" id="iconL226-99"></span></td>
+                    <td>Average: <input type="number" step="0.01" id="L226-avg" nname="L226-avg" required></td>
+                    <td>Max: <input type="number" step="0.01" id="L226-max" nname="L226-max" required></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="lynxLR" style="display:none">
+        <h3>Lynx</h3>
+        <table class="table table-striped">
+            <thead>70 MeV</thead>
+            <tbody>
+                <tr>
+                    <td>Gamma <95%: <input type="number" step="0.01" id="L70-95" nname="L70-95" required> % <span class="check-icon" id="iconL70-95"></span></td>
+                    <td>Gamma <99%: <input type="number" step="0.01" id="L70-95" nname="L70-99" required> % <span class="check-icon" id="iconL70-99"></span></td>
+                    <td>Average: <input type="number" step="0.01" id="L70-avg" nname="L70-avg" required></td>
+                    <td>Max: <input type="number" step="0.01" id="L70-max" nname="L70-max" required></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-striped">
+            <thead>115 MeV</thead>
+            <tbody>
+                <tr>
+                    <td>Gamma <95%: <input type="number" step="0.01" id="L115-95" nname="L115-95" required> % <span class="check-icon" id="iconL115-95"></span></td>
+                    <td>Gamma <99%: <input type="number" step="0.01" id="L115-95" nname="L115-99" required> % <span class="check-icon" id="iconL115-99"></span></td>
+                    <td>Average: <input type="number" step="0.01" id="L115-avg" nname="L115-avg" required></td>
+                    <td>Max: <input type="number" step="0.01" id="L115-max" nname="L115-max" required></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-striped">
+            <thead>145 MeV</thead>
+            <tbody>
+                <tr>
+                    <td>Gamma <95%: <input type="number" step="0.01" id="L145-95" nname="L145-95" required> % <span class="check-icon" id="iconL145-95"></span></td>
+                    <td>Gamma <99%: <input type="number" step="0.01" id="L145-95" nname="L145-99" required> % <span class="check-icon" id="iconL145-99"></span></td>
+                    <td>Average: <input type="number" step="0.01" id="L145-avg" nname="L145-avg" required></td>
+                    <td>Max: <input type="number" step="0.01" id="L145-max" nname="L145-max" required></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-striped">
+            <thead>226 MeV</thead>
+            <tbody>
+                <tr>
+                    <td>Gamma <95%: <input type="number" step="0.01" id="L226-95" nname="L226-95" required> % <span class="check-icon" id="iconL226-95"></span></td>
+                    <td>Gamma <99%: <input type="number" step="0.01" id="L226-95" nname="L226-99" required> % <span class="check-icon" id="iconL226-99"></span></td>
+                    <td>Average: <input type="number" step="0.01" id="L226-avg" nname="L226-avg" required></td>
+                    <td>Max: <input type="number" step="0.01" id="L226-max" nname="L226-max" required></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</form>
+
+<form method="post">
+    {% csrf_token %}
+    <div id="komora" style="display:none">
+        <h3>Davka</h3>
+        <table class="table table-striped">
+            <thead>
+                100 MeV
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Chamber response [nC]</td>
+                    <td><input type="number" step="0.01" id="K100-nC" name="K100-nC" required></td>
+                    <td>IC2 [MU]</td>
+                    <td><input type="number" step="0.01" id="K100-mu" name="K100-mu" required></td>
+                    <td>Reference dose: 0.109 Gy; Calculated dose: <span id="K100outD"></span></td>
+                    <td><span id="K100out"></span><span class="check-icon" id="iconK100"></span></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-striped">
+            <thead>
+                170 MeV
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Chamber response [nC]</td>
+                    <td><input type="number" step="0.01" id="K170-nC" name="K170-nC" required></td>
+                    <td>IC2 [MU]</td>
+                    <td><input type="number" step="0.01" id="K170-mu" name="K170-mu" required></td>
+                    <td>Reference dose: 0.105 Gy; Calculated dose: <span id="K170outD"></span></td>
+                    <td><span id="K170out"></span><span class="check-icon" id="iconK170"></span></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-striped">
+            <thead>
+                226 MeV
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Chamber response [nC]</td>
+                    <td><input type="number" step="0.01" id="K226-nC" name="K226-nC" required></td>
+                    <td>IC2 [MU]</td>
+                    <td><input type="number" step="0.01" id="K226-mu" name="K226-mu" required></td>
+                    <td>Reference dose: 0.107 Gy; Calculated dose: <span id="K226outD"></span></td>
+                    <td><span id="K226out"></span><span class="check-icon" id="iconK226"></span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="komoraLR" style="display:none">
+        <h3>Davka</h3>
+        <table class="table table-striped">
+            <thead>
+                70 MeV
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Chamber response [nC]</td>
+                    <td><input type="number" step="0.01" id="K70-nC" name="K70-nC" required></td>
+                    <td>IC2 [MU]</td>
+                    <td><input type="number" step="0.01" id="K70-mu" name="K70-mu" required></td>
+                    <td>Reference dose: 0.XXX Gy; Calculated dose: <span id="K70outD"></span></td>
+                    <td><span id="K70out"></span><span class="check-icon" id="iconK70"></span></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-striped">
+            <thead>
+                100 MeV
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Chamber response [nC]</td>
+                    <td><input type="number" step="0.01" id="K100-nC" name="K100-nC" required></td>
+                    <td>IC2 [MU]</td>
+                    <td><input type="number" step="0.01" id="K100-mu" name="K100-mu" required></td>
+                    <td>Reference dose: 0.109 Gy; Calculated dose: <span id="K100outD"></span></td>
+                    <td><span id="K100out"></span><span class="check-icon" id="iconK100"></span></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-striped">
+            <thead>
+                170 MeV
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Chamber response [nC]</td>
+                    <td><input type="number" step="0.01" id="K170-nC" name="K170-nC" required></td>
+                    <td>IC2 [MU]</td>
+                    <td><input type="number" step="0.01" id="K170-mu" name="K170-mu" required></td>
+                    <td>Reference dose: 0.105 Gy; Calculated dose: <span id="K170outD"></span></td>
+                    <td><span id="K170out"></span><span class="check-icon" id="iconK170"></span></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-striped">
+            <thead>
+                226 MeV
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Chamber response [nC]</td>
+                    <td><input type="number" step="0.01" id="K226-nC" name="K226-nC" required></td>
+                    <td>IC2 [MU]</td>
+                    <td><input type="number" step="0.01" id="K226-mu" name="K226-mu" required></td>
+                    <td>Reference dose: 0.107 Gy; Calculated dose: <span id="K226outD"></span></td>
+                    <td><span id="K226out"></span><span class="check-icon" id="iconK226"></span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</form>
+
+<form method="post">
+    {% csrf_token %}
+    <div id="mlic" style="display:none">
+        <h3>MLIC</h3>
+        <table class="table table-striped">
+            <thead>
+                100 MeV
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Range [g/cm2]</td>
+                    <td><input type="number" step="0.01" id="MLIC100" name="MLIC100" required></td>
+                    <td>Reference range [g/cm2]: 7.69</td>
+                    <td><span id="MLIC100out"><span class="check-icon" id="iconMLIC100"></span></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-striped">
+            <thead>
+                170 MeV
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Range [g/cm2]</td>
+                    <td><input type="number" step="0.01" id="MLIC170" name="MLIC170" required></td>
+                    <td>Reference range [g/cm2]: 19.61</td>
+                    <td><span id="MLIC170out"><span class="check-icon" id="iconMLIC170"></span></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-striped">
+            <thead>
+                226 MeV
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Range [g/cm2]</td>
+                    <td><input type="number" step="0.01" id="MLIC226" name="MLIC226" required></td>
+                    <td>Reference range [g/cm2]: 31.90</td>
+                    <td><span id="MLIC226out"><span class="check-icon" id="iconMLIC226"></span></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="mlicLR" style="display:none">
+        <h3>MLIC</h3>
+        <table class="table table-striped">
+            <thead>
+                70 MeV
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Range [g/cm2]</td>
+                    <td><input type="number" step="0.01" id="MLIC70" name="MLIC70" required></td>
+                    <td>Reference range [g/cm2]: XXX</td>
+                    <td><span id="MLIC70out"><span class="check-icon" id="iconMLIC70"></span></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-striped">
+            <thead>
+                100 MeV
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Range [g/cm2]</td>
+                    <td><input type="number" step="0.01" id="MLIC100" name="MLIC100" required></td>
+                    <td>Reference range [g/cm2]: 7.69</td>
+                    <td><span id="MLIC100out"><span class="check-icon" id="iconMLIC100"></span></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-striped">
+            <thead>
+                170 MeV
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Range [g/cm2]</td>
+                    <td><input type="number" step="0.01" id="MLIC170" name="MLIC170" required></td>
+                    <td>Reference range [g/cm2]: 19.61</td>
+                    <td><span id="MLIC170out"><span class="check-icon" id="iconMLIC170"></span></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-striped">
+            <thead>
+                226 MeV
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Range [g/cm2]</td>
+                    <td><input type="number" step="0.01" id="MLIC226" name="MLIC226" required></td>
+                    <td>Reference range [g/cm2]: 31.90</td>
+                    <td><span id="MLIC226out"><span class="check-icon" id="iconMLIC226"></span></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</form>
+
+<script>
+    // treatment room select
+    const roomSelect = document.getElementById("treatment-room-select");
+    const FBTR1 = document.getElementById("FBTR1");
+    const GTR2 = document.getElementById("GTR2");
+    const GTR3 = document.getElementById("GTR3");
+    const GTR4 = document.getElementById("GTR4");
+
+    const lynxSelect = document.getElementById("lynx-select");
+    const lynx = document.getElementById("lynx");
+    const lynxLR = document.getElementById("lynxLR");
+
+    const komoraSelect = document.getElementById("komora-select");
+    const komora = document.getElementById("komora");
+    const komoraLR = document.getElementById("komoraLR");
+
+    const mlicSelect = document.getElementById("mlic-select");
+    const mlic = document.getElementById("mlic");
+    const mlicLR = document.getElementById("mlicLR");
+
+    roomSelect.addEventListener("change", function() {
+
+        // Show the selected option form
+        if (roomSelect.value === "FBTR1") {
+            FBTR1.style.display = "block";
+            GTR2.style.display = "none";
+            GTR3.style.display = "none";
+            GTR4.style.display = "none";
+        } else if (roomSelect.value === "GTR2") {
+            FBTR1.style.display = "none";
+            GTR2.style.display = "block";
+            GTR3.style.display = "none";
+            GTR4.style.display = "none";
+        } else if (roomSelect.value === "GTR3") {
+            FBTR1.style.display = "none";
+            GTR2.style.display = "none";
+            GTR3.style.display = "block";
+            GTR4.style.display = "none";
+        } else if (roomSelect.value === "GTR4") {
+            FBTR1.style.display = "none";
+            GTR2.style.display = "none";
+            GTR3.style.display = "none";
+            GTR4.style.display = "block";
+        } else {
+            FBTR1.style.display = "none";
+            GTR2.style.display = "none";
+            GTR3.style.display = "none";
+            GTR4.style.display = "none";
+        }
+        });
+
+
+    // lynx select
+    lynxSelect.addEventListener("change", function() {
+        // Show the selected option form
+        if (lynxSelect.value != "none" && roomSelect.value === "FBTR1") {
+            lynx.style.display = "block";
+            lynxLR.style.display = "none";
+        } else if (lynxSelect.value != "none" && roomSelect.value === "GTR2") {
+            lynx.style.display = "block";
+            lynxLR.style.display = "none";
+        } else if (lynxSelect.value != "none" && roomSelect.value === "GTR3") {
+            lynx.style.display = "none";
+            lynxLR.style.display = "block";
+        } else if (lynxSelect.value != "none" && roomSelect.value === "GTR4") {
+            lynx.style.display = "block";
+            lynxLR.style.display = "none";
+        }
+        });
+
+    // komora select
+    komoraSelect.addEventListener("change", function() {
+        // Show the selected option form
+        if (komoraSelect.value != "none" && roomSelect.value === "FBTR1") {
+            komora.style.display = "block";
+            komoraLR.style.display = "none";
+        } else if (komoraSelect.value != "none" && roomSelect.value === "GTR2") {
+            komora.style.display = "block";
+            komoraLR.style.display = "none";
+        } else if (komoraSelect.value != "none" && roomSelect.value === "GTR3") {
+            komora.style.display = "none";
+            komoraLR.style.display = "block";
+        } else if (komoraSelect.value != "none" && roomSelect.value === "GTR4") {
+            komora.style.display = "block";
+            komoraLR.style.display = "none";
+        }
+        });
+
+    // mlic select
+    mlicSelect.addEventListener("change", function() {
+        // Show the selected option form
+        if (mlicSelect.value != "none" && roomSelect.value === "FBTR1") {
+            mlic.style.display = "block";
+            mlicLR.style.display = "none";
+        } else if (mlicSelect.value != "none" && roomSelect.value === "GTR2") {
+            mlic.style.display = "block";
+            mlicLR.style.display = "none";
+        } else if (mlicSelect.value != "none" && roomSelect.value === "GTR3") {
+            mlic.style.display = "none";
+            mlicLR.style.display = "block";
+        } else if (mlicSelect.value != "none" && roomSelect.value === "GTR4") {
+            mlic.style.display = "block";
+            mlicLR.style.display = "none";
+        }
+        });
     
-    <br/><br/>
-    {% if submitted %} 
-        Thanks for completing the daily QA, mate!
+    // const inputs = document.querySelectorAll('input[type="number"]');
+    // const checkIconss = document.querySelectorAll('.check-icon');
+    // if (inputs.offsetParent != null && checkIconss.offsetParent != null) {
+        
+    //     // vars misc
+    //     var inputValueTemp = document.getElementByName("temperature");
+    //     var iconTemp = document.getElementsByName("icon-temp");
+    //     var inputValuePres = document.getElementById("pressure");
+    //     var iconPres = document.getElementById("icon-press");
+    //     var inputValueK = document.getElementById("k");
+    //     var iconK = document.getElementById("icon-k");
+    //     var iconMisc = document.getElementById("icon-misc");
+    //     var iconAll = document.getElementById("icon-all");
 
-    {% else %} 
+    //     // value checks misc
+    //     inputValueTemp.addEventListener("input", function () {
+    //         if (inputValueTemp.value >= 20 && inputValueTemp.value <= 27) {
+    //             iconTemp.innerHTML = "&#10004;"; // pass icon
+    //             iconTemp.style.color = "green";
+    //         } else {
+    //             iconTemp.innerHTML = "&#10008;"; // fail icon
+    //             iconTemp.style.color = "red";
+    //         }
+    //     })
+    //     inputValuePres.addEventListener("input", function () {
+    //         if (inputValuePres.value >= 950 && inputValuePres.value <= 1050) {
+    //             iconPres.innerHTML = "&#10004;"; // pass icon
+    //             iconPres.style.color = "green";
+    //         } else {
+    //             iconPres.innerHTML = "&#10008;"; // fail icon
+    //             iconPres.style.color = "red";
+    //         }
+    //     })
+    //     inputValueK.addEventListener("input", function () {
+    //         if (inputValueK.value >= 1 && inputValueK.value <= 1.1) {
+    //             iconK.innerHTML = "&#10004;"; // pass icon
+    //             iconK.style.color = "green";
+    //         } else {
+    //             iconK.innerHTML = "&#10008;"; // fail icon
+    //             iconK.style.color = "red";
+    //         }
+    //     });
 
-    
-        <form action="" method=POST>
-            {% csrf_token %}
+    //     //vars lynx
+    //     var inputValueL7095 = document.getElementById("L70-95");
+    //     var iconL7095 = document.getElementById("iconL70-95");
+    //     var inputValueL7099 = document.getElementById("L70-99");
+    //     var iconL7099 = document.getElementById("iconL70-99");
+    //     var inputValueL11595 = document.getElementById("L115-95");
+    //     var iconL11595 = document.getElementById("iconL115-95");
+    //     var inputValueL11599 = document.getElementById("L115-99");
+    //     var iconL11599 = document.getElementById("iconL115-99");
+    //     var inputValueL14595 = document.getElementById("L145-95");
+    //     var iconL14595 = document.getElementById("iconL145-95");
+    //     var inputValueL14599 = document.getElementById("L145-99");
+    //     var iconL14599 = document.getElementById("iconL145-99");
+    //     var inputValueL22695 = document.getElementById("L226-95");
+    //     var iconL22695 = document.getElementById("iconL226-95");
+    //     var inputValueL22699 = document.getElementById("L226-99");
+    //     var iconL22699 = document.getElementById("iconL226-99");
 
-            {{ form.as_p }}
+    //     // value checks lynx
+    //     inputValueL7095.addEventListener("input", function () {
+    //         if (inputValueL7095.value >= 95 && inputValueL7095.value <= 100) {
+    //             iconL7095.innerHTML = "&#10004;"; // pass icon
+    //             iconL7095.style.color = "green";
+    //         } else {
+    //             iconL7095.innerHTML = "&#10008;"; // fail icon
+    //             iconL7095.style.color = "red";
+    //         }
+    //     });
+    //     inputValueL7099.addEventListener("input", function () {
+    //         if (inputValueL7099.value >= 99 && inputValueL7099.value <= 100) {
+    //             iconL7099.innerHTML = "&#10004;"; // pass icon
+    //             iconL7099.style.color = "green";
+    //         } else {
+    //             iconL7099.innerHTML = "&#10008;"; // fail icon
+    //             iconL7099.style.color = "red";
+    //         }
+    //     });
+    //     inputValueL11595.addEventListener("input", function () {
+    //         if (inputValueL11595.value >= 95 && inputValueL11595.value <= 100) {
+    //             iconL11595.innerHTML = "&#10004;"; // pass icon
+    //             iconL11595.style.color = "green";
+    //         } else {
+    //             iconL11595.innerHTML = "&#10008;"; // fail icon
+    //             iconL11595.style.color = "red";
+    //         }
+    //     });
+    //     inputValueL11599.addEventListener("input", function () {
+    //         if (inputValueL11599.value >= 99 && inputValueL11599.value <= 100) {
+    //             iconL11599.innerHTML = "&#10004;"; // pass icon
+    //             iconL11599.style.color = "green";
+    //         } else {
+    //             iconL11599.innerHTML = "&#10008;"; // fail icon
+    //             iconL11599.style.color = "red";
+    //         }
+    //     });
 
-            <input type="submit" value="Submit" class ="btn btn-secondary">
-        </form>
-    {% endif %} 
-    </center>
+    //     inputValueL14595.addEventListener("input", function () {
+    //         if (inputValueL14595.value >= 95 && inputValueL14595.value <= 100) {
+    //             iconL14595.innerHTML = "&#10004;"; // pass icon
+    //             iconL14595.style.color = "green";
+    //         } else {
+    //             iconL14595.innerHTML = "&#10008;"; // fail icon
+    //             iconL14595.style.color = "red";
+    //         }
+    //     });
+    //     inputValueL14599.addEventListener("input", function () {
+    //         if (inputValueL14599.value >= 99 && inputValueL14599.value <= 100) {
+    //             iconL14599.innerHTML = "&#10004;"; // pass icon
+    //             iconL14599.style.color = "green";
+    //         } else {
+    //             iconL14599.innerHTML = "&#10008;"; // fail icon
+    //             iconL14599.style.color = "red";
+    //         }
+    //     });
+
+    //     inputValueL22695.addEventListener("input", function () {
+    //         if (inputValueL22695.value >= 95 && inputValueL22695.value <= 100) {
+    //             iconL22695.innerHTML = "&#10004;"; // pass icon
+    //             iconL22695.style.color = "green";
+    //         } else {
+    //             iconL22695.innerHTML = "&#10008;"; // fail icon
+    //             iconL22695.style.color = "red";
+    //         }
+    //     });
+    //     inputValueL22699.addEventListener("input", function () {
+    //         if (inputValueL22699.value >= 99 && inputValueL22699.value <= 100) {
+    //             iconL22699.innerHTML = "&#10004;"; // pass icon
+    //             iconL22699.style.color = "green";
+    //         } else {
+    //             iconL22699.innerHTML = "&#10008;"; // fail icon
+    //             iconL22699.style.color = "red";
+    //         }
+    //     });
+
+    //     //vars komora
+    //     var inputValueK70nC = document.getElementById("K70-nC");
+    //     var inputValueK70mu = document.getElementById("K70-mu");
+    //     var iconK70 = document.getElementById("iconK70");
+    //     var inputValueK100nC = document.getElementById("K100-nC");
+    //     var inputValueK100mu = document.getElementById("K100-mu");
+    //     var iconK100 = document.getElementById("iconK100");
+    //     var inputValueK170nC = document.getElementById("K170-nC");
+    //     var inputValueK170mu = document.getElementById("K170-mu");
+    //     var iconK170 = document.getElementById("iconK170");
+    //     var inputValueK226nC = document.getElementById("K226-nC");
+    //     var inputValueK226mu = document.getElementById("K226-mu");
+    //     var iconK226 = document.getElementById("iconK226");
+
+    //     // calculations komora
+    //     const K3190ndw = 47870000;
+    //     const K3190Ksat = 1.005;
+    //     const K3190Kpol = 1;
+    //     const K2132ndw = 48290000;
+    //     const K2132Ksat = 1.006;
+    //     const K2132Kpol = 1;
+    //     const K3565ndw = 48060000;
+    //     const K3565Ksat = 1.0044;
+    //     const K3565Kpol = 1.0001;
+    //     const K4218ndw = 47900000;
+    //     const K4218Ksat = 1.005;
+    //     const K4218Kpol = 1;
+    //     const K5414ndw = 47880000;
+    //     const K5414Ksat = 1.0052;
+    //     const K5414Kpol = 1;
+
+    //     const K100ref = 0.10908;
+    //     const K170ref = 0.10539;
+    //     const K226ref = 0.1068;
+
+    //     var K70outD = document.getElementById('K70outD');
+    //     var K70out = document.getElementById('K70out');
+    //     var K100outD = document.getElementById('K100outD');
+    //     var K100out = document.getElementById('K100out');
+    //     var K170outD = document.getElementById('K170outD');
+    //     var K170out = document.getElementById('K170out');
+    //     var K226outD = document.getElementById('K226outD');
+    //     var K226out = document.getElementById('K226out');
+
+    //     // myInput.addEventListener('input', () => {
+    //     //     const inputValue = myInput.value;
+    //     //     const outputValue = inputValue * inputValue;
+    //     //     myOutput.innerHTML = outputValue;
+    //     // });
+
+    //     //value checks komora
+
+    //     //vars mlic
+    //     var inputValueMLIC70 = document.getElementById("MLIC70");
+    //     var iconMLIC70 = document.getElementById("iconMLIC70");
+    //     var inputValueMLIC100 = document.getElementById("MLIC100");
+    //     var iconMLIC100 = document.getElementById("iconMLIC100");
+    //     var inputValueMLIC170 = document.getElementById("MLIC170");
+    //     var iconMLIC170 = document.getElementById("iconMLIC170");
+    //     var inputValueMLIC226 = document.getElementById("MLIC226");
+    //     var iconMLIC226 = document.getElementById("iconMLIC226");
+
+    //     // value checks mlic
+
+
+    // } else {
+        
+    // };
+    // checkboxes check + check of all checks, czechs number one
+
+    // const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    // const checkIcons = document.querySelectorAll('.check-icon');
+    // const state = { allChecked: false, allGreen: false };
+
+    // function updateState() {
+    //     let allChecked = true;
+
+    //     for (let i = 0; i < checkboxes.length; i++) {
+    //         const checkbox = checkboxes[i];
+
+    //         // Skip checkboxes inside a hidden parent element
+    //         if (checkbox.offsetParent === null) {
+    //             continue;
+    //         }
+
+    //         if (!checkbox.checked) {
+    //             allChecked = false;
+    //             break;
+    //         }
+    //     }
+
+    //     state.allChecked = allChecked;
+
+    //     let allGreen = true;
+
+    //     for (let i = 0; i < checkIcons.length; i++) {
+    //         const checkIcon = checkIcons[i];
+
+    //         // Skip check icons inside a hidden parent element
+    //         if (checkIcon.offsetParent === null) {
+    //             continue;
+    //         }
+
+    //         if (checkIcon.style.color !== 'green') {
+    //             allGreen = false;
+    //             break;
+    //         }
+    //     }
+
+    //     state.allGreen = allGreen;
+
+    //     console.log(state);
+    // }
+
+    // for (let i = 0; i < checkIcons.length; i++) {
+    //     checkboxes[i].addEventListener('click', updateState);
+    //     const checkIcon = checkIcons[i];
+    //     checkIcon.addEventListener('click', () => {
+    //         if (checkIcon.style.color === 'green') {
+    //             checkIcon.style.color = 'black';
+    //         } else {
+    //             checkIcon.style.color = 'green';
+    //         }
+    //         updateState();
+    //     });
+    // }
+
+    // updateState();
+
+
+    // if (state.allChecked = true) {
+    //     iconMisc.innerHTML = "&#10004;"; // pass icon
+    //     iconMisc.style.color = "green";
+    // } else {
+    //     iconMisc.innerHTML = "&#10008;"; // fail icon
+    //     iconMisc.style.color = "red";
+    // }
+    // if (state.allGreen = true) {
+    //     iconAll.innerHTML = "&#10004;"; // pass icon
+    //     iconAll.style.color = "green";
+    // } else {
+    //     iconAll.innerHTML = "&#10008;"; // fail icon
+    //     iconAll.style.color = "red";
+    // }
+</script>
 
 {% endblock %}
