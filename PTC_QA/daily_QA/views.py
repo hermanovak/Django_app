@@ -18,16 +18,27 @@ def home(request):
 
 def daily(request):
     submitted = False
+
     #print (form.data['gantry'])
     if request.method == "POST":
+        gantry_val = request.POST.get('treatment-room-select')
+        print(gantry_val)
         form = DailyTestForm(request.POST)
+
         form2 = DLynxReferenceForm(request.POST)
+
+        
         #lynx = DLynxReference.objects.get(lynx=request.index)
         if form.is_valid():
+
+
             #print(form)
-            print (form.data['gantry'])
+            print(gantry_val)
             #lynx = 
-            form.save()
+            f = form.save(commit=False)
+            f.gantry = gantry_val
+            f.save()
+            print(f)
 
             return HttpResponseRedirect('/daily?submitted=True') #pass the submitted along
     else:

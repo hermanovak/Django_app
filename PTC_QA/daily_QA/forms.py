@@ -2,7 +2,7 @@
 
 from django import forms
 from django.forms import ModelForm
-from .models import DailyTest, DLynxReference
+from .models import DailyTest, DLynxReference, DLynxMeasurement
 
 #Create daily QA form
 class DailyTestForm(ModelForm):
@@ -32,4 +32,15 @@ class DLynxReferenceForm(ModelForm):
         model = DLynxReference
         fields = "__all__"
         #fields = ('') #make a list of required fields
+
         
+class DLynxMeasurement(ModelForm):
+    #measurementid = forms.IntegerField()  # should be automatic from daily test
+    #lynxconfigid = forms.ForeignKey(DLynxConfig, models.DO_NOTHING, db_column='LynxconfigID', blank=True, null=True)  # Field name made lowercase.
+    value = forms.DecimalField(max_digits=10, decimal_places=2)
+    lynxid = forms.IntegerField()  # Field name made lowercase.
+    energy = forms.IntegerField()
+
+    class Meta:
+        model = DLynxReference
+        fields = "__all__"

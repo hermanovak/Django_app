@@ -4,47 +4,56 @@
 
 <h2>Daily QA Test</h2>
 
-<form  method="post">
+<form action="{% url 'daily' %}" method="post">
     {% csrf_token %}
     
     <h6>Select today's date: </h6>
     {{ dailytestform.date_added }}
-</br>
+    </br>
 
-    <h6>Gantry: </h6>
-    {{ dailytestform.gantry }}
 
-    {{ dailytestform.gantry.value }}
-</br>
+    <select name="treatment-room-select">
+        <option disabled selected value> -- select value -- </option>
+        <option value="1" id="FBTR1opt">FBTR1</option>
+        <option value="2" id="GTR2opt">GTR2</option>
+        <option value="3" id="GTR3opt">GTR3</option>
+        <option value="4" id="GTR4opt">GTR4</option>
+    </select> 
 
-    <h6>Lasery: </h6>
-    {{ dailytestform.lasers }}
-</br>
-    
-    <h6>Flat panely: </h6>
-    {{ dailytestform.flatpanels_check }}
-</br>
+    <!-- 
+        {{ dailytestform.gantry }}
 
-    <h6>Vision RT: </h6>
-    {{ dailytestform.visionrt_check }}
-</br>
-    
-    <h6>DynR: </h6>
-    {{ dailytestform.dynr }}
-</br>
-    <h6>Temperature: <span id="output"></span></h6>
-    {{ dailytestform.temperature }}
+        {{ dailytestform.gantry.value }} -->
+    </br>
 
-</br>
-    <h6>Pressure: </h6>
-    {{ dailytestform.pressure }}
+        <h6>Lasery: </h6>
+        {{ dailytestform.lasers }}
+    </br>
+        
+        <h6>Flat panely: </h6>
+        {{ dailytestform.flatpanels_check }}
+    </br>
 
-</br>
-    <h6>Choose lynx: </h6>
-    {{ lynxform.index }}
+        <h6>Vision RT: </h6>
+        {{ dailytestform.visionrt_check }}
+    </br>
+        
+        <h6>DynR: </h6>
+        {{ dailytestform.dynr }}
+    </br>
+        <h6>Temperature: <span id="output"></span></h6>
+        {{ dailytestform.temperature }}
 
-</br>
-</br>
+    </br>
+        <h6>Pressure: </h6>
+        {{ dailytestform.pressure }}
+
+    </br>
+        <h6>Choose lynx: </h6>
+        {{ lynxform.index }}
+
+    </br>
+    </br>
 
     <input type="submit" value="Submit">
 </form>
