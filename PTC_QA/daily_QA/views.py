@@ -18,6 +18,7 @@ def home(request):
 
 def daily(request):
     submitted = False
+    #print (form.data['gantry'])
     if request.method == "POST":
         form = DailyTestForm(request.POST)
         form2 = DLynxReferenceForm(request.POST)
@@ -35,7 +36,7 @@ def daily(request):
         if 'submitted' in request.GET: #check whether form was submitted
             submitted = True
 
-    return render(request, 'daily_QA/daily copy.html', {
+    return render(request, 'daily_QA/daily copy 2.html', {
         #context dictionary
         'dailytestform':form, 
         'lynxform': form2,

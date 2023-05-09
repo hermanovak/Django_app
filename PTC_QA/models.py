@@ -202,7 +202,7 @@ class DMlicReference(models.Model):
     class Meta:
         managed = False
         db_table = 'd_mlic_reference'
-        db_table_comment = 'MLIC SN18206 (k datu 1/2023) \\nRef 90 u energií 100,170,226 se používá pøí denní\n'
+        db_table_comment = 'MLIC SN18206 (k datu 1/2023) \\nRef 90 u energiï¿½ 100,170,226 se pouï¿½ï¿½vï¿½ pï¿½ï¿½ dennï¿½\n'
 
 
 class DailyTest(models.Model):
@@ -306,7 +306,7 @@ class MDosimetryMeasurement(models.Model):
 class MFlatpanelsReproducibilityConfig(models.Model):
     configid = models.IntegerField(db_column='configID', primary_key=True)  # Field name made lowercase.
     version = models.IntegerField(blank=True, null=True)
-    úhel = models.IntegerField(blank=True, null=True)
+    ï¿½hel = models.IntegerField(blank=True, null=True)
     label = models.CharField(max_length=45, blank=True, null=True)
 
     class Meta:
@@ -347,7 +347,7 @@ class MIgrtContrastResolutionMeasurement(models.Model):
 class MPpsMotionTestConfig(models.Model):
     configid = models.IntegerField(db_column='configID', primary_key=True)  # Field name made lowercase.
     version = models.IntegerField(blank=True, null=True)
-    namìøené_hodnoty_se_zátìží_kg_field = models.IntegerField(db_column='Namìøené hodnoty se zátìží [kg]', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
+    namï¿½ï¿½enï¿½_hodnoty_se_zï¿½tï¿½ï¿½_kg_field = models.IntegerField(db_column='Namï¿½ï¿½enï¿½ hodnoty se zï¿½tï¿½ï¿½ [kg]', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
     label = models.CharField(max_length=45, blank=True, null=True)
 
     class Meta:
@@ -489,4 +489,4 @@ class WeeklyTest(models.Model):
     class Meta:
         managed = False
         db_table = 'weekly_test'
-        db_table_comment = 'Lasers (0-horní na nozzlu, 1-dolní na nozzlu, 2-vertikální na stìnì gtr, 3-horizontální na stìnì gtr, 4-stropní, 5-boèní na zdi, 6-boèní na nozzlu, 7-vzájemná odchylka v izocentru)'
+        db_table_comment = 'Lasers (0-hornï¿½ na nozzlu, 1-dolnï¿½ na nozzlu, 2-vertikï¿½lnï¿½ na stï¿½nï¿½ gtr, 3-horizontï¿½lnï¿½ na stï¿½nï¿½ gtr, 4-stropnï¿½, 5-boï¿½nï¿½ na zdi, 6-boï¿½nï¿½ na nozzlu, 7-vzï¿½jemnï¿½ odchylka v izocentru)'

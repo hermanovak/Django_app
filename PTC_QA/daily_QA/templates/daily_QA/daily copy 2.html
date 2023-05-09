@@ -13,6 +13,8 @@
 
     <h6>Gantry: </h6>
     {{ dailytestform.gantry }}
+
+    {{ dailytestform.gantry.value }}
 </br>
 
     <h6>Lasery: </h6>
@@ -30,7 +32,7 @@
     <h6>DynR: </h6>
     {{ dailytestform.dynr }}
 </br>
-    <h6>Temperature: </h6>
+    <h6>Temperature: <span id="output"></span></h6>
     {{ dailytestform.temperature }}
 
 </br>
@@ -47,4 +49,12 @@
     <input type="submit" value="Submit">
 </form>
 
+<script>
+    var temp = document.getElementsById("{{ dailytestform.temperature }}").val;
+    var out = document.getElementById("output")
+    console.log(temp)
+
+</script>
+
 {% endblock %}
+
