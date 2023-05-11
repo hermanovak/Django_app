@@ -21,31 +21,31 @@ def daily(request):
 
     #print (form.data['gantry'])
     if request.method == "POST":
-        gantry_val = request.POST.get('treatment-room-select')
+        gantry_val = request.POST.get('treatment-room')
+        
+        print(request.POST.get('temperature'))
         print(gantry_val)
         form = DailyTestForm(request.POST)
-
         form2 = DLynxReferenceForm(request.POST)
 
+            #lynx = 
         
         #lynx = DLynxReference.objects.get(lynx=request.index)
-        if form.is_valid():
+        # if form.is_valid():
+
+        #     f = form.save(commit=False)
+        #     f.gantry = gantry_val
+        #     f.save()
+        #     #print(f)
+        #     #print(form)
 
 
-            #print(form)
-            print(gantry_val)
-            #lynx = 
-            f = form.save(commit=False)
-            f.gantry = gantry_val
-            f.save()
-            print(f)
-
-            return HttpResponseRedirect('/daily?submitted=True') #pass the submitted along
+        #     #return HttpResponseRedirect('/daily?submitted=True') #pass the submitted along
     else:
         form = DailyTestForm()
         form2 = DLynxReferenceForm(request.POST)
-        if 'submitted' in request.GET: #check whether form was submitted
-            submitted = True
+        #if 'submitted' in request.GET: #check whether form was submitted
+            #submitted = True
 
     return render(request, 'daily_QA/daily copy 2.html', {
         #context dictionary

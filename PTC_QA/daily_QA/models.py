@@ -1,7 +1,3 @@
-#from django.db import models
-
-# Create your models here.
-
 # This is an auto-generated Django model module.
 # You'll have to do the following manually to clean this up:
 #   * Rearrange models' order
@@ -10,6 +6,9 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
+
+class Meta:
+    app_label = 'daily_QA'
 
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
@@ -218,17 +217,25 @@ class DailyTest(models.Model):
     lasers = models.IntegerField(db_column='Lasers', blank=True, null=True)  # Field name made lowercase.
     temperature = models.DecimalField(db_column='Temperature', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
     pressure = models.DecimalField(db_column='Pressure', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
-    lynx_measurementid = models.ForeignKey(DLynxMeasurement, models.DO_NOTHING, db_column='Lynx_measurementID', blank=True, null=True)  # Field name made lowercase.
-    ic_measurementid = models.ForeignKey(DIcMeasurement, models.DO_NOTHING, db_column='IC_measurementID', blank=True, null=True)  # Field name made lowercase.
-    mlic_measurementid = models.ForeignKey(DMlicMeasurement, models.DO_NOTHING, db_column='MLIC_measurementID', blank=True, null=True)  # Field name made lowercase.
-
+    
     class Meta:
-        managed = False
+        managed = True
         db_table = 'daily_test'
         db_table_comment = 'Lasers stored as binary number (0-x, 1-z, 2-y)'
-    def __str__(self):
-        return str(self.date_added.strftime("%Y-%m-%d %H:%M"))
 
+class DailyTestInput(models.Model):
+    index = models.AutoField(db_column='Index', primary_key=True)  # Field name made lowercase.
+    energyID = models.IntegerField(db_column='energyID')
+    input1 = models.DecimalField(db_column='input1', max_digits=10, decimal_places=4, blank=True, null=True)  # Field name made lowercase.
+    input2 = models.DecimalField(db_column='input2', max_digits=10, decimal_places=4, blank=True, null=True)  # Field name made lowercase.
+    input3 = models.DecimalField(db_column='input3', max_digits=10, decimal_places=4, blank=True, null=True)  # Field name made lowercase.
+    input4 = models.DecimalField(db_column='input4', max_digits=10, decimal_places=4, blank=True, null=True)  # Field name made lowercase.
+    configID = models.IntegerField(db_column='configID')
+
+    class Meta:
+        managed = True
+        db_table = 'daily_test_input'
+        
 class DjangoAdminLog(models.Model):
     action_time = models.DateTimeField()
     object_id = models.TextField(blank=True, null=True)
@@ -274,3 +281,223 @@ class DjangoSession(models.Model):
         db_table = 'django_session'
 
 
+class Energie(models.Model):
+    index = models.AutoField(db_column='Index', primary_key=True)  # Field name made lowercase.
+    gantry = models.IntegerField(db_column='Gantry', blank=True, null=True)  # Field name made lowercase.
+    test = models.CharField(db_column='Test', max_length=45, blank=True, null=True)  # Field name made lowercase.
+    device = models.CharField(db_column='Device', max_length=45, blank=True, null=True)  # Field name made lowercase.
+    energie = models.IntegerField(db_column='Energie', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'energie'
+
+
+class MDosimetryConfig(models.Model):
+    configid = models.IntegerField(db_column='configID', primary_key=True)  # Field name made lowercase.
+    version = models.IntegerField(blank=True, null=True)
+    label = models.CharField(max_length=50, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'm_dosimetry_config'
+
+
+class MDosimetryMeasurement(models.Model):
+    measurementid = models.IntegerField(db_column='measurementID', primary_key=True)  # Field name made lowercase.
+    configid = models.ForeignKey(MDosimetryConfig, models.DO_NOTHING, db_column='configID', blank=True, null=True)  # Field name made lowercase.
+    energy_mev_field = models.IntegerField(db_column='energy [MeV]', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
+    value = models.DecimalField(max_digits=10, decimal_places=3, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'm_dosimetry_measurement'
+
+
+class MFlatpanelsReproducibilityConfig(models.Model):
+    configid = models.IntegerField(db_column='configID', primary_key=True)  # Field name made lowercase.
+    version = models.IntegerField(blank=True, null=True)
+    uhel = models.IntegerField(blank=True, null=True)
+    label = models.CharField(max_length=45, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'm_flatpanels.reproducibility_config'
+
+
+class MFlatpanelsReproducibilityMeasurement(models.Model):
+    measurementid = models.IntegerField(db_column='measurementID', primary_key=True)  # Field name made lowercase.
+    configid = models.ForeignKey(MFlatpanelsReproducibilityConfig, models.DO_NOTHING, db_column='configID', blank=True, null=True)  # Field name made lowercase.
+    value = models.DecimalField(max_digits=10, decimal_places=3, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'm_flatpanels.reproducibility_measurement'
+
+
+class MIgrtContrastResolutionConfig(models.Model):
+    configid = models.IntegerField(db_column='configID', primary_key=True)  # Field name made lowercase.
+    version = models.IntegerField(blank=True, null=True)
+    label = models.CharField(max_length=45, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'm_igrt.contrast.resolution_config'
+
+
+class MIgrtContrastResolutionMeasurement(models.Model):
+    measurementid = models.IntegerField(db_column='measurementID', primary_key=True)  # Field name made lowercase.
+    configid = models.ForeignKey(MIgrtContrastResolutionConfig, models.DO_NOTHING, db_column='configID', blank=True, null=True)  # Field name made lowercase.
+    value = models.DecimalField(max_digits=10, decimal_places=3, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'm_igrt.contrast.resolution_measurement'
+
+
+class MPpsMotionTestConfig(models.Model):
+    configid = models.IntegerField(db_column='configID', primary_key=True)  # Field name made lowercase.
+    version = models.IntegerField(blank=True, null=True)
+    namerene_hodnoty_kg_field = models.IntegerField(db_column='Nam��en� hodnoty se z�t�� [kg]', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
+    label = models.CharField(max_length=45, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'm_pps.motion.test_config'
+
+
+class MPpsMotionTestMeasurement(models.Model):
+    measurementid = models.IntegerField(db_column='measurementID', primary_key=True)  # Field name made lowercase.
+    configid = models.ForeignKey(MPpsMotionTestConfig, models.DO_NOTHING, db_column='configID', blank=True, null=True)  # Field name made lowercase.
+    value = models.DecimalField(max_digits=10, decimal_places=3, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'm_pps.motion.test_measurement'
+
+
+class MonthlyTest(models.Model):
+    field_index = models.AutoField(db_column=' Index', primary_key=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it started with '_'.
+    date_added = models.DateTimeField(db_column='Date_added')  # Field name made lowercase.
+    gantry = models.IntegerField(db_column='Gantry')  # Field name made lowercase.
+    igrt_contrast_resolution_measurementid = models.ForeignKey(MIgrtContrastResolutionMeasurement, models.DO_NOTHING, db_column='IGRT.contrast.resolution_measurementID', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    flatpanels_reproducibility_measurementid = models.ForeignKey(MFlatpanelsReproducibilityMeasurement, models.DO_NOTHING, db_column='FlatPanels.reproducibility_measurementID', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    pps_motion_test_measurementid = models.ForeignKey(MPpsMotionTestMeasurement, models.DO_NOTHING, db_column='PPS.motion.test_measurementID', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    pps_table_position_0_2_field = models.IntegerField(db_column='PPS.table.position(0-2)', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
+    pps_collision_test_0_7_field = models.IntegerField(db_column='PPS.collision.test(0-7)', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
+    dosimetry_measurementid = models.ForeignKey(MDosimetryMeasurement, models.DO_NOTHING, db_column='Dosimetry_measurementID', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'monthly_test'
+        db_table_comment = 'pozice stolu: 0-pokles vysky stolu po 10min, 1-rotace stolu uhel1, rotace stolu uhel2\nkolize: 0-PPS JOG prime sily, 1-PPS JOG momenty, 2-PPS JOG ramena, 3-SNOUT JOG prime sily, 4-PPS GOTO prime sily'
+
+
+class WGantryAngleVerificationConfig(models.Model):
+    configid = models.IntegerField(db_column='configID', primary_key=True)  # Field name made lowercase.
+    version = models.IntegerField(blank=True, null=True)
+    label = models.CharField(max_length=45, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'w_gantry.angle.verification_config'
+
+
+class WGantryAngleVerificationMeasurement(models.Model):
+    measurementid = models.IntegerField(db_column='measurementID', primary_key=True)  # Field name made lowercase.
+    configid = models.ForeignKey(WGantryAngleVerificationConfig, models.DO_NOTHING, db_column='configID', blank=True, null=True)  # Field name made lowercase.
+    value = models.DecimalField(max_digits=10, decimal_places=3, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'w_gantry.angle.verification_measurement'
+
+
+class WIgrtCorrectionVectorConfig(models.Model):
+    configid = models.IntegerField(db_column='configID', primary_key=True)  # Field name made lowercase.
+    version = models.IntegerField(blank=True, null=True)
+    label = models.CharField(max_length=45, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'w_igrt.correction.vector_config'
+
+
+class WIgrtCorrectionVectorMeasurement(models.Model):
+    measurementid = models.IntegerField(db_column='measurementID', primary_key=True)  # Field name made lowercase.
+    configid = models.ForeignKey(WIgrtCorrectionVectorConfig, models.DO_NOTHING, db_column='configID', blank=True, null=True)  # Field name made lowercase.
+    value = models.DecimalField(max_digits=10, decimal_places=3, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'w_igrt.correction.vector_measurement'
+
+
+class WLasersIsocenterAgreementConfig(models.Model):
+    configid = models.IntegerField(db_column='configID', primary_key=True)  # Field name made lowercase.
+    version = models.IntegerField()
+    label = models.CharField(max_length=45, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'w_lasers.isocenter.agreement_config'
+
+
+class WLasersIsocenterAgreementMeasurement(models.Model):
+    measurementid = models.IntegerField(db_column='measurementID', primary_key=True)  # Field name made lowercase.
+    configid = models.ForeignKey(WLasersIsocenterAgreementConfig, models.DO_NOTHING, db_column='configID', blank=True, null=True)  # Field name made lowercase.
+    value = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'w_lasers.isocenter.agreement_measurement'
+
+
+class WRtgProtonbeamAlignmentConfig(models.Model):
+    configid = models.IntegerField(db_column='configID', primary_key=True)  # Field name made lowercase.
+    version = models.IntegerField(blank=True, null=True)
+    label = models.CharField(max_length=45, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'w_rtg.protonbeam.alignment_config'
+
+
+class WRtgProtonbeamAlignmentMeasurement(models.Model):
+    measurementid = models.IntegerField(db_column='measurementID', primary_key=True)  # Field name made lowercase.
+    configid = models.ForeignKey(WRtgProtonbeamAlignmentConfig, models.DO_NOTHING, db_column='configID', blank=True, null=True)  # Field name made lowercase.
+    lynxid = models.IntegerField(db_column='LynxID', blank=True, null=True)  # Field name made lowercase.
+    value = models.DecimalField(max_digits=10, decimal_places=3, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'w_rtg.protonbeam.alignment_measurement'
+
+
+class WRtgProtonbeamAlignmentReference(models.Model):
+    index = models.AutoField(db_column='Index', primary_key=True)  # Field name made lowercase.
+    skutecny_uhel_gantry = models.IntegerField(db_column='skutecny uhel gantry', blank=True, null=True)  # Field renamed to remove unsuitable characters.
+    gantry = models.IntegerField(db_column='Gantry', blank=True, null=True)  # Field name made lowercase.
+    version = models.IntegerField(blank=True, null=True)
+    posun = models.DecimalField(max_digits=10, decimal_places=3, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'w_rtg.protonbeam.alignment_reference'
+        db_table_comment = 'vektor posuny'
+
+
+class WeeklyTest(models.Model):
+    index = models.AutoField(db_column='Index', primary_key=True)  # Field name made lowercase.
+    date_added = models.DateTimeField(db_column='Date_added')  # Field name made lowercase.
+    gantry = models.IntegerField(db_column='Gantry')  # Field name made lowercase.
+    rtg_protonbeam_alignment_measurementid = models.ForeignKey(WRtgProtonbeamAlignmentMeasurement, models.DO_NOTHING, db_column='RTG.protonbeam.alignment_measurementID')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    lasers_0_7_field = models.IntegerField(db_column='Lasers(0-7)')  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
+    lasers_isocenter_agreement_measurementid = models.ForeignKey(WLasersIsocenterAgreementMeasurement, models.DO_NOTHING, db_column='Lasers.isocenter.agreement_measurementID')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    igrt_correction_vector_measurementid = models.ForeignKey(WIgrtCorrectionVectorMeasurement, models.DO_NOTHING, db_column='IGRT.correction.vector_measurementID')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    gtr_angle_verification_measurementid = models.ForeignKey(WGantryAngleVerificationMeasurement, models.DO_NOTHING, db_column='GTR.angle.verification_measurementID')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+
+    class Meta:
+        managed = False
+        db_table = 'weekly_test'
+        db_table_comment = 'Lasers (0-horn� na nozzlu, 1-doln� na nozzlu, 2-vertik�ln� na st�n� gtr, 3-horizont�ln� na st�n� gtr, 4-stropn�, 5-bo�n� na zdi, 6-bo�n� na nozzlu, 7-vz�jemn� odchylka v izocentru)'

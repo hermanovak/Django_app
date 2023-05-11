@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import DailyTest
+from .models import *
 
 # Register your models here.
 #from .models import "table"

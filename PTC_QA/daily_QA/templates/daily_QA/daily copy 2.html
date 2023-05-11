@@ -6,13 +6,15 @@
 
 <form action="{% url 'daily' %}" method="post">
     {% csrf_token %}
+
+    <!-- ----Daily test hlavicka---- -->
     
     <h6>Select today's date: </h6>
     {{ dailytestform.date_added }}
     </br>
 
 
-    <select name="treatment-room-select">
+    <select name="treatment-room">
         <option disabled selected value> -- select value -- </option>
         <option value="1" id="FBTR1opt">FBTR1</option>
         <option value="2" id="GTR2opt">GTR2</option>
@@ -41,27 +43,39 @@
         <h6>DynR: </h6>
         {{ dailytestform.dynr }}
     </br>
-        <h6>Temperature: <span id="output"></span></h6>
+        <h6>Temperature:</h6>
         {{ dailytestform.temperature }}
 
     </br>
         <h6>Pressure: </h6>
         {{ dailytestform.pressure }}
 
-    </br>
-        <h6>Choose lynx: </h6>
-        {{ lynxform.index }}
+
 
     </br>
+    <div id="hidden" style="display:none">
+        <input type="number" name="temperaturex">
+    </div>
+    <div id="unhidden" style="display:block">
+        <input type="number" name="temperaturex">
+    </div>
     </br>
+
+    <!-- ----Daily test devices---- -->
+
+
+    
+
+
+
 
     <input type="submit" value="Submit">
 </form>
 
 <script>
-    var temp = document.getElementsById("{{ dailytestform.temperature }}").val;
-    var out = document.getElementById("output")
-    console.log(temp)
+    //var temp = document.getElementsById("{{ dailytestform.temperature }}").val;
+    //var out = document.getElementById("output")
+    //console.log(temp)
 
 </script>
 

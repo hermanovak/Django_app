@@ -35,11 +35,16 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'daily_QA',
-    'daily_QA.apps.DailyQaConfig',
+    'daily_QA',
+    #'daily_QA.apps.DailyQaConfig',
+    #'PTC_QA.apps.DailyQaConfig',
+    'PTC_QA',
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

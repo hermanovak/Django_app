@@ -2,7 +2,7 @@
 
 from django import forms
 from django.forms import ModelForm
-from .models import DailyTest, DLynxReference, DLynxMeasurement
+from .models import DailyTest, DailyTestInput
 
 #Create daily QA form
 class DailyTestForm(ModelForm):
@@ -24,23 +24,15 @@ class DailyTestForm(ModelForm):
         
 
 #Create daily QA form
-class DLynxReferenceForm(ModelForm):
-    # define the fields to render, inherit from daily.html?
-    #lynx = forms.IntegerField(widget=forms.Select(choices=index.objects.all()))
+class DailyTestInputForm(ModelForm):
+    #index = forms.AutoField(db_column='Index', primary_key=True)  # Field name made lowercase.
+    energyID = forms.IntegerField(db_column='energyID')
+    input1 = forms.DecimalField(db_column='input1', max_digits=10, decimal_places=4, blank=True, null=True)  # Field name made lowercase.
+    input2 = forms.DecimalField(db_column='input2', max_digits=10, decimal_places=4, blank=True, null=True)  # Field name made lowercase.
+    input3 = forms.DecimalField(db_column='input3', max_digits=10, decimal_places=4, blank=True, null=True)  # Field name made lowercase.
+    input4 = forms.DecimalField(db_column='input4', max_digits=10, decimal_places=4, blank=True, null=True)  # Field name made lowercase.
+    configID = forms.IntegerField(db_column='configID')
 
     class Meta:
-        model = DLynxReference
-        fields = "__all__"
-        #fields = ('') #make a list of required fields
-
-        
-class DLynxMeasurement(ModelForm):
-    #measurementid = forms.IntegerField()  # should be automatic from daily test
-    #lynxconfigid = forms.ForeignKey(DLynxConfig, models.DO_NOTHING, db_column='LynxconfigID', blank=True, null=True)  # Field name made lowercase.
-    value = forms.DecimalField(max_digits=10, decimal_places=2)
-    lynxid = forms.IntegerField()  # Field name made lowercase.
-    energy = forms.IntegerField()
-
-    class Meta:
-        model = DLynxReference
-        fields = "__all__"
+        model = DailyTestInput
+        fields = '__all__'
