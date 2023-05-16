@@ -210,13 +210,14 @@ class DMlicReference(models.Model):
 class DailyTest(models.Model):
     index = models.AutoField(db_column='Index', primary_key=True)  # Field name made lowercase.
     date_added = models.DateTimeField(db_column='Date_added')  # Field name made lowercase.
-    gantry = models.IntegerField(db_column='Gantry')  # Field name made lowercase.
+    gantry = models.IntegerField(db_column='Gantry', null=True)  # Field name made lowercase.
     visionrt_check = models.IntegerField(db_column='VisionRT_check', blank=True, null=True)  # Field name made lowercase.
     flatpanels_check = models.IntegerField(db_column='FlatPanels_check', blank=True, null=True)  # Field name made lowercase.
     dynr = models.IntegerField(db_column='DynR', blank=True, null=True)  # Field name made lowercase.
     lasers = models.IntegerField(db_column='Lasers', blank=True, null=True)  # Field name made lowercase.
     temperature = models.DecimalField(db_column='Temperature', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
     pressure = models.DecimalField(db_column='Pressure', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
+    kfactor = models.DecimalField(db_column='KFactor', max_digits=10, decimal_places=2, blank=True, null=True)
     
     class Meta:
         managed = True

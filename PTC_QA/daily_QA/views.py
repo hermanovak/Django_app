@@ -1,11 +1,12 @@
 from django.shortcuts import render
-from .models import DailyTest, DLynxReference #must import all needed tables
-from .forms import DailyTestForm, DLynxReferenceForm
+from .models import DailyTest, DailyTestInput #must import all needed tables
+from .forms import DailyTestForm, DailyTestInputForm
 from django.http import HttpResponseRedirect
 import calendar
 from calendar import HTMLCalendar
 from datetime import datetime
-
+from django.core.exceptions import ValidationError
+from django.forms import formset_factory #multiple forms in one?
 
 
 def home(request):
@@ -18,40 +19,59 @@ def home(request):
 
 def daily(request):
     submitted = False
+    form = DailyTestForm(request.POST)
+    form2 = DailyTestInputForm(request.POST)
 
     #print (form.data['gantry'])
     if request.method == "POST":
         gantry_val = request.POST.get('treatment-room')
-        
-        print(request.POST.get('temperature'))
-        print(gantry_val)
-        form = DailyTestForm(request.POST)
-        form2 = DLynxReferenceForm(request.POST)
+        temperature_val = request.POST.get('temperaturex')
+        pressure_val = request.POST.get('pressurex')
+        k_val = request.POST.get('k')
+        form = Form(DailyTestForm(request.POST,prefix="form"))
+        form2 = Form2(DailyTestInputForm(request.POST,prefix="form2"))
+        print(form2.data)
+        print(form2.fields)
 
-            #lynx = 
-        
-        #lynx = DLynxReference.objects.get(lynx=request.index)
-        # if form.is_valid():
+        if form.is_valid() or form2.is_valid():
+            f = form.save(commit=False)
+            f.gantry = gantry_val
+            f.temperature = temperature_val
+            f.pressure = pressure_val
+            f.kfactor = k_val
+            f.save()
+            form.save_m2m()
+          
+            #print(f.cleaned_data)
+            print("Validated")
 
-        #     f = form.save(commit=False)
-        #     f.gantry = gantry_val
-        #     f.save()
+            print(form2.data)
+            print(form2.fields)
+            form2.save()
+            #print("Validated2")
+            #print(f2.cleaned_data)
         #     #print(f)
         #     #print(form)
+        else:
+            #raise ValidationError("Not validating")
+            print("Not validating")
 
 
         #     #return HttpResponseRedirect('/daily?submitted=True') #pass the submitted along
     else:
-        form = DailyTestForm()
-        form2 = DLynxReferenceForm(request.POST)
-        #if 'submitted' in request.GET: #check whether form was submitted
-            #submitted = True
+        
+        form = DailyTestForm(request.POST)
+        form2 = DailyTestInputForm(request.POST)
+        print("You are here")
+        
+        if 'submitted' in request.GET: #check whether form was submitted
+            submitted = True
 
     return render(request, 'daily_QA/daily copy 2.html', {
         #context dictionary
         'dailytestform':form, 
-        'lynxform': form2,
-        'submitted':submitted, 
+        'inputform': form2,
+        'submitted':submitted
     })
 
 def weekly(request):
