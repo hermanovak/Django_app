@@ -28,10 +28,11 @@ def daily(request):
         temperature_val = request.POST.get('temperaturex')
         pressure_val = request.POST.get('pressurex')
         k_val = request.POST.get('k')
-        form = Form(DailyTestForm(request.POST,prefix="form"))
-        form2 = Form2(DailyTestInputForm(request.POST,prefix="form2"))
-        print(form2.data)
-        print(form2.fields)
+        form = DailyTestForm(request.POST)
+        form2 = DailyTestInputForm(request.POST)
+        print(form.data)
+        print(form.fields)
+        #print(request.user)
 
         if form.is_valid() or form2.is_valid():
             f = form.save(commit=False)
@@ -41,17 +42,13 @@ def daily(request):
             f.kfactor = k_val
             f.save()
             form.save_m2m()
+            #f2 = form2.save(commit=False)
+            #f2.indexid = request.user
+            #print(request.user)
+            form2.save()
           
             #print(f.cleaned_data)
             print("Validated")
-
-            print(form2.data)
-            print(form2.fields)
-            form2.save()
-            #print("Validated2")
-            #print(f2.cleaned_data)
-        #     #print(f)
-        #     #print(form)
         else:
             #raise ValidationError("Not validating")
             print("Not validating")

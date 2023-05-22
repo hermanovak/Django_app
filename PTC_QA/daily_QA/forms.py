@@ -29,12 +29,12 @@ class DailyTestForm(ModelForm):
 #Create daily QA form
 class DailyTestInputForm(ModelForm):
     #index = forms.AutoField(db_column='Index', primary_key=True)  # Field name made lowercase.
-    energyID = forms.IntegerField()
+    energyID = forms.IntegerField(required=False)
     input1 = forms.DecimalField(max_digits=10, decimal_places=4)  # Field name made lowercase.
     input2 = forms.DecimalField(max_digits=10, decimal_places=4, required=False)  # Field name made lowercase.
     input3 = forms.DecimalField(max_digits=10, decimal_places=4, required=False)  # Field name made lowercase.
     input4 = forms.DecimalField(max_digits=10, decimal_places=4, required=False)  # Field name made lowercase.
-    configID = forms.IntegerField()
+    configID = forms.IntegerField(required=False)
 
     class Meta:
         model = DailyTestInput

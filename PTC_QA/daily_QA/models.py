@@ -217,7 +217,8 @@ class DailyTest(models.Model):
     lasers = models.IntegerField(db_column='Lasers', blank=True, null=True)  # Field name made lowercase.
     temperature = models.DecimalField(db_column='Temperature', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
     pressure = models.DecimalField(db_column='Pressure', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
-    kfactor = models.DecimalField(db_column='KFactor', max_digits=10, decimal_places=2, blank=True, null=True)
+    kfactor = models.DecimalField(db_column='KFactor', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
+    
     
     class Meta:
         managed = True
@@ -225,13 +226,14 @@ class DailyTest(models.Model):
         db_table_comment = 'Lasers stored as binary number (0-x, 1-z, 2-y)'
 
 class DailyTestInput(models.Model):
-    index = models.AutoField(db_column='Index', primary_key=True)  # Field name made lowercase.
-    energyID = models.IntegerField(db_column='energyID')
+    index = models.AutoField(db_column='Index', primary_key=True, null=False)  # Field name made lowercase.
+    energyID = models.IntegerField(db_column='energyID',null=True)
     input1 = models.DecimalField(db_column='input1', max_digits=10, decimal_places=4, blank=True, null=True)  # Field name made lowercase.
     input2 = models.DecimalField(db_column='input2', max_digits=10, decimal_places=4, blank=True, null=True)  # Field name made lowercase.
     input3 = models.DecimalField(db_column='input3', max_digits=10, decimal_places=4, blank=True, null=True)  # Field name made lowercase.
     input4 = models.DecimalField(db_column='input4', max_digits=10, decimal_places=4, blank=True, null=True)  # Field name made lowercase.
-    configID = models.IntegerField(db_column='configID')
+    configID = models.IntegerField(db_column='configID',null=True)
+    #indexid = models.ForeignKey(DailyTest, on_delete=models.CASCADE, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = True
