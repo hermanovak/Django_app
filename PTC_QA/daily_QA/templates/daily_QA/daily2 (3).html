@@ -1,0 +1,1110 @@
+{% extends "daily_QA/base.html" %}
+
+{% block content %}
+
+<h2>Daily QA Test</h2>
+
+<form method="post" id="FBTR1">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="treatment-room-select">Select Treatment Room:</label>
+    <select class="form-control" id="treatment-room-select" name="treatment-room">
+      <option value="TR1" form="FBTR1">Treatment Room 1</option>
+      <option value="TR2" form="GTR2">Treatment Room 2</option>
+      <option value="TR3" form="GTR3">Treatment Room 3</option>
+      <option value="TR4" form="GTR4">Treatment Room 4</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Value</th>
+        <th>Unit</th>
+        <th>Check</th>
+        <th>Instructions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Temperature</td>
+        <td><input type="number" step="0.01" id="1-temperature" name="temperature" required></td>
+        <td>°C</td>
+        <td><span id="icon-temp"></span></td>
+        <td>zmeraj teplotu krasavec</td>
+      </tr>
+      <tr>
+        <td>Pressure</td>
+        <td><input type="number" step="0.01" id="1-pressure" name="pressure" required></td>
+        <td>hPa</td>
+        <td><span id="icon-press"></span></td>
+        <td>zmeraj tlak krasavica</td>
+      </tr>
+      <tr>
+        <td>k factor</td>
+        <td><input type="number" step="0.01" id="1-k" name="k" required></td>
+        <td></td>
+        <td><span id="icon-k"></span></td>
+        <td>odpis k factor z dosimetry manager fiam</td>
+      </tr>
+      <script>
+        var inputValueTemp = document.getElementById("1-temperature");
+        var iconTemp = document.getElementById("icon-temp");
+        var inputValuePres = document.getElementById("1-pressure");
+        var iconPres = document.getElementById("icon-press");
+        var inputValueK = document.getElementById("1-k");
+        var iconK = document.getElementById("icon-k");
+        
+        inputValueTemp.addEventListener("input", function() {
+          if (inputValueTemp.value >= 20 && inputValueTemp.value <= 27) {
+            iconTemp.innerHTML = "&#10004;"; // pass icon
+            iconTemp.style.color = "green";
+          } else {
+            iconTemp.innerHTML = "&#10008;"; // fail icon
+            iconTemp.style.color = "red";}})
+        inputValuePres.addEventListener("input", function() {
+          if (inputValuePres.value >= 950 && inputValuePres.value <= 1050) {
+            iconPres.innerHTML = "&#10004;"; // pass icon
+            iconPres.style.color = "green";
+          } else {
+            iconPres.innerHTML = "&#10008;"; // fail icon
+            iconPres.style.color = "red";}})
+        inputValueK.addEventListener("input", function() {
+          if (inputValueK.value >= 1 && inputValueK.value <= 1.1) {
+            iconK.innerHTML = "&#10004;"; // pass icon
+            iconK.style.color = "green";
+          } else {
+            iconK.innerHTML = "&#10008;"; // fail icon
+            iconK.style.color = "red";}});
+      </script>
+    </tbody>
+    </table>
+  </div>
+  <div class="form-group">
+    <thead>
+      Lynx babe
+    </thead>
+    <div class="form-group">
+    <label for="lynx-select">Select Lynx:</label>
+    <select class="form-control" id="lynx-select" name="lynx">
+      <option value="Lynx3">Lynx 3</option>
+      <option value="Lynx6">Lynx 6</option>
+      <option value="Lynx1">Lynx 1</option>
+      <option value="Lynx2">Lynx 2</option>
+    </select>
+    </div>
+    <table class="table table-striped">
+    <thead>
+      115 MeV
+    </thead>
+    <tbody>
+      <tr>
+        <td>Gamma <95%</td>
+        <td><input type="number" step="0.01" name="1-115-95" required></td>
+        <td>%</td>
+        <td><span id="icon-115-95"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Gamma <99%</td>
+        <td><input type="number" step="0.01" name="115-99" required></td>
+        <td>%</td>
+        <td><span id="icon-115-99"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Average</td>
+        <td><input type="number" step="0.01" name="1-115-avg" required></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Max</td>
+        <td><input type="number" step="0.01" name="1-115-max" required></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      </tbody>
+    </table>
+    <table class="table table-striped">
+    <thead>
+      145 MeV
+    </thead>
+    <tbody>
+      <tr>
+        <td>Gamma <95%</td>
+        <td><input type="number" step="0.01" name="1-145-95" required></td>
+        <td>%</td>
+        <td><span id="icon-145-95"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Gamma <99%</td>
+        <td><input type="number" step="0.01" name="1-145-99" required></td>
+        <td>%</td>
+        <td><span id="icon-145-99"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Average</td>
+        <td><input type="number" step="0.01" name="1-145-avg" required></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Max</td>
+        <td><input type="number" step="0.01" name="1-145-max" required></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      </tbody>
+    </table>
+    <table class="table table-striped">
+    <thead>
+      226 MeV
+    </thead>
+    <tbody>
+      <tr>
+        <td>Gamma <95%</td>
+        <td><input type="number" step="0.01" name="1-226-95" required></td>
+        <td>%</td>
+        <td><span id="icon-226-95"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Gamma <99%</td>
+        <td><input type="number" step="0.01" name="1-226-99" required></td>
+        <td>%</td>
+        <td><span id="icon-226-99"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Average</td>
+        <td><input type="number" step="0.01" name="1-226-avg" required></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Max</td>
+        <td><input type="number" step="0.01" name="1-226-max" required></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="form-group">
+    <thead>
+      Davka babe
+    </thead>
+    <div class="form-group">
+    <label for="komora-select">Select komora:</label>
+    <select class="form-control" id="komora-select" name="komora">
+      <option value="komora1">komora 1</option>
+      <option value="komora2">komora 2</option>
+      <option value="komora3">komora 3</option>
+      <option value="komora4">komora 4</option>
+    </select>
+    </div>
+    <table class="table table-striped">
+    <thead>
+      115 MeV
+    </thead>
+    <tbody>
+      <tr>
+        <td>Naboj</td>
+        <td><input type="number" step="0.01" name="1-115-naboj" required></td>
+        <td>nC</td>
+        <td><span id="icon-115-naboj"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>MU</td>
+        <td><input type="number" step="0.01" name="1-115-mu" required></td>
+        <td></td>
+        <td><span id="icon-115-mu"></span></td>
+        <td></td>
+      </tr>
+      </tbody>
+    </table>
+    <table class="table table-striped">
+    <thead>
+      145 MeV
+    </thead>
+    <tbody>
+      <tr>
+        <td>Naboj</td>
+        <td><input type="number" step="0.01" name="1-145-naboj" required></td>
+        <td>nC</td>
+        <td><span id="icon-145-naboj"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>MU</td>
+        <td><input type="number" step="0.01" name="1-145-mu" required></td>
+        <td></td>
+        <td><span id="icon-145-mu"></span></td>
+        <td></td>
+      </tr>
+      </tbody>
+    </table>
+    <table class="table table-striped">
+    <thead>
+      226 MeV
+    </thead>
+    <tbody>
+      <tr>
+        <td>Naboj</td>
+        <td><input type="number" step="0.01" name="1-226-naboj" required></td>
+        <td>nC</td>
+        <td><span id="icon-226-naboj"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>MU</td>
+        <td><input type="number" step="0.01" name="1-226-mu" required></td>
+        <td></td>
+        <td><span id="icon-226-mu"></span></td>
+        <td></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<form method="post" id="GTR2">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="treatment-room-select">Select Treatment Room:</label>
+    <select class="form-control" id="treatment-room-select" name="treatment-room">
+      <option value="TR1" id="FBTR1">Treatment Room 1</option>
+      <option value="TR2" id="GTR2">Treatment Room 2</option>
+      <option value="TR3" id="GTR3">Treatment Room 3</option>
+      <option value="TR4" id="GTR4">Treatment Room 4</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Value</th>
+        <th>Unit</th>
+        <th>Check</th>
+        <th>Instructions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Temperature</td>
+        <td><input type="number" step="0.01" id="2-temperature" name="temperature" required></td>
+        <td>°C</td>
+        <td><span id="icon-temp"></span></td>
+        <td>zmeraj teplotu krasavec</td>
+      </tr>
+      <tr>
+        <td>Pressure</td>
+        <td><input type="number" step="0.01" id="2-pressure" name="pressure" required></td>
+        <td>hPa</td>
+        <td><span id="icon-press"></span></td>
+        <td>zmeraj tlak krasavica</td>
+      </tr>
+      <tr>
+        <td>k factor</td>
+        <td><input type="number" step="0.01" id="2-k" name="k" required></td>
+        <td></td>
+        <td><span id="icon-k"></span></td>
+        <td>odpis k factor z dosimetry manager fiam</td>
+      </tr>
+      <!-- <script>
+        var inputValueTemp = document.getElementById("2-temperature");
+        var iconTemp = document.getElementById("icon-temp");
+        var inputValuePres = document.getElementById("2-pressure");
+        var iconPres = document.getElementById("icon-press");
+        var inputValueK = document.getElementById("2-k");
+        var iconK = document.getElementById("icon-k");
+        
+        inputValueTemp.addEventListener("input", function() {
+          if (inputValueTemp.value >= 20 && inputValueTemp.value <= 27) {
+            iconTemp.innerHTML = "&#10004;"; // pass icon
+            iconTemp.style.color = "green";
+          } else {
+            iconTemp.innerHTML = "&#10008;"; // fail icon
+            iconTemp.style.color = "red";}});
+        inputValuePres.addEventListener("input", function() {
+          if (inputValuePres.value >= 950 && inputValuePres.value <= 1050) {
+            iconPres.innerHTML = "&#10004;"; // pass icon
+            iconPres.style.color = "green";
+          } else {
+            iconPres.innerHTML = "&#10008;"; // fail icon
+            iconPres.style.color = "red";}});
+        inputValueK.addEventListener("input", function() {
+          if (inputValueK.value >= 1 && inputValueK.value <= 1.1) {
+            iconK.innerHTML = "&#10004;"; // pass icon
+            iconK.style.color = "green";
+          } else {
+            iconK.innerHTML = "&#10008;"; // fail icon
+            iconK.style.color = "red";}});
+      </script> -->
+    </tbody>
+    </table>
+  </div>
+  <div class="form-group">
+    <thead>
+      Lynx babe
+    </thead>
+    <div class="form-group">
+    <label for="lynx-select">Select Lynx:</label>
+    <select class="form-control" id="lynx-select" name="lynx">
+      <option value="Lynx3">Lynx 3</option>
+      <option value="Lynx6">Lynx 6</option>
+      <option value="Lynx1">Lynx 1</option>
+      <option value="Lynx2">Lynx 2</option>
+    </select>
+    </div>
+    <table class="table table-striped">
+    <thead>
+      115 MeV
+    </thead>
+    <tbody>
+      <tr>
+        <td>Gamma <95%</td>
+        <td><input type="number" step="0.01" name="2-115-95" required></td>
+        <td>%</td>
+        <td><span id="icon-115-95"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Gamma <99%</td>
+        <td><input type="number" step="0.01" name="2-115-99" required></td>
+        <td>%</td>
+        <td><span id="icon-115-99"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Average</td>
+        <td><input type="number" step="0.01" name="2-115-avg" required></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Max</td>
+        <td><input type="number" step="0.01" name="2-115-max" required></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      </tbody>
+    </table>
+    <table class="table table-striped">
+    <thead>
+      145 MeV
+    </thead>
+    <tbody>
+      <tr>
+        <td>Gamma <95%</td>
+        <td><input type="number" step="0.01" name="2-145-95" required></td>
+        <td>%</td>
+        <td><span id="icon-145-95"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Gamma <99%</td>
+        <td><input type="number" step="0.01" name="2-145-99" required></td>
+        <td>%</td>
+        <td><span id="icon-145-99"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Average</td>
+        <td><input type="number" step="0.01" name="2-145-avg" required></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Max</td>
+        <td><input type="number" step="0.01" name="2-145-max" required></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      </tbody>
+    </table>
+    <table class="table table-striped">
+    <thead>
+      226 MeV
+    </thead>
+    <tbody>
+      <tr>
+        <td>Gamma <95%</td>
+        <td><input type="number" step="0.01" name="2-226-95" required></td>
+        <td>%</td>
+        <td><span id="icon-226-95"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Gamma <99%</td>
+        <td><input type="number" step="0.01" name="2-226-99" required></td>
+        <td>%</td>
+        <td><span id="icon-226-99"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Average</td>
+        <td><input type="number" step="0.01" name="2-226-avg" required></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Max</td>
+        <td><input type="number" step="0.01" name="2-226-max" required></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="form-group">
+    <thead>
+      Davka babe
+    </thead>
+    <div class="form-group">
+    <label for="komora-select">Select komora:</label>
+    <select class="form-control" id="komora-select" name="komora">
+      <option value="komora1">komora 1</option>
+      <option value="komora2">komora 2</option>
+      <option value="komora3">komora 3</option>
+      <option value="komora4">komora 4</option>
+    </select>
+    </div>
+    <table class="table table-striped">
+    <thead>
+      115 MeV
+    </thead>
+    <tbody>
+      <tr>
+        <td>Naboj</td>
+        <td><input type="number" step="0.01" name="2-115-naboj" required></td>
+        <td>nC</td>
+        <td><span id="icon-115-naboj"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>MU</td>
+        <td><input type="number" step="0.01" name="2-115-mu" required></td>
+        <td></td>
+        <td><span id="icon-115-mu"></span></td>
+        <td></td>
+      </tr>
+      </tbody>
+    </table>
+    <table class="table table-striped">
+    <thead>
+      145 MeV
+    </thead>
+    <tbody>
+      <tr>
+        <td>Naboj</td>
+        <td><input type="number" step="0.01" name="2-145-naboj" required></td>
+        <td>nC</td>
+        <td><span id="icon-145-naboj"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>MU</td>
+        <td><input type="number" step="0.01" name="2-145-mu" required></td>
+        <td></td>
+        <td><span id="icon-145-mu"></span></td>
+        <td></td>
+      </tr>
+      </tbody>
+    </table>
+    <table class="table table-striped">
+    <thead>
+      226 MeV
+    </thead>
+    <tbody>
+      <tr>
+        <td>Naboj</td>
+        <td><input type="number" step="0.01" name="2-226-naboj" required></td>
+        <td>nC</td>
+        <td><span id="icon-226-naboj"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>MU</td>
+        <td><input type="number" step="0.01" name="2-226-mu" required></td>
+        <td></td>
+        <td><span id="icon-226-mu"></span></td>
+        <td></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<form method="post" id="GTR3">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="treatment-room-select">Select Treatment Room:</label>
+    <select class="form-control" id="treatment-room-select" name="treatment-room">
+      <option value="TR1" id="FBTR1">Treatment Room 1</option>
+      <option value="TR2" id="GTR2">Treatment Room 2</option>
+      <option value="TR3" id="GTR3">Treatment Room 3</option>
+      <option value="TR4" id="GTR4">Treatment Room 4</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Value</th>
+        <th>Unit</th>
+        <th>Check</th>
+        <th>Instructions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Temperature</td>
+        <td><input type="number" step="0.01" id="3-temperature" name="temperature" required></td>
+        <td>°C</td>
+        <td><span id="icon-temp"></span></td>
+        <td>zmeraj teplotu krasavec</td>
+      </tr>
+      <tr>
+        <td>Pressure</td>
+        <td><input type="number" step="0.01" id="3-pressure" name="pressure" required></td>
+        <td>hPa</td>
+        <td><span id="icon-press"></span></td>
+        <td>zmeraj tlak krasavica</td>
+      </tr>
+      <tr>
+        <td>k factor</td>
+        <td><input type="number" step="0.01" id="3-k" name="k" required></td>
+        <td></td>
+        <td><span id="icon-k"></span></td>
+        <td>odpis k factor z dosimetry manager fiam</td>
+      </tr>
+      <!-- <script>
+        var inputValueTemp = document.getElementById("3-temperature");
+        var iconTemp = document.getElementById("icon-temp");
+        var inputValuePres = document.getElementById("3-pressure");
+        var iconPres = document.getElementById("icon-press");
+        var inputValueK = document.getElementById("3-k");
+        var iconK = document.getElementById("icon-k");
+        
+        inputValueTemp.addEventListener("input", function() {
+          if (inputValueTemp.value >= 20 && inputValueTemp.value <= 27) {
+            iconTemp.innerHTML = "&#10004;"; // pass icon
+            iconTemp.style.color = "green";
+          } else {
+            iconTemp.innerHTML = "&#10008;"; // fail icon
+            iconTemp.style.color = "red";}});
+        inputValuePres.addEventListener("input", function() {
+          if (inputValuePres.value >= 950 && inputValuePres.value <= 1050) {
+            iconPres.innerHTML = "&#10004;"; // pass icon
+            iconPres.style.color = "green";
+          } else {
+            iconPres.innerHTML = "&#10008;"; // fail icon
+            iconPres.style.color = "red";}});
+        inputValueK.addEventListener("input", function() {
+          if (inputValueK.value >= 1 && inputValueK.value <= 1.1) {
+            iconK.innerHTML = "&#10004;"; // pass icon
+            iconK.style.color = "green";
+          } else {
+            iconK.innerHTML = "&#10008;"; // fail icon
+            iconK.style.color = "red";}});
+      </script> -->
+    </tbody>
+    </table>
+  </div>
+  <div class="form-group">
+    <thead>
+      Lynx babe
+    </thead>
+    <div class="form-group">
+    <label for="lynx-select">Select Lynx:</label>
+    <select class="form-control" id="lynx-select" name="lynx">
+      <option value="Lynx3">Lynx 3</option>
+      <option value="Lynx6">Lynx 6</option>
+      <option value="Lynx1">Lynx 1</option>
+      <option value="Lynx2">Lynx 2</option>
+    </select>
+    </div>
+    <table class="table table-striped">
+    <thead>
+      115 MeV
+    </thead>
+    <tbody>
+      <tr>
+        <td>Gamma <95%</td>
+        <td><input type="number" step="0.01" name="3-115-95" required></td>
+        <td>%</td>
+        <td><span id="icon-115-95"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Gamma <99%</td>
+        <td><input type="number" step="0.01" name="3-115-99" required></td>
+        <td>%</td>
+        <td><span id="icon-115-99"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Average</td>
+        <td><input type="number" step="0.01" name="3-115-avg" required></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Max</td>
+        <td><input type="number" step="0.01" name="3-115-max" required></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      </tbody>
+    </table>
+    <table class="table table-striped">
+    <thead>
+      145 MeV
+    </thead>
+    <tbody>
+      <tr>
+        <td>Gamma <95%</td>
+        <td><input type="number" step="0.01" name="3-145-95" required></td>
+        <td>%</td>
+        <td><span id="icon-145-95"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Gamma <99%</td>
+        <td><input type="number" step="0.01" name="3-145-99" required></td>
+        <td>%</td>
+        <td><span id="icon-145-99"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Average</td>
+        <td><input type="number" step="0.01" name="3-145-avg" required></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Max</td>
+        <td><input type="number" step="0.01" name="3-145-max" required></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      </tbody>
+    </table>
+    <table class="table table-striped">
+    <thead>
+      226 MeV
+    </thead>
+    <tbody>
+      <tr>
+        <td>Gamma <95%</td>
+        <td><input type="number" step="0.01" name="3-226-95" required></td>
+        <td>%</td>
+        <td><span id="icon-226-95"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Gamma <99%</td>
+        <td><input type="number" step="0.01" name="3-226-99" required></td>
+        <td>%</td>
+        <td><span id="icon-226-99"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Average</td>
+        <td><input type="number" step="0.01" name="3-226-avg" required></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Max</td>
+        <td><input type="number" step="0.01" name="3-226-max" required></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="form-group">
+    <thead>
+      Davka babe
+    </thead>
+    <div class="form-group">
+    <label for="komora-select">Select komora:</label>
+    <select class="form-control" id="komora-select" name="komora">
+      <option value="komora1">komora 1</option>
+      <option value="komora2">komora 2</option>
+      <option value="komora3">komora 3</option>
+      <option value="komora4">komora 4</option>
+    </select>
+    </div>
+    <table class="table table-striped">
+    <thead>
+      115 MeV
+    </thead>
+    <tbody>
+      <tr>
+        <td>Naboj</td>
+        <td><input type="number" step="0.01" name="3-115-naboj" required></td>
+        <td>nC</td>
+        <td><span id="icon-115-naboj"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>MU</td>
+        <td><input type="number" step="0.01" name="3-115-mu" required></td>
+        <td></td>
+        <td><span id="icon-115-mu"></span></td>
+        <td></td>
+      </tr>
+      </tbody>
+    </table>
+    <table class="table table-striped">
+    <thead>
+      145 MeV
+    </thead>
+    <tbody>
+      <tr>
+        <td>Naboj</td>
+        <td><input type="number" step="0.01" name="3-145-naboj" required></td>
+        <td>nC</td>
+        <td><span id="icon-145-naboj"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>MU</td>
+        <td><input type="number" step="0.01" name="3-145-mu" required></td>
+        <td></td>
+        <td><span id="icon-145-mu"></span></td>
+        <td></td>
+      </tr>
+      </tbody>
+    </table>
+    <table class="table table-striped">
+    <thead>
+      226 MeV
+    </thead>
+    <tbody>
+      <tr>
+        <td>Naboj</td>
+        <td><input type="number" step="0.01" name="3-226-naboj" required></td>
+        <td>nC</td>
+        <td><span id="icon-226-naboj"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>MU</td>
+        <td><input type="number" step="0.01" name="3-226-mu" required></td>
+        <td></td>
+        <td><span id="icon-226-mu"></span></td>
+        <td></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<form method="post" id="GTR4">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="treatment-room-select">Select Treatment Room:</label>
+    <select class="form-control" id="treatment-room-select" name="treatment-room">
+      <option value="TR1" id="FBTR1">Treatment Room 1</option>
+      <option value="TR2" id="GTR2">Treatment Room 2</option>
+      <option value="TR3" id="GTR3">Treatment Room 3</option>
+      <option value="TR4" id="GTR4">Treatment Room 4</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Value</th>
+        <th>Unit</th>
+        <th>Check</th>
+        <th>Instructions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Temperature</td>
+        <td><input type="number" step="0.01" id="4-temperature" name="temperature" required></td>
+        <td>°C</td>
+        <td><span id="icon-temp4"></span></td>
+        <td>zmeraj teplotu krasavec</td>
+      </tr>
+      <tr>
+        <td>Pressure</td>
+        <td><input type="number" step="0.01" id="4-pressure" name="pressure" required></td>
+        <td>hPa</td>
+        <td><span id="icon-press4"></span></td>
+        <td>zmeraj tlak krasavica</td>
+      </tr>
+      <tr>
+        <td>k factor</td>
+        <td><input type="number" step="0.01" id="4-k" name="k" required></td>
+        <td></td>
+        <td><span id="icon-k4"></span></td>
+        <td>odpis k factor z dosimetry manager fiam</td>
+      </tr>
+      <script>
+        var inputValueTemp4 = document.getElementById("4-temperature");
+        var iconTemp4 = document.getElementById("icon-temp4");
+        var inputValuePres4 = document.getElementById("4-pressure");
+        var iconPres4 = document.getElementById("icon-press4");
+        var inputValueK4 = document.getElementById("4-k");
+        var iconK4 = document.getElementById("icon-k4");
+        
+        inputValueTemp4.addEventListener("input", function() {
+          if (inputValueTemp4.value >= 20 && inputValueTemp4.value <= 27) {
+            iconTemp4.innerHTML = "&#10004;"; // pass icon
+            iconTemp4.style.color = "green";
+          } else {
+            iconTemp4.innerHTML = "&#10008;"; // fail icon
+            iconTemp4.style.color = "red";}});
+        inputValuePres.addEventListener("input", function() {
+          if (inputValuePres4.value >= 950 && inputValuePres4.value <= 1050) {
+            iconPres4.innerHTML = "&#10004;"; // pass icon
+            iconPres4.style.color = "green";
+          } else {
+            iconPres4.innerHTML = "&#10008;"; // fail icon
+            iconPres4.style.color = "red";}});
+        inputValueK4.addEventListener("input", function() {
+          if (inputValueK4.value >= 1 && inputValueK4.value <= 1.1) {
+            iconK4.innerHTML = "&#10004;"; // pass icon
+            iconK4.style.color = "green";
+          } else {
+            iconK4.innerHTML = "&#10008;"; // fail icon
+            iconK4.style.color = "red";}});
+      </script>
+    </tbody>
+    </table>
+  </div>
+  <div class="form-group">
+    <thead>
+      Lynx babe
+    </thead>
+    <div class="form-group">
+    <label for="lynx-select">Select Lynx:</label>
+    <select class="form-control" id="lynx-select" name="lynx">
+      <option value="Lynx3">Lynx 3</option>
+      <option value="Lynx6">Lynx 6</option>
+      <option value="Lynx1">Lynx 1</option>
+      <option value="Lynx2">Lynx 2</option>
+    </select>
+    </div>
+    <table class="table table-striped">
+    <thead>
+      115 MeV
+    </thead>
+    <tbody>
+      <tr>
+        <td>Gamma <95%</td>
+        <td><input type="number" step="0.01" name="4-115-95" required></td>
+        <td>%</td>
+        <td><span id="icon-115-95"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Gamma <99%</td>
+        <td><input type="number" step="0.01" name="4-115-99" required></td>
+        <td>%</td>
+        <td><span id="icon-115-99"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Average</td>
+        <td><input type="number" step="0.01" name="4-115-avg" required></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Max</td>
+        <td><input type="number" step="0.01" name="4-115-max" required></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      </tbody>
+    </table>
+    <table class="table table-striped">
+    <thead>
+      145 MeV
+    </thead>
+    <tbody>
+      <tr>
+        <td>Gamma <95%</td>
+        <td><input type="number" step="0.01" name="4-145-95" required></td>
+        <td>%</td>
+        <td><span id="icon-145-95"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Gamma <99%</td>
+        <td><input type="number" step="0.01" name="4-145-99" required></td>
+        <td>%</td>
+        <td><span id="icon-145-99"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Average</td>
+        <td><input type="number" step="0.01" name="4-145-avg" required></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Max</td>
+        <td><input type="number" step="0.01" name="4-145-max" required></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      </tbody>
+    </table>
+    <table class="table table-striped">
+    <thead>
+      226 MeV
+    </thead>
+    <tbody>
+      <tr>
+        <td>Gamma <95%</td>
+        <td><input type="number" step="0.01" name="4-226-95" required></td>
+        <td>%</td>
+        <td><span id="icon-226-95"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Gamma <99%</td>
+        <td><input type="number" step="0.01" name="4-226-99" required></td>
+        <td>%</td>
+        <td><span id="icon-226-99"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Average</td>
+        <td><input type="number" step="0.01" name="4-226-avg" required></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Max</td>
+        <td><input type="number" step="0.01" name="4-226-max" required></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="form-group">
+    <thead>
+      Davka babe
+    </thead>
+    <div class="form-group">
+    <label for="komora-select">Select komora:</label>
+    <select class="form-control" id="komora-select" name="komora">
+      <option value="komora1">komora 1</option>
+      <option value="komora2">komora 2</option>
+      <option value="komora3">komora 3</option>
+      <option value="komora4">komora 4</option>
+    </select>
+    </div>
+    <table class="table table-striped">
+    <thead>
+      115 MeV
+    </thead>
+    <tbody>
+      <tr>
+        <td>Naboj</td>
+        <td><input type="number" step="0.01" name="4-115-naboj" required></td>
+        <td>nC</td>
+        <td><span id="icon-115-naboj"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>MU</td>
+        <td><input type="number" step="0.01" name="4-115-mu" required></td>
+        <td></td>
+        <td><span id="icon-115-mu"></span></td>
+        <td></td>
+      </tr>
+      </tbody>
+    </table>
+    <table class="table table-striped">
+    <thead>
+      145 MeV
+    </thead>
+    <tbody>
+      <tr>
+        <td>Naboj</td>
+        <td><input type="number" step="0.01" name="4-145-naboj" required></td>
+        <td>nC</td>
+        <td><span id="icon-145-naboj"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>MU</td>
+        <td><input type="number" step="0.01" name="4-145-mu" required></td>
+        <td></td>
+        <td><span id="icon-145-mu"></span></td>
+        <td></td>
+      </tr>
+      </tbody>
+    </table>
+    <table class="table table-striped">
+    <thead>
+      226 MeV
+    </thead>
+    <tbody>
+      <tr>
+        <td>Naboj</td>
+        <td><input type="number" step="0.01" name="4-226-naboj" required></td>
+        <td>nC</td>
+        <td><span id="icon-226-naboj"></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>MU</td>
+        <td><input type="number" step="0.01" name="4-226-mu" required></td>
+        <td></td>
+        <td><span id="icon-226-mu"></span></td>
+        <td></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% endblock %}

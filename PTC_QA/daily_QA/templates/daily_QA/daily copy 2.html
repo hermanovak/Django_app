@@ -4,20 +4,20 @@
 
 <h2>Daily QA Test</h2>
 
-<form enctype="multipart/form-data" action="{% url 'daily' %}" method="POST">
-
+<form enctype="multipart/form-data" action="{% url 'daily_QA:daily' %}" method="POST" id="dailytestform" name="dailytestform">
 <!--<form action="" method="POST">-->
     {% csrf_token %}
 
+  <!--   <body onload="document.forms['dailytestform'].submit()"></body>
         
-    <!-- ----Daily test hlavicka---- -->
+    ----Daily test hlavicka---- 
 
     <div class="form-group">
         <label for="date_added">Select today's date: </label>
         </br> 
         {{ dailytestform.date_added }}
 
-    </div>
+    </div> 
 
     <label for="treatment-room-select">Select Treatment Room:</label>
     </br>
@@ -30,7 +30,7 @@
     </select> 
 
     </br>
-    </br>
+    </br>-->
     
     <div class="form-group">
         <label for="lasers">Lasery: </label>
@@ -100,16 +100,22 @@
         <input type="number" name="temperaturex">
     </div>
     </br> 
-    -->
+  
 
-<!--
+
 <script>
     //var temp = document.getElementsById("{{ dailytestform.temperature }}").val;
     //var out = document.getElementById("output")
     //console.log(temp)
 
+    //<body onload="document.dailytestform.submit()"></body>
+    window.onload = function(){
+        document.forms['dailytestform'].submit();
+    }
+
 </script>
--->
+  -->
+
 
 {% endblock %}
 

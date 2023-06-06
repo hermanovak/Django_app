@@ -7,8 +7,8 @@
 <form method="post">
     {% csrf_token %}
     <label for="treatment-room-select">Select Treatment Room:</label>
-     <!--{{ form.gantry }}
-</br>-->
+    <!--{{ form.gantry }}
+    </br>-->
 
     <select class="form-control" id="treatment-room-select" name="treatment-room">
         <option value="none"><i>Get a room</i></option>
@@ -29,49 +29,42 @@
     <label for="komora-select">Select komora:</label>
     <select class="form-control" id="komora-select" name="komora-select">
         <option value="none"><i>Select komora</i></option>
-        <option value="komora3190" id="k3190">komora 3190</option>
-        <option value="komora2132" id="k2132">komora 2132</option>
-        <option value="komora3565" id="k3565">komora 3565</option>
-        <option value="komora4218" id="k4218">komora 4218</option>
-        <option value="komora5414" id="k5414">komora 5414</option>
+        <option value="komora3190" id="k3190">FC65 P 3190 500V</option>
+        <option value="komora2132" id="k2132">FC65 P 2132 500V</option>
+        <option value="komora3565" id="k3565">FC65 P 3565 500V</option>
+        <option value="komora4218" id="k4218">FC65 P 4218 500V</option>
+        <option value="komora5414" id="k5414">FC65 P 5414 500V</option>
     </select>
 
     <label for="mlic-select">Select MLIC:</label>
     <select class="form-control" id="mlic-select" name="mlic-select">
         <option value="none"><i>Select MLIC</i></option>
-        <option value="mlic1" id="mlic1">MLIC 1</option>
-        <option value="mlic2" id="mlic2">MLIC 2</option>
+        <option value="mlic1" id="mlic1">MLIC SN 16351</option>
     </select>
 
     <div id="FBTR1" style="display:none">
         <table class="table table-striped">
-            <!-- <thead>
-                <tr><th><span id="icon-all"></span></th></tr>
-                <tr>
-                    <th>Quantity</th>
-                    <th>Value</th>
-                    <th>Unit</th>
-                    <th>Check</th>
-                </tr>
-            </thead> -->
+             <thead>
+                <tr><th><span id="icon-all1"></span></th></tr>
+            </thead> 
             <tbody>
                 <tr>
-                    <td>Temperature [°C]: <input type="number" step="0.01" id="temperature" name="temperature" required><span class="check-icon" id="icon-temp" name="icon-temp"></span></td>
-                    <td>Pressure [hPa]: <input type="number" step="0.01" id="pressure" name="pressure" required><span class="check-icon" id="icon-press"></span></td>
-                    <td>k factor: <input type="number" step="0.01" id="k" name="k" required> <span class="check-icon" id="icon-k"></span></td>
-                    <td></td>
+                    <td>Temperature [°C]: <input type="number" step="0.01" id="temperature1" required><span class="check-icon" id="icon-temp1"></span></td>
+                    <td>Pressure [hPa]: <input type="number" step="0.01" id="pressure1" required><span class="check-icon" id="icon-press1"></span></td>
+                    <td>Dose correction factor: <input type="number" step="0.01" id="k1" required> <span class="check-icon" id="icon-k1"></span></td>
+                    <td>k_t,p: <span id="ktpOut1"></span></td>
                 </tr>
                 <tr>
-                    <td>Temperature [K]: <span id="tempOut"></span></td>
-                    <td>Pressure [hPa]: <span id="pressOut"></span></td>
-                    <td>k_sat: <span id="ksatOut"></span>&nbsp;&nbsp;|&nbsp;&nbsp;k_pol: <span id="kpolOut"></span>&nbsp;&nbsp;|&nbsp;&nbsp;k_qq: <span id="kqqOut"></span></td>
-                    <td></td>
+                    <td>Temperature [K]: <span id="tempOut1"></span></td>
+                    <td>Pressure [hPa]: <span id="pressOut1"></span></td>
+                    <td>k_sat: <span id="ksatOut1"></span>&nbsp;&nbsp;|&nbsp;&nbsp;k_pol: <span id="kpolOut1"></span>&nbsp;&nbsp;|&nbsp;&nbsp;k_qq: <span id="kqqOut1"></span></td>
+                    <td><span class="check-icon" id="icon-misc1"></span></td>
                 </tr>
                 <tr>
-                    <td>Flat panels <input type="checkbox" id="flat-panels" name="flat-panels"></td>
-                    <td>Laser X <input type="checkbox" id="X" name="X"></td>
-                    <td>Laser Y <input type="checkbox" id="Y" name="Y"></td>
-                    <td>Laser Z <input type="checkbox" id="Z" name="Z"></td>
+                    <td>Flat panels <input type="checkbox" id="flat-panels1" name="flat-panels"></td>
+                    <td>Laser X <input type="checkbox" id="X1" name="X"></td>
+                    <td>Laser Y <input type="checkbox" id="Y1" name="Y"></td>
+                    <td>Laser Z <input type="checkbox" id="Z1" name="Z"></td>
                 </tr>
                 <!-- <tr>
                     <td>Vision RT Daily QA <input type="checkbox" id="vision" name="vision"></td>
@@ -85,40 +78,32 @@
 
     <div id="GTR2" style="display:none">
         <table class="table table-striped">
-            <!--tady chci assign value co pujde do db-->
-            <!-- <thead> 
-                <tr><th><span id="icon-all"></span></th></tr>
-                <tr>
-                    <th>Quantity</th>
-                    <th>Value</th>
-                    <th>Unit</th>
-                    <th>Check</th>
-                </tr>
-            </thead> -->
+            <thead>
+                <tr><th><span id="icon-all2"></span></th></tr>
+            </thead>
             <tbody>
                 <tr>
-                    <td>Temperature: <input type="number" step="0.01" id="temperature" name="temperature" value = '{{ form.temperature }}' °C <span class="check-icon" id="icon-temp" name="icon-temp"></span></td>
-                    <!--<td>Temperature: <input type="number" step="0.01" id="temperature" name="temperature" required> °C <span class="check-icon" id="icon-temp" name="icon-temp"></span></td>-->
-                    <td>Pressure: <input type="number" step="0.01" id="pressure" name="pressure" value = '{{ form.pressure }}' hPa <span class="check-icon" id="icon-press"></span></td>
-                    <td>k factor: <input type="number" step="0.01" id="k" name="k" required> <span class="check-icon" id="icon-k"></span></td>
+                    <td>Temperature: <input type="number" step="0.01" id="temperature2"> °C <span class="check-icon" id="icon-temp2"></span></td>
+                    <td>Pressure: <input type="number" step="0.01" id="pressure2"> hPa <span class="check-icon" id="icon-press2"></span></td>
+                    <td>Dose correction factor: <input type="number" step="0.01" id="k2" name="k" required> <span class="check-icon" id="icon-k2"></span></td>
+                    <td>k_t,p: <span id="ktpOut2"></span></td>
+                </tr>
+                <tr>
+                    <td>Temperature [K]: <span id="tempOut2"></span></td>
+                    <td>Pressure [hPa]: <span id="pressOut2"></span></td>
+                    <td>k_sat: <span id="ksatOut2"></span>&nbsp;&nbsp;|&nbsp;&nbsp;k_pol: <span id="kpolOut2"></span>&nbsp;&nbsp;|&nbsp;&nbsp;k_qq: <span id="kqqOut2"></span></td>
+                    <td><span class="check-icon" id="icon-misc2" name="icon-misc"></span></td>
+                </tr>
+                <tr>
+                    <td>Flat panels <input type="checkbox" id="flat-panels2" name="flat-panels"> value = </td>
+                    <td>Laser X <input type="checkbox" id="X2" name="X"></td>
+                    <td>Laser Y <input type="checkbox" id="Y2" name="Y"></td>
+                    <td>Laser Z <input type="checkbox" id="Z2" name="Z"></td>
+                </tr>
+                <tr>
+                    <td>Vision RT Daily QA <input type="checkbox" id="vision2" name="vision"></td>
+                    <td>DynR Daily Calibration <input type="checkbox" id="dynr2" name="dynr"></td>
                     <td></td>
-                </tr>
-                <tr>
-                    <td>Temperature [K]: <span id="tempOut"></span></td>
-                    <td>Pressure [hPa]: <span id="pressOut"></span></td>
-                    <td>k_sat: <span id="ksatOut"></span>&nbsp;&nbsp;|&nbsp;&nbsp;k_pol: <span id="kpolOut"></span>&nbsp;&nbsp;|&nbsp;&nbsp;k_qq: <span id="kqqOut"></span></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Flat panels <input type="checkbox" id="flat-panels" name="flat-panels"> value = </td>
-                    <td>Laser X <input type="checkbox" id="X" name="X"></td>
-                    <td>Laser Y <input type="checkbox" id="Y" name="Y"></td>
-                    <td>Laser Z <input type="checkbox" id="Z" name="Z"></td>
-                </tr>
-                <tr>
-                    <td>Vision RT Daily QA <input type="checkbox" id="vision" name="vision"></td>
-                    <td>DynR Daily Calibration <input type="checkbox" id="dynr" name="dynr"></td>
-                    <td><span class="check-icon" id="icon-misc"></span></td>
                     <td></td>
                 </tr>
             </tbody>
@@ -127,100 +112,82 @@
 
     <div id="GTR3" style="display:none">
         <table class="table table-striped">
-            <!-- <thead>
-                <tr><th><span id="icon-all"></span></th></tr>
-                <tr>
-                    <th>Quantity</th>
-                    <th>Value</th>
-                    <th>Unit</th>
-                    <th>Check</th>
-                </tr>
-            </thead> -->
+            <thead>
+                <tr><th><span id="icon-all3"></span></th></tr>
+            </thead>
             <tbody>
                 <tr>
-                    <td>Temperature: <input type="number" step="0.01" id="temperature" name="temperature" required> °C <span class="check-icon" id="icon-temp" name="icon-temp"></span></td>
-                    <td>Pressure: <input type="number" step="0.01" id="pressure" name="pressure" required> hPa <span class="check-icon" id="icon-press"></span></td>
-                    <td>k factor: <input type="number" step="0.01" id="k" name="k" required> <span class="check-icon" id="icon-k"></span></td>
-                    <td></td>
+                    <td>Temperature: <input type="number" step="0.01" id="temperature3" required> °C <span class="check-icon" id="icon-temp3"></span></td>
+                    <td>Pressure: <input type="number" step="0.01" id="pressure3" required> hPa <span class="check-icon" id="icon-press3"></span></td>
+                    <td>Dose correction factor: <input type="number" step="0.01" id="k3" name="k" required> <span class="check-icon" id="icon-k3"></span></td>
+                    <td>k_t,p: <span id="ktpOut3"></span></td>
                 </tr>
                 <tr>
-                    <td>Temperature [K]: <span id="tempOut"></span></td>
-                    <td>Pressure [hPa]: <span id="pressOut"></span></td>
-                    <td>k_sat: <span id="ksatOut"></span>&nbsp;&nbsp;|&nbsp;&nbsp;k_pol: <span id="kpolOut"></span>&nbsp;&nbsp;|&nbsp;&nbsp;k_qq: <span id="kqqOut"></span></td>
-                    <td></td>
+                    <td>Temperature [K]: <span id="tempOut3"></span></td>
+                    <td>Pressure [hPa]: <span id="pressOut3"></span></td>
+                    <td>k_sat: <span id="ksatOut3"></span>&nbsp;&nbsp;|&nbsp;&nbsp;k_pol: <span id="kpolOut3"></span>&nbsp;&nbsp;|&nbsp;&nbsp;k_qq: <span id="kqqOut3"></span></td>
+                    <td><span class="check-icon" id="icon-misc3" name="icon-misc"></span></td>
                 </tr>
                 <tr>
-                    <td>Flat panels <input type="checkbox" id="flat-panels" name="flat-panels"></td>
-                    <td>Laser X <input type="checkbox" id="X" name="X"></td>
-                    <td>Laser Y <input type="checkbox" id="Y" name="Y"></td>
-                    <td>Laser Z <input type="checkbox" id="Z" name="Z"></td>
+                    <td>Flat panels <input type="checkbox" id="flat-panels3" name="flat-panels"></td>
+                    <td>Laser X <input type="checkbox" id="X3" name="X"></td>
+                    <td>Laser Y <input type="checkbox" id="Y3" name="Y"></td>
+                    <td>Laser Z <input type="checkbox" id="Z3" name="Z"></td>
                 </tr>
                 <!-- <tr>
-                    <td>Vision RT Daily QA <input type="checkbox" id="vision" name="vision"></td>
-                    <td>DynR Daily Calibration <input type="checkbox" id="dynr" name="dynr"></td>
-                    <td><span class="check-icon" id="icon-misc"></span></td>
-                    <td></td>
-                </tr> -->
+            <td>Vision RT Daily QA <input type="checkbox" id="vision" name="vision"></td>
+            <td>DynR Daily Calibration <input type="checkbox" id="dynr" name="dynr"></td>
+            <td><span class="check-icon" id="icon-misc"></span></td>
+            <td></td>
+        </tr> -->
             </tbody>
         </table>
     </div>
 
     <div id="GTR4" style="display:none">
         <table class="table table-striped">
-            <!-- <thead>
-                <tr><th><span id="icon-all"></span></th></tr>
-                <tr>
-                    <th>Quantity</th>
-                    <th>Value</th>
-                    <th>Unit</th>
-                    <th>Check</th>
-                </tr>
-            </thead> -->
+            <thead>
+                <tr><th><span id="icon-all4"></span></th></tr>
+            </thead>
             <tbody>
                 <tr>
-                    <td>Temperature: <input type="number" step="0.01" id="temperature" name="temperature" required> °C <span class="check-icon" id="icon-temp" name="icon-temp"></span></td>
-                    <td>Pressure: <input type="number" step="0.01" id="pressure" name="pressure" required> hPa <span class="check-icon" id="icon-press"></span></td>
-                    <td>k factor: <input type="number" step="0.01" id="k" name="k" required> <span class="check-icon" id="icon-k"></span></td>
+                    <td>Temperature: <input type="number" step="0.01" id="temperature4" required> °C <span class="check-icon" id="icon-temp4"></span></td>
+                    <td>Pressure: <input type="number" step="0.01" id="pressure4" required> hPa <span class="check-icon" id="icon-press4"></span></td>
+                    <td>Dose correction factor: <input type="number" step="0.01" id="k4" required> <span class="check-icon" id="icon-k4"></span></td>
+                    <td>k_t,p: <span id="ktpOut4"></span></td>
+                </tr>
+                <tr>
+                    <td>Temperature [K]: <span id="tempOut4"></span></td>
+                    <td>Pressure [hPa]: <span id="pressOut4"></span></td>
+                    <td>k_sat: <span id="ksatOut4"></span>&nbsp;&nbsp;|&nbsp;&nbsp;k_pol: <span id="kpolOut4"></span>&nbsp;&nbsp;|&nbsp;&nbsp;k_qq: <span id="kqqOut4"></span></td>
+                    <td><span class="check-icon" id="icon-misc4" name="icon-misc"></span></td>
+                </tr>
+                <tr>
+                    <td>Flat panels <input type="checkbox" id="flat-panels4" name="flat-panels"></td>
+                    <td>Laser X <input type="checkbox" id="X4" name="X"></td>
+                    <td>Laser Y <input type="checkbox" id="Y4" name="Y"></td>
+                    <td>Laser Z <input type="checkbox" id="Z4" name="Z"></td>
+                </tr>
+                <tr>
+                    <td>Vision RT Daily QA <input type="checkbox" id="vision4" name="vision"></td>
+                    <td>DynR Daily Calibration <input type="checkbox" id="dynr4" name="dynr"></td>
                     <td></td>
-                </tr>
-                <tr>
-                    <td>Temperature [K]: <span id="tempOut"></span></td>
-                    <td>Pressure [hPa]: <span id="pressOut"></span></td>
-                    <td>k_sat: <span id="ksatOut"></span>&nbsp;&nbsp;|&nbsp;&nbsp;k_pol: <span id="kpolOut"></span>&nbsp;&nbsp;|&nbsp;&nbsp;k_qq: <span id="kqqOut"></span></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Flat panels <input type="checkbox" id="flat-panels" name="flat-panels"></td>
-                    <td>Laser X <input type="checkbox" id="X" name="X"></td>
-                    <td>Laser Y <input type="checkbox" id="Y" name="Y"></td>
-                    <td>Laser Z <input type="checkbox" id="Z" name="Z"></td>
-                </tr>
-                <tr>
-                    <td>Vision RT Daily QA <input type="checkbox" id="vision" name="vision"></td>
-                    <td>DynR Daily Calibration <input type="checkbox" id="dynr" name="dynr"></td>
-                    <td><span class="check-icon" id="icon-misc"></span></td>
                     <td></td>
                 </tr>
             </tbody>
         </table>
     </div>
-    <input type="submit" value="Submit">
 
-
-</form>
-
-<form method="post">
-    {% csrf_token %}
     <div id="lynx" style="display:none">
         <h3>Lynx</h3>
         <table class="table table-striped">
             <thead>115 MeV</thead>
             <tbody>
                 <tr>
-                    <td>Gamma <95%: <input type="number" step="0.01" id="L115-95" nname="L115-95" required> % <span class="check-icon" id="iconL115-95"></span></td>
-                    <td>Gamma <99%: <input type="number" step="0.01" id="L115-95" nname="L115-99" required> % <span class="check-icon" id="iconL115-99"></span></td>
-                    <td>Average: <input type="number" step="0.01" id="L115-avg" nname="L115-avg" required></td>
-                    <td>Max: <input type="number" step="0.01" id="L115-max" nname="L115-max" required></td>
+                    <td>Gamma <95%: <input type="number" step="0.01" id="L115-95" required> % <span class="check-icon" id="iconL115-95"></span></td>
+                    <td>Gamma <99%: <input type="number" step="0.01" id="L115-95" required> % <span class="check-icon" id="iconL115-99"></span></td>
+                    <td>Average: <input type="number" step="0.01" id="L115-avg" required></td>
+                    <td>Max: <input type="number" step="0.01" id="L115-max" required></td>
                     <td></td>
                 </tr>
             </tbody>
@@ -229,10 +196,10 @@
             <thead>145 MeV</thead>
             <tbody>
                 <tr>
-                    <td>Gamma <95%: <input type="number" step="0.01" id="L145-95" nname="L145-95" required> % <span class="check-icon" id="iconL145-95"></span></td>
-                    <td>Gamma <99%: <input type="number" step="0.01" id="L145-95" nname="L145-99" required> % <span class="check-icon" id="iconL145-99"></span></td>
-                    <td>Average: <input type="number" step="0.01" id="L145-avg" nname="L145-avg" required></td>
-                    <td>Max: <input type="number" step="0.01" id="L145-max" nname="L145-max" required></td>
+                    <td>Gamma <95%: <input type="number" step="0.01" id="L145-95" required> % <span class="check-icon" id="iconL145-95"></span></td>
+                    <td>Gamma <99%: <input type="number" step="0.01" id="L145-95" required> % <span class="check-icon" id="iconL145-99"></span></td>
+                    <td>Average: <input type="number" step="0.01" id="L145-avg" required></td>
+                    <td>Max: <input type="number" step="0.01" id="L145-max" required></td>
                     <td></td>
                 </tr>
             </tbody>
@@ -241,10 +208,10 @@
             <thead>226 MeV</thead>
             <tbody>
                 <tr>
-                    <td>Gamma <95%: <input type="number" step="0.01" id="L226-95" nname="L226-95" required> % <span class="check-icon" id="iconL226-95"></span></td>
-                    <td>Gamma <99%: <input type="number" step="0.01" id="L226-95" nname="L226-99" required> % <span class="check-icon" id="iconL226-99"></span></td>
-                    <td>Average: <input type="number" step="0.01" id="L226-avg" nname="L226-avg" required></td>
-                    <td>Max: <input type="number" step="0.01" id="L226-max" nname="L226-max" required></td>
+                    <td>Gamma <95%: <input type="number" step="0.01" id="L226-95" required> % <span class="check-icon" id="iconL226-95"></span></td>
+                    <td>Gamma <99%: <input type="number" step="0.01" id="L226-95" required> % <span class="check-icon" id="iconL226-99"></span></td>
+                    <td>Average: <input type="number" step="0.01" id="L226-avg" required></td>
+                    <td>Max: <input type="number" step="0.01" id="L226-max" required></td>
                     <td></td>
                 </tr>
             </tbody>
@@ -256,10 +223,10 @@
             <thead>70 MeV</thead>
             <tbody>
                 <tr>
-                    <td>Gamma <95%: <input type="number" step="0.01" id="L70-95" nname="L70-95" required> % <span class="check-icon" id="iconL70-95"></span></td>
-                    <td>Gamma <99%: <input type="number" step="0.01" id="L70-95" nname="L70-99" required> % <span class="check-icon" id="iconL70-99"></span></td>
-                    <td>Average: <input type="number" step="0.01" id="L70-avg" nname="L70-avg" required></td>
-                    <td>Max: <input type="number" step="0.01" id="L70-max" nname="L70-max" required></td>
+                    <td>Gamma <95%: <input type="number" step="0.01" id="L70-95LR" required> % <span class="check-icon" id="iconL70-95LR"></span></td>
+                    <td>Gamma <99%: <input type="number" step="0.01" id="L70-95LR" required> % <span class="check-icon" id="iconL70-99LR"></span></td>
+                    <td>Average: <input type="number" step="0.01" id="L70-avgLR" required></td>
+                    <td>Max: <input type="number" step="0.01" id="L70-maxLR" required></td>
                     <td></td>
                 </tr>
             </tbody>
@@ -268,10 +235,10 @@
             <thead>115 MeV</thead>
             <tbody>
                 <tr>
-                    <td>Gamma <95%: <input type="number" step="0.01" id="L115-95" nname="L115-95" required> % <span class="check-icon" id="iconL115-95"></span></td>
-                    <td>Gamma <99%: <input type="number" step="0.01" id="L115-95" nname="L115-99" required> % <span class="check-icon" id="iconL115-99"></span></td>
-                    <td>Average: <input type="number" step="0.01" id="L115-avg" nname="L115-avg" required></td>
-                    <td>Max: <input type="number" step="0.01" id="L115-max" nname="L115-max" required></td>
+                    <td>Gamma <95%: <input type="number" step="0.01" id="L115-95LR" required> % <span class="check-icon" id="iconL115-95LR"></span></td>
+                    <td>Gamma <99%: <input type="number" step="0.01" id="L115-95LR" required> % <span class="check-icon" id="iconL115-99LR"></span></td>
+                    <td>Average: <input type="number" step="0.01" id="L115-avgLR" required></td>
+                    <td>Max: <input type="number" step="0.01" id="L115-maxLR" required></td>
                     <td></td>
                 </tr>
             </tbody>
@@ -280,10 +247,10 @@
             <thead>145 MeV</thead>
             <tbody>
                 <tr>
-                    <td>Gamma <95%: <input type="number" step="0.01" id="L145-95" nname="L145-95" required> % <span class="check-icon" id="iconL145-95"></span></td>
-                    <td>Gamma <99%: <input type="number" step="0.01" id="L145-95" nname="L145-99" required> % <span class="check-icon" id="iconL145-99"></span></td>
-                    <td>Average: <input type="number" step="0.01" id="L145-avg" nname="L145-avg" required></td>
-                    <td>Max: <input type="number" step="0.01" id="L145-max" nname="L145-max" required></td>
+                    <td>Gamma <95%: <input type="number" step="0.01" id="L145-95LR" required> % <span class="check-icon" id="iconL145-95LR"></span></td>
+                    <td>Gamma <99%: <input type="number" step="0.01" id="L145-95LR" required> % <span class="check-icon" id="iconL145-99LR"></span></td>
+                    <td>Average: <input type="number" step="0.01" id="L145-avgLR" required></td>
+                    <td>Max: <input type="number" step="0.01" id="L145-maxLR" required></td>
                     <td></td>
                 </tr>
             </tbody>
@@ -292,19 +259,15 @@
             <thead>226 MeV</thead>
             <tbody>
                 <tr>
-                    <td>Gamma <95%: <input type="number" step="0.01" id="L226-95" nname="L226-95" required> % <span class="check-icon" id="iconL226-95"></span></td>
-                    <td>Gamma <99%: <input type="number" step="0.01" id="L226-95" nname="L226-99" required> % <span class="check-icon" id="iconL226-99"></span></td>
-                    <td>Average: <input type="number" step="0.01" id="L226-avg" nname="L226-avg" required></td>
-                    <td>Max: <input type="number" step="0.01" id="L226-max" nname="L226-max" required></td>
+                    <td>Gamma <95%: <input type="number" step="0.01" id="L226-95LR" required> % <span class="check-icon" id="iconL226-95LR"></span></td>
+                    <td>Gamma <99%: <input type="number" step="0.01" id="L226-95LR" required> % <span class="check-icon" id="iconL226-99LR"></span></td>
+                    <td>Average: <input type="number" step="0.01" id="L226-avgLR" required></td>
+                    <td>Max: <input type="number" step="0.01" id="L226-maxLR" required></td>
                     <td></td>
                 </tr>
             </tbody>
         </table>
     </div>
-</form>
-
-<form method="post">
-    {% csrf_token %}
     <div id="komora" style="display:none">
         <h3>Davka</h3>
         <table class="table table-striped">
@@ -314,9 +277,9 @@
             <tbody>
                 <tr>
                     <td>Chamber response [nC]</td>
-                    <td><input type="number" step="0.01" id="K100-nC" name="K100-nC" required></td>
+                    <td><input type="number" step="0.01" id="K100-nC" required></td>
                     <td>IC2 [MU]</td>
-                    <td><input type="number" step="0.01" id="K100-mu" name="K100-mu" required></td>
+                    <td><input type="number" step="0.01" id="K100-mu" required></td>
                     <td>Reference dose: 0.109 Gy; Calculated dose: <span id="K100outD"></span></td>
                     <td><span id="K100out"></span><span class="check-icon" id="iconK100"></span></td>
                 </tr>
@@ -329,9 +292,9 @@
             <tbody>
                 <tr>
                     <td>Chamber response [nC]</td>
-                    <td><input type="number" step="0.01" id="K170-nC" name="K170-nC" required></td>
+                    <td><input type="number" step="0.01" id="K170-nC" required></td>
                     <td>IC2 [MU]</td>
-                    <td><input type="number" step="0.01" id="K170-mu" name="K170-mu" required></td>
+                    <td><input type="number" step="0.01" id="K170-mu" required></td>
                     <td>Reference dose: 0.105 Gy; Calculated dose: <span id="K170outD"></span></td>
                     <td><span id="K170out"></span><span class="check-icon" id="iconK170"></span></td>
                 </tr>
@@ -344,9 +307,9 @@
             <tbody>
                 <tr>
                     <td>Chamber response [nC]</td>
-                    <td><input type="number" step="0.01" id="K226-nC" name="K226-nC" required></td>
+                    <td><input type="number" step="0.01" id="K226-nC" required></td>
                     <td>IC2 [MU]</td>
-                    <td><input type="number" step="0.01" id="K226-mu" name="K226-mu" required></td>
+                    <td><input type="number" step="0.01" id="K226-mu" required></td>
                     <td>Reference dose: 0.107 Gy; Calculated dose: <span id="K226outD"></span></td>
                     <td><span id="K226out"></span><span class="check-icon" id="iconK226"></span></td>
                 </tr>
@@ -362,11 +325,11 @@
             <tbody>
                 <tr>
                     <td>Chamber response [nC]</td>
-                    <td><input type="number" step="0.01" id="K70-nC" name="K70-nC" required></td>
+                    <td><input type="number" step="0.01" id="K70-nCLR" required></td>
                     <td>IC2 [MU]</td>
-                    <td><input type="number" step="0.01" id="K70-mu" name="K70-mu" required></td>
-                    <td>Reference dose: 0.XXX Gy; Calculated dose: <span id="K70outD"></span></td>
-                    <td><span id="K70out"></span><span class="check-icon" id="iconK70"></span></td>
+                    <td><input type="number" step="0.01" id="K70-muLR" required></td>
+                    <td>Reference dose: 0.XXX Gy; Calculated dose: <span id="K70outDLR"></span></td>
+                    <td><span id="K70outLR"></span><span class="check-icon" id="iconK70LR"></span></td>
                 </tr>
             </tbody>
         </table>
@@ -377,11 +340,11 @@
             <tbody>
                 <tr>
                     <td>Chamber response [nC]</td>
-                    <td><input type="number" step="0.01" id="K100-nC" name="K100-nC" required></td>
+                    <td><input type="number" step="0.01" id="K100-nCLR" required></td>
                     <td>IC2 [MU]</td>
-                    <td><input type="number" step="0.01" id="K100-mu" name="K100-mu" required></td>
-                    <td>Reference dose: 0.109 Gy; Calculated dose: <span id="K100outD"></span></td>
-                    <td><span id="K100out"></span><span class="check-icon" id="iconK100"></span></td>
+                    <td><input type="number" step="0.01" id="K100-muLR" required></td>
+                    <td>Reference dose: 0.109 Gy; Calculated dose: <span id="K100outDLR"></span></td>
+                    <td><span id="K100outLR"></span><span class="check-icon" id="iconK100LR"></span></td>
                 </tr>
             </tbody>
         </table>
@@ -392,11 +355,11 @@
             <tbody>
                 <tr>
                     <td>Chamber response [nC]</td>
-                    <td><input type="number" step="0.01" id="K170-nC" name="K170-nC" required></td>
+                    <td><input type="number" step="0.01" id="K170-nCLR" required></td>
                     <td>IC2 [MU]</td>
-                    <td><input type="number" step="0.01" id="K170-mu" name="K170-mu" required></td>
-                    <td>Reference dose: 0.105 Gy; Calculated dose: <span id="K170outD"></span></td>
-                    <td><span id="K170out"></span><span class="check-icon" id="iconK170"></span></td>
+                    <td><input type="number" step="0.01" id="K170-muLR" required></td>
+                    <td>Reference dose: 0.105 Gy; Calculated dose: <span id="K170outDLR"></span></td>
+                    <td><span id="K170outLR"></span><span class="check-icon" id="iconK170LR"></span></td>
                 </tr>
             </tbody>
         </table>
@@ -407,19 +370,16 @@
             <tbody>
                 <tr>
                     <td>Chamber response [nC]</td>
-                    <td><input type="number" step="0.01" id="K226-nC" name="K226-nC" required></td>
+                    <td><input type="number" step="0.01" id="K226-nCLR" required></td>
                     <td>IC2 [MU]</td>
-                    <td><input type="number" step="0.01" id="K226-mu" name="K226-mu" required></td>
-                    <td>Reference dose: 0.107 Gy; Calculated dose: <span id="K226outD"></span></td>
-                    <td><span id="K226out"></span><span class="check-icon" id="iconK226"></span></td>
+                    <td><input type="number" step="0.01" id="K226-muLR" required></td>
+                    <td>Reference dose: 0.107 Gy; Calculated dose: <span id="K226outDLR"></span></td>
+                    <td><span id="K226outLR"></span><span class="check-icon" id="iconK226LR"></span></td>
                 </tr>
             </tbody>
         </table>
     </div>
-</form>
 
-<form method="post">
-    {% csrf_token %}
     <div id="mlic" style="display:none">
         <h3>MLIC</h3>
         <table class="table table-striped">
@@ -429,9 +389,9 @@
             <tbody>
                 <tr>
                     <td>Range [g/cm2]</td>
-                    <td><input type="number" step="0.01" id="MLIC100" name="MLIC100" required></td>
+                    <td><input type="number" step="0.01" id="MLIC100" required></td>
                     <td>Reference range [g/cm2]: 7.69</td>
-                    <td><span id="MLIC100out"><span class="check-icon" id="iconMLIC100"></span></td>
+                    <td><span id="MLIC100out"></span><span class="check-icon" id="iconMLIC100"></span></td>
                     <td></td>
                 </tr>
             </tbody>
@@ -443,9 +403,9 @@
             <tbody>
                 <tr>
                     <td>Range [g/cm2]</td>
-                    <td><input type="number" step="0.01" id="MLIC170" name="MLIC170" required></td>
+                    <td><input type="number" step="0.01" id="MLIC170" required></td>
                     <td>Reference range [g/cm2]: 19.61</td>
-                    <td><span id="MLIC170out"><span class="check-icon" id="iconMLIC170"></span></td>
+                    <td><span id="MLIC170out"></span><span class="check-icon" id="iconMLIC170"></span></td>
                     <td></td>
                 </tr>
             </tbody>
@@ -457,9 +417,9 @@
             <tbody>
                 <tr>
                     <td>Range [g/cm2]</td>
-                    <td><input type="number" step="0.01" id="MLIC226" name="MLIC226" required></td>
+                    <td><input type="number" step="0.01" id="MLIC226" required></td>
                     <td>Reference range [g/cm2]: 31.90</td>
-                    <td><span id="MLIC226out"><span class="check-icon" id="iconMLIC226"></span></td>
+                    <td><span id="MLIC226out"></span><span class="check-icon" id="iconMLIC226"></span></td>
                     <td></td>
                 </tr>
             </tbody>
@@ -474,9 +434,9 @@
             <tbody>
                 <tr>
                     <td>Range [g/cm2]</td>
-                    <td><input type="number" step="0.01" id="MLIC70" name="MLIC70" required></td>
+                    <td><input type="number" step="0.01" id="MLIC70LR" required></td>
                     <td>Reference range [g/cm2]: XXX</td>
-                    <td><span id="MLIC70out"><span class="check-icon" id="iconMLIC70"></span></td>
+                    <td><span id="MLIC70outLR"></span><span class="check-icon" id="iconMLIC70LR"></span></td>
                     <td></td>
                 </tr>
             </tbody>
@@ -488,9 +448,9 @@
             <tbody>
                 <tr>
                     <td>Range [g/cm2]</td>
-                    <td><input type="number" step="0.01" id="MLIC100" name="MLIC100" required></td>
+                    <td><input type="number" step="0.01" id="MLIC100LR" required></td>
                     <td>Reference range [g/cm2]: 7.69</td>
-                    <td><span id="MLIC100out"><span class="check-icon" id="iconMLIC100"></span></td>
+                    <td><span id="MLIC100outLR"></span><span class="check-icon" id="iconMLIC100LR"></span></td>
                     <td></td>
                 </tr>
             </tbody>
@@ -502,9 +462,9 @@
             <tbody>
                 <tr>
                     <td>Range [g/cm2]</td>
-                    <td><input type="number" step="0.01" id="MLIC170" name="MLIC170" required></td>
+                    <td><input type="number" step="0.01" id="MLIC170LR" required></td>
                     <td>Reference range [g/cm2]: 19.61</td>
-                    <td><span id="MLIC170out"><span class="check-icon" id="iconMLIC170"></span></td>
+                    <td><span id="MLIC170outLR"></span><span class="check-icon" id="iconMLIC170LR"></span></td>
                     <td></td>
                 </tr>
             </tbody>
@@ -516,15 +476,19 @@
             <tbody>
                 <tr>
                     <td>Range [g/cm2]</td>
-                    <td><input type="number" step="0.01" id="MLIC226" name="MLIC226" required></td>
+                    <td><input type="number" step="0.01" id="MLIC226LR" required></td>
                     <td>Reference range [g/cm2]: 31.90</td>
-                    <td><span id="MLIC226out"><span class="check-icon" id="iconMLIC226"></span></td>
+                    <td><span id="MLIC226outLR"></span><span class="check-icon" id="iconMLIC226LR"></span></td>
                     <td></td>
                 </tr>
             </tbody>
         </table>
     </div>
+    <input type="submit" value="Submit">
+
+
 </form>
+
 
 <script>
     // treatment room select
@@ -546,29 +510,2176 @@
     const mlic = document.getElementById("mlic");
     const mlicLR = document.getElementById("mlicLR");
 
-    roomSelect.addEventListener("change", function() {
+    roomSelect.addEventListener("change", function () {
+        //misc vars declare
+        var inputValueTemp;
+        var iconTemp;
+        var inputValuePres;
+        var iconPres;
+        var inputValueK;
+        var iconK;
+        var iconMisc;
 
+        var Temp;
+        var Pres;
+        var KtpOut;
+
+        var KpolOut;
+        var KsatOut;
+        var KqqOut;
+
+        var Ktp;
+
+        var iconAll;
+        //lynx vars declare
+        var inputValueL11595;
+        var iconL11595;
+        var inputValueL11599;
+        var iconL11599;
+        var inputValueL14595;
+        var iconL14595;
+        var inputValueL14599;
+        var iconL14599;
+        var inputValueL22695;
+        var iconL22695;
+        var inputValueL22699;
+        var iconL22699;
+        var L115avg;
+        var L115max;
+        var L145avg;
+        var L145max;
+        var L226avg;
+        var L226max;
+        //komora vars declare
+        var inputValueK100nC;
+        var inputValueK100mu;
+        var iconK100;
+        var inputValueK170nC;
+        var inputValueK170mu;
+        var iconK170;
+        var inputValueK226nC;
+        var inputValueK226mu;
+        var iconK226;
+        //komory refs
+        const K3190ndw = 47870000;
+        const K3190Ksat = 1.005;
+        const K3190Kpol = 1;
+        const K2132ndw = 48290000;
+        const K2132Ksat = 1.006;
+        const K2132Kpol = 1;
+        const K3565ndw = 48060000;
+        const K3565Ksat = 1.0044;
+        const K3565Kpol = 1.0001;
+        const K4218ndw = 47900000;
+        const K4218Ksat = 1.005;
+        const K4218Kpol = 1;
+        const K5414ndw = 47880000;
+        const K5414Ksat = 1.0052;
+        const K5414Kpol = 1;
+        const Kqq = 1.035;
+        //dose refs
+        var K70ref;
+        var K100ref;
+        var K170ref;
+        var K226ref;
+        //komora outs
+        var K70outD;
+        var K70out;
+        var K100outD;
+        var K100out;
+        var K170outD;
+        var K170out;
+        var K226outD;
+        var K226out;
+        //komora calcs
+        var D70;
+        var dev70;
+        var D100;
+        var dev100;
+        var D170;
+        var dev170;
+        var D226;
+        var dev226;
+        //mlic vars declare
+        var MLIC70;
+        var MLIC100;
+        var MLIC170;
+        var MLIC226;
+        var iconMLIC70;
+        var iconMLIC100;
+        var iconMLIC170;
+        var iconMLIC226;
+        //mlic refs
+        var MLIC70ref;
+        var MLIC100ref;
+        var MLIC170ref;
+        var MLIC226ref;
+        //mlic outs
+        var MLIC70out;
+        var MLIC100out;
+        var MLIC170out;
+        var MLIC226out;
+        //mlic calcs
+        var MLICdev70;
+        var MLICdev100;
+        var MLICdev170;
+        var MLICdev226;
         // Show the selected option form
         if (roomSelect.value === "FBTR1") {
             FBTR1.style.display = "block";
             GTR2.style.display = "none";
             GTR3.style.display = "none";
             GTR4.style.display = "none";
+            // misc vars assign
+            inputValueTemp = document.getElementById("temperature1");
+            iconTemp = document.getElementsById("icon-temp1");
+            inputValuePres = document.getElementById("pressure1");
+            iconPres = document.getElementById("icon-press1");
+            inputValueK = document.getElementById("k1");
+            iconK = document.getElementById("icon-k1");
+            iconMisc = document.getElementById("icon-misc1");
+
+            Temp = document.getElementById("tempOut1");
+            Pres = document.getElementById("presOut1");
+            KtpOut = document.getElementById("ktpOut1");
+
+            KpolOut = document.getElementById("kpolOut1");
+            KsatOut = document.getElementById("ksatOut1");
+            KqqOut = document.getElementById("kqqOut1");
+
+            iconAll = document.getElementById("icon-all1");
+
+            //     // myInput.addEventListener('input', () => {
+            //     //     const inputValue = myInput.value;
+            //     //     const outputValue = inputValue * inputValue;
+            //     //     myOutput.innerHTML = outputValue;
+            //     // });
+            // misc value checks
+            inputValueTemp.addEventListener("input", function () {
+                if (inputValueTemp.value >= 20 && inputValueTemp.value <= 27) {
+                    iconTemp.innerHTML = "&#10004;"; // pass icon
+                    iconTemp.style.color = "green";
+                } else {
+                    iconTemp.innerHTML = "&#10008;"; // fail icon
+                    iconTemp.style.color = "red";
+                }
+            });
+            inputValuePres.addEventListener("input", function () {
+                if (inputValuePres.value >= 950 && inputValuePres.value <= 1050) {
+                    iconPres.innerHTML = "&#10004;"; // pass icon
+                    iconPres.style.color = "green";
+                } else {
+                    iconPres.innerHTML = "&#10008;"; // fail icon
+                    iconPres.style.color = "red";
+                }
+            });
+            inputValueK.addEventListener("input", function () {
+                if (inputValueK.value >= 1 && inputValueK.value <= 1.1) {
+                    iconK.innerHTML = "&#10004;"; // pass icon
+                    iconK.style.color = "green";
+                } else {
+                    iconK.innerHTML = "&#10008;"; // fail icon
+                    iconK.style.color = "red";
+                }
+            });
+            Ktp = ((273.15 + inputValueTemp.value) / (273.15 + 20) * (1013 / inputValuePres.value));
+            KtpOut.textContent = Ktp;
+            Temp.textContent = inputValueTemp.value + 273.15;
+            Pres.textContent = inputValuePres.value;
+            // lynx vars assign
+            inputValueL11595 = document.getElementById("L115-95");
+            iconL11595 = document.getElementById("iconL115-95");
+            inputValueL11599 = document.getElementById("L115-99");
+            iconL11599 = document.getElementById("iconL115-99");
+            inputValueL14595 = document.getElementById("L145-95");
+            iconL14595 = document.getElementById("iconL145-95");
+            inputValueL14599 = document.getElementById("L145-99");
+            iconL14599 = document.getElementById("iconL145-99");
+            inputValueL22695 = document.getElementById("L226-95");
+            iconL22695 = document.getElementById("iconL226-95");
+            inputValueL22699 = document.getElementById("L226-99");
+            iconL22699 = document.getElementById("iconL226-99");
+
+            L115avg = document.getElementById("L115-avg");
+            L115max = document.getElementById("L115-max");
+            L145avg = document.getElementById("L145-avg");
+            L145max = document.getElementById("L145-max");
+            L226avg = document.getElementById("L226-avg");
+            L226max = document.getElementById("L226-max");
+            // lynx value checks
+            inputValueL11595.addEventListener("input", function () {
+                if (inputValueL11595.value >= 95 && inputValueL11595.value <= 100) {
+                    iconL11595.innerHTML = "&#10004;"; // pass icon
+                    iconL11595.style.color = "green";
+                } else {
+                    iconL11595.innerHTML = "&#10008;"; // fail icon
+                    iconL11595.style.color = "red";
+                }
+            });
+            inputValueL11599.addEventListener("input", function () {
+                if (inputValueL11599.value >= 99 && inputValueL11599.value <= 100) {
+                    iconL11599.innerHTML = "&#10004;"; // pass icon
+                    iconL11599.style.color = "green";
+                } else {
+                    iconL11599.innerHTML = "&#10008;"; // fail icon
+                    iconL11599.style.color = "red";
+                }
+            });
+
+            inputValueL14595.addEventListener("input", function () {
+                if (inputValueL14595.value >= 95 && inputValueL14595.value <= 100) {
+                    iconL14595.innerHTML = "&#10004;"; // pass icon
+                    iconL14595.style.color = "green";
+                } else {
+                    iconL14595.innerHTML = "&#10008;"; // fail icon
+                    iconL14595.style.color = "red";
+                }
+            });
+            inputValueL14599.addEventListener("input", function () {
+                if (inputValueL14599.value >= 99 && inputValueL14599.value <= 100) {
+                    iconL14599.innerHTML = "&#10004;"; // pass icon
+                    iconL14599.style.color = "green";
+                } else {
+                    iconL14599.innerHTML = "&#10008;"; // fail icon
+                    iconL14599.style.color = "red";
+                }
+            });
+
+            inputValueL22695.addEventListener("input", function () {
+                if (inputValueL22695.value >= 95 && inputValueL22695.value <= 100) {
+                    iconL22695.innerHTML = "&#10004;"; // pass icon
+                    iconL22695.style.color = "green";
+                } else {
+                    iconL22695.innerHTML = "&#10008;"; // fail icon
+                    iconL22695.style.color = "red";
+                }
+            });
+            inputValueL22699.addEventListener("input", function () {
+                if (inputValueL22699.value >= 99 && inputValueL22699.value <= 100) {
+                    iconL22699.innerHTML = "&#10004;"; // pass icon
+                    iconL22699.style.color = "green";
+                } else {
+                    iconL22699.innerHTML = "&#10008;"; // fail icon
+                    iconL22699.style.color = "red";
+                }
+            });
+
+            // komora vars assign
+            inputValueK100nC = document.getElementById("K100-nC");
+            inputValueK100mu = document.getElementById("K100-mu");
+            iconK100 = document.getElementById("iconK100");
+            inputValueK170nC = document.getElementById("K170-nC");
+            inputValueK170mu = document.getElementById("K170-mu");
+            iconK170 = document.getElementById("iconK170");
+            inputValueK226nC = document.getElementById("K226-nC");
+            inputValueK226mu = document.getElementById("K226-mu");
+            iconK226 = document.getElementById("iconK226");
+            // calculations komora
+            K100ref = 0.11019;
+            K170ref = 0.10681;
+            K226ref = 0.10751;
+
+            K100outD = document.getElementById('K100outD');
+            K100out = document.getElementById('K100out');
+            K170outD = document.getElementById('K170outD');
+            K170out = document.getElementById('K170out');
+            K226outD = document.getElementById('K226outD');
+            K226out = document.getElementById('K226out');
+            komoraSelect.addEventListener("change", function () {
+                if (komoraSelect.value === "komora3190") {
+                    inputValueK100mu.addEventListener("input", function () {
+                        D100 = inputValueK100nC.value * 100 / inputValueK100mu.value * K3190ndw * KtpOut * K3190Ksat * K3190Kpol * Kqq;
+                        K100outD.textContent = D100;
+                        dev100 = ((D100 / K100ref) - 1) * 100;
+                        K100out.textContent = dev100;
+                        if (dev100 >= -2 && dev100 <= 2) {
+                            iconK100.innerHTML = "&#10004;"; // pass icon
+                            iconK100.style.color = "green";
+                        } else {
+                            iconK100.innerHTML = "&#10008;"; // fail icon
+                            iconK100.style.color = "red";
+                        };
+                    });
+                    inputValueK170mu.addEventListener("input", function () {
+                        D170 = inputValueK170nC.value * 100 / inputValueK170mu.value * K3190ndw * KtpOut * K3190Ksat * K3190Kpol * Kqq;
+                        K170outD.textContent = D170;
+                        dev170 = ((D170 / K170ref) - 1) * 100;
+                        K170out.textContent = dev170;
+                        if (dev170 >= -2 && dev170 <= 2) {
+                            iconK170.innerHTML = "&#10004;"; // pass icon
+                            iconK170.style.color = "green";
+                        } else {
+                            iconK170.innerHTML = "&#10008;"; // fail icon
+                            iconK170.style.color = "red";
+                        };
+                    });
+                    inputValueK226mu.addEventListener("input", function () {
+                        D226 = inputValueK226nC.value * 100 / inputValueK226mu.value * K3190ndw * KtpOut * K3190Ksat * K3190Kpol * Kqq;
+                        K226outD.textContent = D226;
+                        dev226 = ((D226 / K226ref) - 1) * 100;
+                        K226out.textContent = dev226;
+                        if (dev226 >= -2 && dev226 <= 2) {
+                            iconK226.innerHTML = "&#10004;"; // pass icon
+                            iconK226.style.color = "green";
+                        } else {
+                            iconK226.innerHTML = "&#10008;"; // fail icon
+                            iconK226.style.color = "red";
+                        };
+                    });
+                    KpolOut.textContent = K3190Kpol;
+                    KsatOut.textContent = K3190Ksat;
+                    KqqOut.textContent = Kqq;
+                } else if (komoraSelect.value === "komora2132") {
+                    inputValueK100mu.addEventListener("input", function () {
+                        D100 = inputValueK100nC.value * 100 / inputValueK100mu.value * K2132ndw * KtpOut * K2132Ksat * K2132Kpol * Kqq;
+                        K100outD.textContent = D100;
+                        dev100 = ((D100 / K100ref) - 1) * 100;
+                        K100out.textContent = dev100;
+                        if (dev100 >= -2 && dev100 <= 2) {
+                            iconK100.innerHTML = "&#10004;"; // pass icon
+                            iconK100.style.color = "green";
+                        } else {
+                            iconK100.innerHTML = "&#10008;"; // fail icon
+                            iconK100.style.color = "red";
+                        };
+                    });
+                    inputValueK170mu.addEventListener("input", function () {
+                        D170 = inputValueK170nC.value * 100 / inputValueK170mu.value * K2132ndw * KtpOut * K2132Ksat * K2132Kpol * Kqq;
+                        K170outD.textContent = D170;
+                        dev170 = ((D170 / K170ref) - 1) * 100;
+                        K170out.textContent = dev170;
+                        if (dev170 >= -2 && dev170 <= 2) {
+                            iconK170.innerHTML = "&#10004;"; // pass icon
+                            iconK170.style.color = "green";
+                        } else {
+                            iconK170.innerHTML = "&#10008;"; // fail icon
+                            iconK170.style.color = "red";
+                        };
+                    });
+                    inputValueK226mu.addEventListener("input", function () {
+                        D226 = inputValueK226nC.value * 100 / inputValueK226mu.value * K2132ndw * KtpOut * K2132Ksat * K2132Kpol * Kqq;
+                        K226outD.textContent = D226;
+                        dev226 = ((D226 / K226ref) - 1) * 100;
+                        K226out.textContent = dev226;
+                        if (dev226 >= -2 && dev226 <= 2) {
+                            iconK226.innerHTML = "&#10004;"; // pass icon
+                            iconK226.style.color = "green";
+                        } else {
+                            iconK226.innerHTML = "&#10008;"; // fail icon
+                            iconK226.style.color = "red";
+                        };
+                    });
+                    KpolOut.textContent = K2132Kpol;
+                    KsatOut.textContent = K2132Ksat;
+                    KqqOut.textContent = Kqq;
+                } else if (komoraSelect.value === "komora3565") {
+                    inputValueK100mu.addEventListener("input", function () {
+                        D100 = inputValueK100nC.value * 100 / inputValueK100mu.value * K3565ndw * KtpOut * K3565Ksat * K3565Kpol * Kqq;
+                        K100outD.textContent = D100;
+                        dev100 = ((D100 / K100ref) - 1) * 100;
+                        K100out.textContent = dev100;
+                        if (dev100 >= -2 && dev100 <= 2) {
+                            iconK100.innerHTML = "&#10004;"; // pass icon
+                            iconK100.style.color = "green";
+                        } else {
+                            iconK100.innerHTML = "&#10008;"; // fail icon
+                            iconK100.style.color = "red";
+                        };
+                    });
+                    inputValueK170mu.addEventListener("input", function () {
+                        D170 = inputValueK170nC.value * 100 / inputValueK170mu.value * K3565ndw * KtpOut * K3565Ksat * K3565Kpol * Kqq;
+                        K170outD.innerHTML = D170;
+                        dev170 = ((D170 / K170ref) - 1) * 100;
+                        K170out.innerHTML = dev170;
+                        if (dev170 >= -2 && dev170 <= 2) {
+                            iconK170.innerHTML = "&#10004;"; // pass icon
+                            iconK170.style.color = "green";
+                        } else {
+                            iconK170.innerHTML = "&#10008;"; // fail icon
+                            iconK170.style.color = "red";
+                        };
+                    });
+                    inputValueK226mu.addEventListener("input", function () {
+                        D226 = inputValueK226nC.value * 100 / inputValueK226mu.value * K3565ndw * KtpOut * K3565Ksat * K3565Kpol * Kqq;
+                        K226outD.textContent = D226;
+                        dev226 = ((D226 / K226ref) - 1) * 100;
+                        K226out.textContent = dev226;
+                        if (dev226 >= -2 && dev226 <= 2) {
+                            iconK226.innerHTML = "&#10004;"; // pass icon
+                            iconK226.style.color = "green";
+                        } else {
+                            iconK226.innerHTML = "&#10008;"; // fail icon
+                            iconK226.style.color = "red";
+                        };
+                    });
+                    KpolOut.textContent = K3565Kpol;
+                    KsatOut.textContent = K3565Ksat;
+                    KqqOut.textContent = Kqq;
+                } else if (komoraSelect.value === "komora4218") {
+                    inputValueK100mu.addEventListener("input", function () {
+                        D100 = inputValueK100nC.value * 100 / inputValueK100mu.value * K4218ndw * KtpOut * K4218Ksat * K4218Kpol * Kqq;
+                        K100outD.textContent = D100;
+                        dev100 = ((D100 / K100ref) - 1) * 100;
+                        K100out.textContent = dev100;
+                        if (dev100 >= -2 && dev100 <= 2) {
+                            iconK100.innerHTML = "&#10004;"; // pass icon
+                            iconK100.style.color = "green";
+                        } else {
+                            iconK100.innerHTML = "&#10008;"; // fail icon
+                            iconK100.style.color = "red";
+                        };
+                    });
+                    inputValueK170mu.addEventListener("input", function () {
+                        D170 = inputValueK170nC.value * 100 / inputValueK170mu.value * K4218ndw * KtpOut * K4218Ksat * K4218Kpol * Kqq;
+                        K170outD.textContent = D170;
+                        dev170 = ((D170 / K170ref) - 1) * 100;
+                        K170out.textContent = dev170;
+                        if (dev170 >= -2 && dev170 <= 2) {
+                            iconK170.innerHTML = "&#10004;"; // pass icon
+                            iconK170.style.color = "green";
+                        } else {
+                            iconK170.innerHTML = "&#10008;"; // fail icon
+                            iconK170.style.color = "red";
+                        };
+                    });
+                    inputValueK226mu.addEventListener("input", function () {
+                        D226 = inputValueK226nC.value * 100 / inputValueK226mu.value * K4218ndw * KtpOut * K4218Ksat * K4218Kpol * Kqq;
+                        K226outD.textContent = D226;
+                        dev226 = ((D226 / K226ref) - 1) * 100;
+                        K226out.textContent = dev226;
+                        if (dev226 >= -2 && dev226 <= 2) {
+                            iconK226.innerHTML = "&#10004;"; // pass icon
+                            iconK226.style.color = "green";
+                        } else {
+                            iconK226.innerHTML = "&#10008;"; // fail icon
+                            iconK226.style.color = "red";
+                        };
+                    });
+                    KpolOut.textContent = K4218Kpol;
+                    KsatOut.textContent = K4218Ksat;
+                    KqqOut.textContent = Kqq;
+                } else if (komoraSelect.value === "komora5414") {
+                    inputValueK100mu.addEventListener("input", function () {
+                        D100 = inputValueK100nC.value * 100 / inputValueK100mu.value * K5414ndw * KtpOut * K5414Ksat * K5414Kpol * Kqq;
+                        K100outD.textContent = D100;
+                        dev100 = ((D100 / K100ref) - 1) * 100;
+                        K100out.textContent = dev100;
+                        if (dev100 >= -2 && dev100 <= 2) {
+                            iconK100.innerHTML = "&#10004;"; // pass icon
+                            iconK100.style.color = "green";
+                        } else {
+                            iconK100.innerHTML = "&#10008;"; // fail icon
+                            iconK100.style.color = "red";
+                        };
+                    });
+                    inputValueK170mu.addEventListener("input", function () {
+                        D170 = inputValueK170nC.value * 100 / inputValueK170mu.value * K5414ndw * KtpOut * K5414Ksat * K5414Kpol * Kqq;
+                        K170outD.textContent = D170;
+                        dev170 = ((D170 / K170ref) - 1) * 100;
+                        K170out.textContent = dev170;
+                        if (dev170 >= -2 && dev170 <= 2) {
+                            iconK170.innerHTML = "&#10004;"; // pass icon
+                            iconK170.style.color = "green";
+                        } else {
+                            iconK170.innerHTML = "&#10008;"; // fail icon
+                            iconK170.style.color = "red";
+                        };
+                    });
+                    inputValueK226mu.addEventListener("input", function () {
+                        D226 = inputValueK226nC.value * 100 / inputValueK226mu.value * K5414ndw * KtpOut * K5414Ksat * K5414Kpol * Kqq;
+                        K226outD.textContent = D226;
+                        dev226 = ((D226 / K226ref) - 1) * 100;
+                        K226out.textContent = dev226;
+                        if (dev226 >= -2 && dev226 <= 2) {
+                            iconK226.innerHTML = "&#10004;"; // pass icon
+                            iconK226.style.color = "green";
+                        } else {
+                            iconK226.innerHTML = "&#10008;"; // fail icon
+                            iconK226.style.color = "red";
+                        };
+                    });
+                    KpolOut.textContent = K5414Kpol;
+                    KsatOut.textContent = K5414Ksat;
+                    KqqOut.textContent = Kqq;
+                }
+            });
+            // mlic vars assign
+            MLIC100 = document.getElementById("MLIC100");
+            MLIC170 = document.getElementById("MLIC170");
+            MLIC226 = document.getElementById("MLIC226");
+
+            iconMLIC100 = document.getElementById("iconMLIC100");
+            iconMLIC170 = document.getElementById("iconMLIC170");
+            iconMLIC226 = document.getElementById("iconMLIC226");
+
+            MLIC100ref = 7.73;
+            MLIC170ref = 19.61;
+            MLIC226ref = 32.02;
+
+            MLIC100out = document.getElementById("MLIC100out");
+            MLIC170out = document.getElementById("MLIC170out");
+            MLIC226out = document.getElementById("MLIC226out");
+
+            //mlic calcs
+            mlicSelect.addEventListener("change", function () {
+                if (mlicSelect.value === "mlic1") {
+                    MLIC100.addEventListener("input", function () {
+                        MLICdev100 = MLIC100.value - MLIC100ref;
+                        if (MLICdev100 >= -0.15 && MLICdev100 <= 0.15) {
+                            iconMLIC100.innerHTML = "&#10004;"; // pass icon
+                            iconMLIC100.style.color = "green";
+                        }
+                    });
+                    MLIC170.addEventListener("input", function () {
+                        MLICdev170 = MLIC170.value - MLIC170ref;
+                        if (MLICdev170 >= -0.15 && MLICdev170 <= 0.15) {
+                            iconMLIC170.innerHTML = "&#10004;"; // pass icon
+                            iconMLIC170.style.color = "green";
+                        }
+                    });
+                    MLIC226.addEventListener("input", function () {
+                        MLICdev226 = MLIC226.value - MLIC226ref;
+                        if (MLICdev226 >= -0.15 && MLICdev226 <= 0.15) {
+                            iconMLIC226.innerHTML = "&#10004;"; // pass icon
+                            iconMLIC226.style.color = "green";
+                        }
+                    });
+                }
+            });
+            //checkboxes check + check of all checks, czechs number one
+
+            //const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            //const checkIcons = document.querySelectorAll('.check-icon');
+            //const state = { allChecked: false, allGreen: false };
+
+            //function updateState() {
+            //    let allChecked = true;
+            //    for (let i = 0; i < checkboxes.length; i++) {
+            //        const checkbox = checkboxes[i];
+
+            //        // Skip checkboxes inside a hidden parent element
+            //        if (checkbox.offsetParent === null) {
+            //            continue;
+            //        }
+
+            //        if (!checkbox.checked) {
+            //            allChecked = false;
+            //            break;
+            //        }
+            //    }
+
+            //    state.allChecked = allChecked;
+
+            //    let allGreen = true;
+
+            //    for (let i = 0; i < checkIcons.length; i++) {
+            //        const checkIcon = checkIcons[i];
+
+            //        // Skip check icons inside a hidden parent element
+            //        if (checkIcon.offsetParent === null) {
+            //            continue;
+            //        }
+
+            //        if (checkIcon.style.color !== 'green') {
+            //            allGreen = false;
+            //            break;
+            //        }
+            //    }
+
+            //    state.allGreen = allGreen;
+
+            //    console.log(state);
+            //    }
+
+            //for (let i = 0; i < checkIcons.length; i++) {
+            //checkboxes[i].addEventListener('click', updateState);
+            //const checkIcon = checkIcons[i];
+            //checkIcon.addEventListener('click', () => {
+            //    if (checkIcon.style.color === 'green') {
+            //        checkIcon.style.color = 'black';
+            //    } else {
+            //        checkIcon.style.color = 'green';
+            //    }
+            //    updateState();
+            //});
+            //}
+
+            //updateState();
+
+
+            //if (state.allChecked = true) {
+            //    iconMisc.innerHTML = "&#10004;"; // pass icon
+            //    iconMisc.style.color = "green";
+            //} else {
+            //    iconMisc.innerHTML = "&#10008;"; // fail icon
+            //    iconMisc.style.color = "red";
+            //}
+            //if (state.allGreen = true) {
+            //    iconAll.innerHTML = "&#10004;"; // pass icon
+            //    iconAll.style.color = "green";
+            //} else {
+            //    iconAll.innerHTML = "&#10008;"; // fail icon
+            //    iconAll.style.color = "red";
+            //}
+
         } else if (roomSelect.value === "GTR2") {
             FBTR1.style.display = "none";
             GTR2.style.display = "block";
             GTR3.style.display = "none";
             GTR4.style.display = "none";
+            // misc vars
+            inputValueTemp = document.getElementById("temperature2");
+            iconTemp = document.getElementsById("icon-temp2");
+            inputValuePres = document.getElementById("pressure2");
+            iconPres = document.getElementById("icon-press2");
+            inputValueK = document.getElementById("k2");
+            iconK = document.getElementById("icon-k2");
+            iconMisc = document.getElementById("icon-misc2");
+
+            Temp = document.getElementById("tempOut2");
+            Pres = document.getElementById("presOut2");
+            KtpOut = document.getElementById("ktpOut2");
+
+            KpolOut = document.getElementById("kpolOut2");
+            KsatOut = document.getElementById("ksatOut2");
+            KqqOut = document.getElementById("kqqOut2");
+
+            iconAll = document.getElementById("icon-all2");
+
+            //     // myInput.addEventListener('input', () => {
+            //     //     const inputValue = myInput.value;
+            //     //     const outputValue = inputValue * inputValue;
+            //     //     myOutput.innerHTML = outputValue;
+            //     // });
+            // misc value checks
+            inputValueTemp.addEventListener("input", function () {
+                if (inputValueTemp.value >= 20 && inputValueTemp.value <= 27) {
+                    iconTemp.innerHTML = "&#10004;"; // pass icon
+                    iconTemp.style.color = "green";
+                } else {
+                    iconTemp.innerHTML = "&#10008;"; // fail icon
+                    iconTemp.style.color = "red";
+                }
+                Ktp = ((273.15 + inputValueTemp.value) / (273.15 + 20) * (1013 / inputValuePres.value));
+                KtpOut.textContent = Ktp;
+                Temp.textContent = inputValueTemp.value + 273.15;
+            });
+            inputValuePres.addEventListener("input", function () {
+                if (inputValuePres.value >= 950 && inputValuePres.value <= 1050) {
+                    iconPres.innerHTML = "&#10004;"; // pass icon
+                    iconPres.style.color = "green";
+                } else {
+                    iconPres.innerHTML = "&#10008;"; // fail icon
+                    iconPres.style.color = "red";
+                }
+                Pres.textContent = inputValuePres.value;
+            });
+            inputValueK.addEventListener("input", function () {
+                if (inputValueK.value >= 1 && inputValueK.value <= 1.1) {
+                    iconK.innerHTML = "&#10004;"; // pass icon
+                    iconK.style.color = "green";
+                } else {
+                    iconK.innerHTML = "&#10008;"; // fail icon
+                    iconK.style.color = "red";
+                }
+            });
+            // lynx vars
+            inputValueL11595 = document.getElementById("L115-95");
+            iconL11595 = document.getElementById("iconL115-95");
+            inputValueL11599 = document.getElementById("L115-99");
+            iconL11599 = document.getElementById("iconL115-99");
+            inputValueL14595 = document.getElementById("L145-95");
+            iconL14595 = document.getElementById("iconL145-95");
+            inputValueL14599 = document.getElementById("L145-99");
+            iconL14599 = document.getElementById("iconL145-99");
+            inputValueL22695 = document.getElementById("L226-95");
+            iconL22695 = document.getElementById("iconL226-95");
+            inputValueL22699 = document.getElementById("L226-99");
+            iconL22699 = document.getElementById("iconL226-99");
+
+            L115avg = document.getElementById("L115-avg");
+            L115max = document.getElementById("L115-max");
+            L145avg = document.getElementById("L145-avg");
+            L145max = document.getElementById("L145-max");
+            L226avg = document.getElementById("L226-avg");
+            L226max = document.getElementById("L226-max");
+            // lynx value checks
+            inputValueL11595.addEventListener("input", function () {
+                if (inputValueL11595.value >= 95 && inputValueL11595.value <= 100) {
+                    iconL11595.innerHTML = "&#10004;"; // pass icon
+                    iconL11595.style.color = "green";
+                } else {
+                    iconL11595.innerHTML = "&#10008;"; // fail icon
+                    iconL11595.style.color = "red";
+                }
+            });
+            inputValueL11599.addEventListener("input", function () {
+                if (inputValueL11599.value >= 99 && inputValueL11599.value <= 100) {
+                    iconL11599.innerHTML = "&#10004;"; // pass icon
+                    iconL11599.style.color = "green";
+                } else {
+                    iconL11599.innerHTML = "&#10008;"; // fail icon
+                    iconL11599.style.color = "red";
+                }
+            });
+
+            inputValueL14595.addEventListener("input", function () {
+                if (inputValueL14595.value >= 95 && inputValueL14595.value <= 100) {
+                    iconL14595.innerHTML = "&#10004;"; // pass icon
+                    iconL14595.style.color = "green";
+                } else {
+                    iconL14595.innerHTML = "&#10008;"; // fail icon
+                    iconL14595.style.color = "red";
+                }
+            });
+            inputValueL14599.addEventListener("input", function () {
+                if (inputValueL14599.value >= 99 && inputValueL14599.value <= 100) {
+                    iconL14599.innerHTML = "&#10004;"; // pass icon
+                    iconL14599.style.color = "green";
+                } else {
+                    iconL14599.innerHTML = "&#10008;"; // fail icon
+                    iconL14599.style.color = "red";
+                }
+            });
+
+            inputValueL22695.addEventListener("input", function () {
+                if (inputValueL22695.value >= 95 && inputValueL22695.value <= 100) {
+                    iconL22695.innerHTML = "&#10004;"; // pass icon
+                    iconL22695.style.color = "green";
+                } else {
+                    iconL22695.innerHTML = "&#10008;"; // fail icon
+                    iconL22695.style.color = "red";
+                }
+            });
+            inputValueL22699.addEventListener("input", function () {
+                if (inputValueL22699.value >= 99 && inputValueL22699.value <= 100) {
+                    iconL22699.innerHTML = "&#10004;"; // pass icon
+                    iconL22699.style.color = "green";
+                } else {
+                    iconL22699.innerHTML = "&#10008;"; // fail icon
+                    iconL22699.style.color = "red";
+                }
+            });
+
+            // komora vars
+            inputValueK100nC = document.getElementById("K100-nC");
+            inputValueK100mu = document.getElementById("K100-mu");
+            iconK100 = document.getElementById("iconK100");
+            inputValueK170nC = document.getElementById("K170-nC");
+            inputValueK170mu = document.getElementById("K170-mu");
+            iconK170 = document.getElementById("iconK170");
+            inputValueK226nC = document.getElementById("K226-nC");
+            inputValueK226mu = document.getElementById("K226-mu");
+            iconK226 = document.getElementById("iconK226");
+            // calculations komora
+            K100ref = 0.10908;
+            K170ref = 0.10539;
+            K226ref = 0.1068;
+
+            K100outD = document.getElementById('K100outD');
+            K100out = document.getElementById('K100out');
+            K170outD = document.getElementById('K170outD');
+            K170out = document.getElementById('K170out');
+            K226outD = document.getElementById('K226outD');
+            K226out = document.getElementById('K226out');
+            komoraSelect.addEventListener("change", function () {
+                if (komoraSelect.value === "komora3190") {
+                    inputValueK100mu.addEventListener("input", function () {
+                        D100 = inputValueK100nC.value * 100 / inputValueK100mu.value * K3190ndw * KtpOut * K3190Ksat * K3190Kpol * Kqq;
+                        K100outD.textContent = D100;
+                        dev100 = ((D100 / K100ref) - 1) * 100;
+                        K100out.textContent = dev100;
+                        if (dev100 >= -2 && dev100 <= 2) {
+                            iconK100.innerHTML = "&#10004;"; // pass icon
+                            iconK100.style.color = "green";
+                        } else {
+                            iconK100.innerHTML = "&#10008;"; // fail icon
+                            iconK100.style.color = "red";
+                        };
+                    });
+                    inputValueK170mu.addEventListener("input", function () {
+                        D170 = inputValueK170nC.value * 100 / inputValueK170mu.value * K3190ndw * KtpOut * K3190Ksat * K3190Kpol * Kqq;
+                        K170outD.textContent = D170;
+                        dev170 = ((D170 / K170ref) - 1) * 100;
+                        K170out.textContent = dev170;
+                        if (dev170 >= -2 && dev170 <= 2) {
+                            iconK170.innerHTML = "&#10004;"; // pass icon
+                            iconK170.style.color = "green";
+                        } else {
+                            iconK170.innerHTML = "&#10008;"; // fail icon
+                            iconK170.style.color = "red";
+                        };
+                    });
+                    inputValueK226mu.addEventListener("input", function () {
+                        D226 = inputValueK226nC.value * 100 / inputValueK226mu.value * K3190ndw * KtpOut * K3190Ksat * K3190Kpol * Kqq;
+                        K226outD.textContent = D226;
+                        dev226 = ((D226 / K226ref) - 1) * 100;
+                        K226out.textContent = dev226;
+                        if (dev226 >= -2 && dev226 <= 2) {
+                            iconK226.innerHTML = "&#10004;"; // pass icon
+                            iconK226.style.color = "green";
+                        } else {
+                            iconK226.innerHTML = "&#10008;"; // fail icon
+                            iconK226.style.color = "red";
+                        };
+                    });
+                    KpolOut.textContent = K3190Kpol;
+                    KsatOut.textContent = K3190Ksat;
+                    KqqOut.textContent = Kqq;
+                } else if (komoraSelect.value === "komora2132") {
+                    inputValueK100mu.addEventListener("input", function () {
+                        D100 = inputValueK100nC.value * 100 / inputValueK100mu.value * K2132ndw * KtpOut * K2132Ksat * K2132Kpol * Kqq;
+                        K100outD.textContent = D100;
+                        dev100 = ((D100 / K100ref) - 1) * 100;
+                        K100out.textContent = dev100;
+                        if (dev100 >= -2 && dev100 <= 2) {
+                            iconK100.innerHTML = "&#10004;"; // pass icon
+                            iconK100.style.color = "green";
+                        } else {
+                            iconK100.innerHTML = "&#10008;"; // fail icon
+                            iconK100.style.color = "red";
+                        };
+                    });
+                    inputValueK170mu.addEventListener("input", function () {
+                        D170 = inputValueK170nC.value * 100 / inputValueK170mu.value * K2132ndw * KtpOut * K2132Ksat * K2132Kpol * Kqq;
+                        K170outD.textContent = D170;
+                        dev170 = ((D170 / K170ref) - 1) * 100;
+                        K170out.textContent = dev170;
+                        if (dev170 >= -2 && dev170 <= 2) {
+                            iconK170.innerHTML = "&#10004;"; // pass icon
+                            iconK170.style.color = "green";
+                        } else {
+                            iconK170.innerHTML = "&#10008;"; // fail icon
+                            iconK170.style.color = "red";
+                        };
+                    });
+                    inputValueK226mu.addEventListener("input", function () {
+                        D226 = inputValueK226nC.value * 100 / inputValueK226mu.value * K2132ndw * KtpOut * K2132Ksat * K2132Kpol * Kqq;
+                        K226outD.textContent = D226;
+                        dev226 = ((D226 / K226ref) - 1) * 100;
+                        K226out.textContent = dev226;
+                        if (dev226 >= -2 && dev226 <= 2) {
+                            iconK226.innerHTML = "&#10004;"; // pass icon
+                            iconK226.style.color = "green";
+                        } else {
+                            iconK226.innerHTML = "&#10008;"; // fail icon
+                            iconK226.style.color = "red";
+                        };
+                    });
+                    KpolOut.textContent = K2132Kpol;
+                    KsatOut.textContent = K2132Ksat;
+                    KqqOut.textContent = Kqq;
+                } else if (komoraSelect.value === "komora3565") {
+                    inputValueK100mu.addEventListener("input", function () {
+                        D100 = inputValueK100nC.value * 100 / inputValueK100mu.value * K3565ndw * KtpOut * K3565Ksat * K3565Kpol * Kqq;
+                        K100outD.textContent = D100;
+                        dev100 = ((D100 / K100ref) - 1) * 100;
+                        K100out.textContent = dev100;
+                        if (dev100 >= -2 && dev100 <= 2) {
+                            iconK100.innerHTML = "&#10004;"; // pass icon
+                            iconK100.style.color = "green";
+                        } else {
+                            iconK100.innerHTML = "&#10008;"; // fail icon
+                            iconK100.style.color = "red";
+                        };
+                    });
+                    inputValueK170mu.addEventListener("input", function () {
+                        D170 = inputValueK170nC.value * 100 / inputValueK170mu.value * K3565ndw * KtpOut * K3565Ksat * K3565Kpol * Kqq;
+                        K170outD.textContent = D170;
+                        dev170 = ((D170 / K170ref) - 1) * 100;
+                        K170out.textContent = dev170;
+                        if (dev170 >= -2 && dev170 <= 2) {
+                            iconK170.innerHTML = "&#10004;"; // pass icon
+                            iconK170.style.color = "green";
+                        } else {
+                            iconK170.innerHTML = "&#10008;"; // fail icon
+                            iconK170.style.color = "red";
+                        };
+                    });
+                    inputValueK226mu.addEventListener("input", function () {
+                        D226 = inputValueK226nC.value * 100 / inputValueK226mu.value * K3565ndw * KtpOut * K3565Ksat * K3565Kpol * Kqq;
+                        K226outD.textContent = D226;
+                        dev226 = ((D226 / K226ref) - 1) * 100;
+                        K226out.textContent = dev226;
+                        if (dev226 >= -2 && dev226 <= 2) {
+                            iconK226.innerHTML = "&#10004;"; // pass icon
+                            iconK226.style.color = "green";
+                        } else {
+                            iconK226.innerHTML = "&#10008;"; // fail icon
+                            iconK226.style.color = "red";
+                        };
+                    });
+                    KpolOut.textContent = K3565Kpol;
+                    KsatOut.textContent = K3565Ksat;
+                    KqqOut.textContent = Kqq;
+                } else if (komoraSelect.value === "komora4218") {
+                    inputValueK100mu.addEventListener("input", function () {
+                        D100 = inputValueK100nC.value * 100 / inputValueK100mu.value * K4218ndw * KtpOut * K4218Ksat * K4218Kpol * Kqq;
+                        K100outD.textContent = D100;
+                        dev100 = ((D100 / K100ref) - 1) * 100;
+                        K100out.textContent = dev100;
+                        if (dev100 >= -2 && dev100 <= 2) {
+                            iconK100.innerHTML = "&#10004;"; // pass icon
+                            iconK100.style.color = "green";
+                        } else {
+                            iconK100.innerHTML = "&#10008;"; // fail icon
+                            iconK100.style.color = "red";
+                        };
+                    });
+                    inputValueK170mu.addEventListener("input", function () {
+                        D170 = inputValueK170nC.value * 100 / inputValueK170mu.value * K4218ndw * KtpOut * K4218Ksat * K4218Kpol * Kqq;
+                        K170outD.textContent = D170;
+                        dev170 = ((D170 / K170ref) - 1) * 100;
+                        K170out.textContent = dev170;
+                        if (dev170 >= -2 && dev170 <= 2) {
+                            iconK170.innerHTML = "&#10004;"; // pass icon
+                            iconK170.style.color = "green";
+                        } else {
+                            iconK170.innerHTML = "&#10008;"; // fail icon
+                            iconK170.style.color = "red";
+                        };
+                    });
+                    inputValueK226mu.addEventListener("input", function () {
+                        D226 = inputValueK226nC.value * 100 / inputValueK226mu.value * K4218ndw * KtpOut * K4218Ksat * K4218Kpol * Kqq;
+                        K226outD.textContent = D226;
+                        dev226 = ((D226 / K226ref) - 1) * 100;
+                        K226out.textContent = dev226;
+                        if (dev226 >= -2 && dev226 <= 2) {
+                            iconK226.innerHTML = "&#10004;"; // pass icon
+                            iconK226.style.color = "green";
+                        } else {
+                            iconK226.innerHTML = "&#10008;"; // fail icon
+                            iconK226.style.color = "red";
+                        };
+                    });
+                    KpolOut.textContent = K4218Kpol;
+                    KsatOut.textContent = K4218Ksat;
+                    KqqOut.textContent = Kqq;
+                } else if (komoraSelect.value === "komora5414") {
+                    inputValueK100mu.addEventListener("input", function () {
+                        D100 = inputValueK100nC.value * 100 / inputValueK100mu.value * K5414ndw * KtpOut * K5414Ksat * K5414Kpol * Kqq;
+                        K100outD.textContent = D100;
+                        dev100 = ((D100 / K100ref) - 1) * 100;
+                        K100out.textContent = dev100;
+                        if (dev100 >= -2 && dev100 <= 2) {
+                            iconK100.innerHTML = "&#10004;"; // pass icon
+                            iconK100.style.color = "green";
+                        } else {
+                            iconK100.innerHTML = "&#10008;"; // fail icon
+                            iconK100.style.color = "red";
+                        };
+                    });
+                    inputValueK170mu.addEventListener("input", function () {
+                        D170 = inputValueK170nC.value * 100 / inputValueK170mu.value * K5414ndw * KtpOut * K5414Ksat * K5414Kpol * Kqq;
+                        K170outD.textContent = D170;
+                        dev170 = ((D170 / K170ref) - 1) * 100;
+                        K170out.textContent = dev170;
+                        if (dev170 >= -2 && dev170 <= 2) {
+                            iconK170.innerHTML = "&#10004;"; // pass icon
+                            iconK170.style.color = "green";
+                        } else {
+                            iconK170.innerHTML = "&#10008;"; // fail icon
+                            iconK170.style.color = "red";
+                        };
+                    });
+                    inputValueK226mu.addEventListener("input", function () {
+                        D226 = inputValueK226nC.value * 100 / inputValueK226mu.value * K5414ndw * KtpOut * K5414Ksat * K5414Kpol * Kqq;
+                        K226outD.textContent = D226;
+                        dev226 = ((D226 / K226ref) - 1) * 100;
+                        K226out.textContent = dev226;
+                        if (dev226 >= -2 && dev226 <= 2) {
+                            iconK226.innerHTML = "&#10004;"; // pass icon
+                            iconK226.style.color = "green";
+                        } else {
+                            iconK226.innerHTML = "&#10008;"; // fail icon
+                            iconK226.style.color = "red";
+                        };
+                    });
+                    KpolOut.textContent = K5414Kpol;
+                    KsatOut.textContent = K5414Ksat;
+                    KqqOut.textContent = Kqq;
+                }
+            });
+            // mlic vars
+            MLIC100 = document.getElementById("MLIC100");
+            MLIC170 = document.getElementById("MLIC170");
+            MLIC226 = document.getElementById("MLIC226");
+
+            iconMLIC100 = document.getElementById("iconMLIC100");
+            iconMLIC170 = document.getElementById("iconMLIC170");
+            iconMLIC226 = document.getElementById("iconMLIC226");
+
+            MLIC100ref = 7.69;
+            MLIC170ref = 19.61;
+            MLIC226ref = 31.90;
+
+            MLIC100out = document.getElementById("MLIC100out");
+            MLIC170out = document.getElementById("MLIC170out");
+            MLIC226out = document.getElementById("MLIC226out");
+
+            //mlic calcs
+            mlicSelect.addEventListener("change", function () {
+                if (mlicSelect.value === "mlic1") {
+                    MLIC100.addEventListener("input", function () {
+                        LICdev100 = MLIC100.value - MLIC100ref;
+                        if (MLICdev100 >= -0.15 && MLICdev100 <= 0.15) {
+                            iconMLIC100.innerHTML = "&#10004;"; // pass icon
+                            iconMLIC100.style.color = "green";
+                        }
+                    });
+                    MLIC170.addEventListener("input", function () {
+                        LICdev170 = MLIC170.value - MLIC170ref;
+                        if (MLICdev170 >= -0.15 && MLICdev170 <= 0.15) {
+                            iconMLIC170.innerHTML = "&#10004;"; // pass icon
+                            iconMLIC170.style.color = "green";
+                        }
+                    });
+                    MLIC226.addEventListener("input", function () {
+                        LICdev226 = MLIC226.value - MLIC226ref;
+                        if (MLICdev226 >= -0.15 && MLICdev226 <= 0.15) {
+                            iconMLIC226.innerHTML = "&#10004;"; // pass icon
+                            iconMLIC226.style.color = "green";
+                        }
+                    });
+                }
+            });
+            //function updateState() {
+            //    let allChecked = true;
+            //    for (let i = 0; i < checkboxes.length; i++) {
+            //        const checkbox = checkboxes[i];
+
+            //        // Skip checkboxes inside a hidden parent element
+            //        if (checkbox.offsetParent === null) {
+            //            continue;
+            //        }
+
+            //        if (!checkbox.checked) {
+            //            allChecked = false;
+            //            break;
+            //        }
+            //    }
+
+            //    state.allChecked = allChecked;
+
+            //    let allGreen = true;
+
+            //    for (let i = 0; i < checkIcons.length; i++) {
+            //        const checkIcon = checkIcons[i];
+
+            //        // Skip check icons inside a hidden parent element
+            //        if (checkIcon.offsetParent === null) {
+            //            continue;
+            //        }
+
+            //        if (checkIcon.style.color !== 'green') {
+            //            allGreen = false;
+            //            break;
+            //        }
+            //    }
+
+            //    state.allGreen = allGreen;
+
+            //    console.log(state);
+            //}
+            //for (let i = 0; i < checkIcons.length; i++) {
+            //    checkboxes[i].addEventListener('click', updateState);
+            //    const checkIcon = checkIcons[i];
+            //    checkIcon.addEventListener('click', () => {
+            //        if (checkIcon.style.color === 'green') {
+            //            checkIcon.style.color = 'black';
+            //        } else {
+            //            checkIcon.style.color = 'green';
+            //        }
+            //        updateState();
+            //    });
+            //}
+            //updateState();
+            //if (state.allChecked = true) {
+            //    iconMisc.innerHTML = "&#10004;"; // pass icon
+            //    iconMisc.style.color = "green";
+            //} else {
+            //    iconMisc.innerHTML = "&#10008;"; // fail icon
+            //    iconMisc.style.color = "red";
+            //}
+            //if (state.allGreen = true) {
+            //    iconAll.innerHTML = "&#10004;"; // pass icon
+            //    iconAll.style.color = "green";
+            //} else {
+            //    iconAll.innerHTML = "&#10008;"; // fail icon
+            //    iconAll.style.color = "red";
+            //}
         } else if (roomSelect.value === "GTR3") {
             FBTR1.style.display = "none";
             GTR2.style.display = "none";
             GTR3.style.display = "block";
             GTR4.style.display = "none";
+            // misc vars
+            inputValueTemp = document.getElementById("temperature3");
+            iconTemp = document.getElementsById("icon-temp3");
+            inputValuePres = document.getElementById("pressure3");
+            iconPres = document.getElementById("icon-press3");
+            inputValueK = document.getElementById("k3");
+            iconK = document.getElementById("icon-k3");
+            iconMisc = document.getElementById("icon-misc3");
+
+            Temp = document.getElementById("tempOut3");
+            Pres = document.getElementById("presOut3");
+            KtpOut = document.getElementById("ktpOut3");
+
+            KpolOut = documen.getElementById("kpolOut3");
+            KsatOut = document.getElementById("ksatOut3");
+            KqqOut = document.getElementById("kqqOut3");
+
+            iconAll = document.getElementById("icon-all3");
+
+            //     // myInput.addEventListener('input', () => {
+            //     //     const inputValue = myInput.value;
+            //     //     const outputValue = inputValue * inputValue;
+            //     //     myOutput.innerHTML = outputValue;
+            //     // });
+            // misc value checks
+            inputValueTemp.addEventListener("input", function () {
+                if (inputValueTemp.value >= 20 && inputValueTemp.value <= 27) {
+                    iconTemp.innerHTML = "&#10004;"; // pass icon
+                    iconTemp.style.color = "green";
+                } else {
+                    iconTemp.innerHTML = "&#10008;"; // fail icon
+                    iconTemp.style.color = "red";
+                }
+                Ktp = ((273.15 + inputValueTemp.value) / (273.15 + 20) * (1013 / inputValuePres.value));
+                KtpOut.textContent = K;
+                Temp.textContent = inputValueTemp.value + 273.15;
+            });
+            inputValuePres.addEventListener("input", function () {
+                if (inputValuePres.value >= 950 && inputValuePres.value <= 1050) {
+                    iconPres.innerHTML = "&#10004;"; // pass icon
+                    iconPres.style.color = "green";
+                } else {
+                    iconPres.innerHTML = "&#10008;"; // fail icon
+                    iconPres.style.color = "red";
+                }
+                Pres.textContent = inputValuePres.value;
+            });
+            inputValueK.addEventListener("input", function () {
+                if (inputValueK.value >= 1 && inputValueK.value <= 1.1) {
+                    iconK.innerHTML = "&#10004;"; // pass icon
+                    iconK.style.color = "green";
+                } else {
+                    iconK.innerHTML = "&#10008;"; // fail icon
+                    iconK.style.color = "red";
+                }
+            });
+            // lynx vars
+            inputValueL7095 = document.getElementById("L70-95LRLR");
+            iconL7095 = document.getElementById("iconL70-95LRLR");
+            inputValueL11595 = document.getElementById("L115-95LR");
+            iconL11595 = document.getElementById("iconL115-95LR");
+            inputValueL11599 = document.getElementById("L115-99LR");
+            iconL11599 = document.getElementById("iconL115-99LR");
+            inputValueL14595 = document.getElementById("L145-95LR");
+            iconL14595 = document.getElementById("iconL145-95LR");
+            inputValueL14599 = document.getElementById("L145-99LR");
+            iconL14599 = document.getElementById("iconL145-99LR");
+            inputValueL22695 = document.getElementById("L226-95LR");
+            iconL22695 = document.getElementById("iconL226-95LR");
+            inputValueL22699 = document.getElementById("L226-99LR");
+            iconL22699 = document.getElementById("iconL226-99LR");
+
+            L70avg = document.getElementById("L70-avgLR");
+            L70max = document.getElementById("L70-maxLR");
+            L115avg = document.getElementById("L115-avgLR");
+            L115max = document.getElementById("L115-maxLR");
+            L145avg = document.getElementById("L145-avgLR");
+            L145max = document.getElementById("L145-maxLR");
+            L226avg = document.getElementById("L226-avgLR");
+            L226max = document.getElementById("L226-maxLR");
+            // lynx value checks
+            inputValueL7095.addEventListener("input", function () {
+                if (inputValueL7095.value >= 95 && inputValueL7095.value <= 100) {
+                    iconL7095.innerHTML = "&#10004;"; // pass icon
+                    iconL7095.style.color = "green";
+                } else {
+                    iconL7095.innerHTML = "&#10008;"; // fail icon
+                    iconL7095.style.color = "red";
+                }
+            });
+            inputValueL7099.addEventListener("input", function () {
+                if (inputValueL7099.value >= 99 && inputValueL7099.value <= 100) {
+                    iconL7099.innerHTML = "&#10004;"; // pass icon
+                    iconL7099.style.color = "green";
+                } else {
+                    iconL7099.innerHTML = "&#10008;"; // fail icon
+                    iconL7099.style.color = "red";
+                }
+            });
+            inputValueL11595.addEventListener("input", function () {
+                if (inputValueL11595.value >= 95 && inputValueL11595.value <= 100) {
+                    iconL11595.innerHTML = "&#10004;"; // pass icon
+                    iconL11595.style.color = "green";
+                } else {
+                    iconL11595.innerHTML = "&#10008;"; // fail icon
+                    iconL11595.style.color = "red";
+                }
+            });
+            inputValueL11599.addEventListener("input", function () {
+                if (inputValueL11599.value >= 99 && inputValueL11599.value <= 100) {
+                    iconL11599.innerHTML = "&#10004;"; // pass icon
+                    iconL11599.style.color = "green";
+                } else {
+                    iconL11599.innerHTML = "&#10008;"; // fail icon
+                    iconL11599.style.color = "red";
+                }
+            });
+
+            inputValueL14595.addEventListener("input", function () {
+                if (inputValueL14595.value >= 95 && inputValueL14595.value <= 100) {
+                    iconL14595.innerHTML = "&#10004;"; // pass icon
+                    iconL14595.style.color = "green";
+                } else {
+                    iconL14595.innerHTML = "&#10008;"; // fail icon
+                    iconL14595.style.color = "red";
+                }
+            });
+            inputValueL14599.addEventListener("input", function () {
+                if (inputValueL14599.value >= 99 && inputValueL14599.value <= 100) {
+                    iconL14599.innerHTML = "&#10004;"; // pass icon
+                    iconL14599.style.color = "green";
+                } else {
+                    iconL14599.innerHTML = "&#10008;"; // fail icon
+                    iconL14599.style.color = "red";
+                }
+            });
+
+            inputValueL22695.addEventListener("input", function () {
+                if (inputValueL22695.value >= 95 && inputValueL22695.value <= 100) {
+                    iconL22695.innerHTML = "&#10004;"; // pass icon
+                    iconL22695.style.color = "green";
+                } else {
+                    iconL22695.innerHTML = "&#10008;"; // fail icon
+                    iconL22695.style.color = "red";
+                }
+            });
+            inputValueL22699.addEventListener("input", function () {
+                if (inputValueL22699.value >= 99 && inputValueL22699.value <= 100) {
+                    iconL22699.innerHTML = "&#10004;"; // pass icon
+                    iconL22699.style.color = "green";
+                } else {
+                    iconL22699.innerHTML = "&#10008;"; // fail icon
+                    iconL22699.style.color = "red";
+                }
+            });
+
+            // komora vars
+            inputValueK70nC = document.getElementById("K70-nCLR");
+            inputValueK70mu = document.getElementById("K70-muLR");
+            iconK70 = document.getElementById("iconK70LR");
+            inputValueK100nC = document.getElementById("K100-nCLR");
+            inputValueK100mu = document.getElementById("K100-muLR");
+            iconK100 = document.getElementById("iconK100LR");
+            inputValueK170nC = document.getElementById("K170-nCLR");
+            inputValueK170mu = document.getElementById("K170-muLR");
+            iconK170 = document.getElementById("iconK170LR");
+            inputValueK226nC = document.getElementById("K226-nCLR");
+            inputValueK226mu = document.getElementById("K226-muLR");
+            iconK226 = document.getElementById("iconK226LR");
+            // calculations komora
+            K70ref = 0.11982603;
+            K100ref = 0.10592007;
+            K170ref = 0.1019005;
+            K226ref = 0.10222064;
+
+            K70outD = document.getElementById('K70outDLR');
+            K70out = document.getElementById('K70outLR');
+            K100outD = document.getElementById('K100outDLR');
+            K100out = document.getElementById('K100outLR');
+            K170outD = document.getElementById('K170outDLR');
+            K170out = document.getElementById('K170outLR');
+            K226outD = document.getElementById('K226outDLR');
+            K226out = document.getElementById('K226outLR');
+            komoraSelect.addEventListener("change", function () {
+                if (komoraSelect.value === "komora3190") {
+                    inputValueK70mu.addEventListener("input", function () {
+                        D70 = inputValueK70nC.value * 100 / inputValueK70mu.value * K3190ndw * KtpOut * K3190Ksat * K3190Kpol * Kqq;
+                        K700outD.textContent = D100;
+                        dev70 = ((D70 / K70ref) - 1) * 100;
+                        K70out.textContent = dev70;
+                        if (dev70 >= -2 && dev70 <= 2) {
+                            iconK70.innerHTML = "&#10004;"; // pass icon
+                            iconK70.style.color = "green";
+                        } else {
+                            iconK70.innerHTML = "&#10008;"; // fail icon
+                            iconK70.style.color = "red";
+                        };
+                    });
+                    inputValueK100mu.addEventListener("input", function () {
+                        D100 = inputValueK100nC.value * 100 / inputValueK100mu.value * K3190ndw * KtpOut * K3190Ksat * K3190Kpol * Kqq;
+                        K100outD.textContent = D100;
+                        dev100 = ((D100 / K100ref) - 1) * 100;
+                        K100out.textContent = dev100;
+                        if (dev100 >= -2 && dev100 <= 2) {
+                            iconK100.innerHTML = "&#10004;"; // pass icon
+                            iconK100.style.color = "green";
+                        } else {
+                            iconK100.innerHTML = "&#10008;"; // fail icon
+                            iconK100.style.color = "red";
+                        };
+                    });
+                    inputValueK170mu.addEventListener("input", function () {
+                        D170 = inputValueK170nC.value * 100 / inputValueK170mu.value * K3190ndw * KtpOut * K3190Ksat * K3190Kpol * Kqq;
+                        K170outD.textContent = D170;
+                        dev170 = ((D170 / K170ref) - 1) * 100;
+                        K170out.textContent = dev170;
+                        if (dev170 >= -2 && dev170 <= 2) {
+                            iconK170.innerHTML = "&#10004;"; // pass icon
+                            iconK170.style.color = "green";
+                        } else {
+                            iconK170.innerHTML = "&#10008;"; // fail icon
+                            iconK170.style.color = "red";
+                        };
+                    });
+                    inputValueK226mu.addEventListener("input", function () {
+                        D226 = inputValueK226nC.value * 100 / inputValueK226mu.value * K3190ndw * KtpOut * K3190Ksat * K3190Kpol * Kqq;
+                        K226outD.textContent = D226;
+                        dev226 = ((D226 / K226ref) - 1) * 100;
+                        K226out.textContent = dev226;
+                        if (dev226 >= -2 && dev226 <= 2) {
+                            iconK226.innerHTML = "&#10004;"; // pass icon
+                            iconK226.style.color = "green";
+                        } else {
+                            iconK226.innerHTML = "&#10008;"; // fail icon
+                            iconK226.style.color = "red";
+                        };
+                    });
+                    KpolOut.textContent = K3190Kpol;
+                    KsatOut.textContent = K3190Ksat;
+                    KqqOut.textContent = Kqq;
+                } else if (komoraSelect.value === "komora2132") {
+                    inputValueK70mu.addEventListener("input", function () {
+                        D70 = inputValueK70nC.value * 100 / inputValueK70mu.value * K2132ndw * KtpOut * K2132Ksat * K2132Kpol * Kqq;
+                        K70outD.textContent = D70;
+                        dev70 = ((D70 / K70ref) - 1) * 100;
+                        K70out.textContent = dev70;
+                        if (dev70 >= -2 && dev70 <= 2) {
+                            iconK70.innerHTML = "&#10004;"; // pass icon
+                            iconK70.style.color = "green";
+                        } else {
+                            iconK70.innerHTML = "&#10008;"; // fail icon
+                            iconK70.style.color = "red";
+                        };
+                    });
+                    inputValueK100mu.addEventListener("input", function () {
+                        D100 = inputValueK100nC.value * 100 / inputValueK100mu.value * K2132ndw * KtpOut * K2132Ksat * K2132Kpol * Kqq;
+                        K100outD.textContent = D100;
+                        dev100 = ((D100 / K100ref) - 1) * 100;
+                        K100out.textContent = dev100;
+                        if (dev100 >= -2 && dev100 <= 2) {
+                            iconK100.innerHTML = "&#10004;"; // pass icon
+                            iconK100.style.color = "green";
+                        } else {
+                            iconK100.innerHTML = "&#10008;"; // fail icon
+                            iconK100.style.color = "red";
+                        };
+                    });
+                    inputValueK170mu.addEventListener("input", function () {
+                        D170 = inputValueK170nC.value * 100 / inputValueK170mu.value * K2132ndw * KtpOut * K2132Ksat * K2132Kpol * Kqq;
+                        K170outD.textContent = D170;
+                        dev170 = ((D170 / K170ref) - 1) * 100;
+                        K170out.textContent = dev170;
+                        if (dev170 >= -2 && dev170 <= 2) {
+                            iconK170.innerHTML = "&#10004;"; // pass icon
+                            iconK170.style.color = "green";
+                        } else {
+                            iconK170.innerHTML = "&#10008;"; // fail icon
+                            iconK170.style.color = "red";
+                        };
+                    });
+                    inputValueK226mu.addEventListener("input", function () {
+                        D226 = inputValueK226nC.value * 100 / inputValueK226mu.value * K2132ndw * KtpOut * K2132Ksat * K2132Kpol * Kqq;
+                        K226outD.textContent = D226;
+                        dev226 = ((D226 / K226ref) - 1) * 100;
+                        K226out.textContent = dev226;
+                        if (dev226 >= -2 && dev226 <= 2) {
+                            iconK226.innerHTML = "&#10004;"; // pass icon
+                            iconK226.style.color = "green";
+                        } else {
+                            iconK226.innerHTML = "&#10008;"; // fail icon
+                            iconK226.style.color = "red";
+                        };
+                    });
+                    KpolOut.textContent = K2132Kpol;
+                    KsatOut.textContent = K2132Ksat;
+                    KqqOut.textContent = Kqq;
+                } else if (komoraSelect.value === "komora3565") {
+                    inputValueK70mu.addEventListener("input", function () {
+                        D70 = inputValueK70nC.value * 100 / inputValueK70mu.value * K3565ndw * KtpOut * K3565Ksat * K3565Kpol * Kqq;
+                        K70outD.textContent = D70;
+                        dev70 = ((D70 / K70ref) - 1) * 100;
+                        K7out.textContent = dev70;
+                        if (dev70 >= -2 && dev70 <= 2) {
+                            iconK70.innerHTML = "&#10004;"; // pass icon
+                            iconK70.style.color = "green";
+                        } else {
+                            iconK70.innerHTML = "&#10008;"; // fail icon
+                            iconK70.style.color = "red";
+                        };
+                    });
+                    inputValueK100mu.addEventListener("input", function () {
+                        D100 = inputValueK100nC.value * 100 / inputValueK100mu.value * K3565ndw * KtpOut * K3565Ksat * K3565Kpol * Kqq;
+                        K100outD.textContent = D100;
+                        dev100 = ((D100 / K100ref) - 1) * 100;
+                        K100out.textContent = dev100;
+                        if (dev100 >= -2 && dev100 <= 2) {
+                            iconK100.innerHTML = "&#10004;"; // pass icon
+                            iconK100.style.color = "green";
+                        } else {
+                            iconK100.innerHTML = "&#10008;"; // fail icon
+                            iconK100.style.color = "red";
+                        };
+                    });
+                    inputValueK170mu.addEventListener("input", function () {
+                        D170 = inputValueK170nC.value * 100 / inputValueK170mu.value * K3565ndw * KtpOut * K3565Ksat * K3565Kpol * Kqq;
+                        K170outD.textContent = D170;
+                        dev170 = ((D170 / K170ref) - 1) * 100;
+                        K170out.textContent = dev170;
+                        if (dev170 >= -2 && dev170 <= 2) {
+                            iconK170.innerHTML = "&#10004;"; // pass icon
+                            iconK170.style.color = "green";
+                        } else {
+                            iconK170.innerHTML = "&#10008;"; // fail icon
+                            iconK170.style.color = "red";
+                        };
+                    });
+                    inputValueK226mu.addEventListener("input", function () {
+                        D226 = inputValueK226nC.value * 100 / inputValueK226mu.value * K3565ndw * KtpOut * K3565Ksat * K3565Kpol * Kqq;
+                        K226outD.textContent = D226;
+                        dev226 = ((D226 / K226ref) - 1) * 100;
+                        K226out.textContent = dev226;
+                        if (dev226 >= -2 && dev226 <= 2) {
+                            iconK226.innerHTML = "&#10004;"; // pass icon
+                            iconK226.style.color = "green";
+                        } else {
+                            iconK226.innerHTML = "&#10008;"; // fail icon
+                            iconK226.style.color = "red";
+                        };
+                    });
+                    KpolOut.textContent = K3565Kpol;
+                    KsatOut.textContent = K3565Ksat;
+                    KqqOut.textContent = Kqq;
+                } else if (komoraSelect.value === "komora4218") {
+                    inputValueK70mu.addEventListener("input", function () {
+                        D70 = inputValueK70nC.value * 100 / inputValueK70mu.value * K4218ndw * KtpOut * K4218Ksat * K4218Kpol * Kqq;
+                        K70outD.textContent = D70;
+                        dev70 = ((D70 / K70ref) - 1) * 100;
+                        K70out.textContent = dev70;
+                        if (dev70 >= -2 && dev70 <= 2) {
+                            iconK70.innerHTML = "&#10004;"; // pass icon
+                            iconK70.style.color = "green";
+                        } else {
+                            iconK70.innerHTML = "&#10008;"; // fail icon
+                            iconK70.style.color = "red";
+                        };
+                    });
+                    inputValueK100mu.addEventListener("input", function () {
+                        D100 = inputValueK100nC.value * 100 / inputValueK100mu.value * K4218ndw * KtpOut * K4218Ksat * K4218Kpol * Kqq;
+                        K100outD.textContent = D100;
+                        dev100 = ((D100 / K100ref) - 1) * 100;
+                        K100out.textContent = dev100;
+                        if (dev100 >= -2 && dev100 <= 2) {
+                            iconK100.innerHTML = "&#10004;"; // pass icon
+                            iconK100.style.color = "green";
+                        } else {
+                            iconK100.innerHTML = "&#10008;"; // fail icon
+                            iconK100.style.color = "red";
+                        };
+                    });
+                    inputValueK170mu.addEventListener("input", function () {
+                        D170 = inputValueK170nC.value * 100 / inputValueK170mu.value * K4218ndw * KtpOut * K4218Ksat * K4218Kpol * Kqq;
+                        K170outD.textContent = D170;
+                        dev170 = ((D170 / K170ref) - 1) * 100;
+                        K170out.textContent = dev170;
+                        if (dev170 >= -2 && dev170 <= 2) {
+                            iconK170.innerHTML = "&#10004;"; // pass icon
+                            iconK170.style.color = "green";
+                        } else {
+                            iconK170.innerHTML = "&#10008;"; // fail icon
+                            iconK170.style.color = "red";
+                        };
+                    });
+                    inputValueK226mu.addEventListener("input", function () {
+                        D226 = inputValueK226nC.value * 100 / inputValueK226mu.value * K4218ndw * KtpOut * K4218Ksat * K4218Kpol * Kqq;
+                        K226outD.textContent = D226;
+                        dev226 = ((D226 / K226ref) - 1) * 100;
+                        K226out.textContent = dev226;
+                        if (dev226 >= -2 && dev226 <= 2) {
+                            iconK226.innerHTML = "&#10004;"; // pass icon
+                            iconK226.style.color = "green";
+                        } else {
+                            iconK226.innerHTML = "&#10008;"; // fail icon
+                            iconK226.style.color = "red";
+                        };
+                    });
+                    KpolOut.textContent = K4218Kpol;
+                    KsatOut.textContent = K4218Ksat;
+                    KqqOut.textContent = Kqq;
+                } else if (komoraSelect.value === "komora5414") {
+                    inputValueK70mu.addEventListener("input", function () {
+                        D70 = inputValueK70nC.value * 100 / inputValueK70mu.value * K5414ndw * KtpOut * K5414Ksat * K5414Kpol * Kqq;
+                        K70outD.textContent = D70;
+                        dev70 = ((D70 / K70ref) - 1) * 100;
+                        K70out.textContent = dev70;
+                        if (dev70 >= -2 && dev70 <= 2) {
+                            iconK70.innerHTML = "&#10004;"; // pass icon
+                            iconK70.style.color = "green";
+                        } else {
+                            iconK70.innerHTML = "&#10008;"; // fail icon
+                            iconK70.style.color = "red";
+                        };
+                    });
+                    inputValueK100mu.addEventListener("input", function () {
+                        D100 = inputValueK100nC.value * 100 / inputValueK100mu.value * K5414ndw * KtpOut * K5414Ksat * K5414Kpol * Kqq;
+                        K100outD.textContent = D100;
+                        dev100 = ((D100 / K100ref) - 1) * 100;
+                        K100out.textContent = dev100;
+                        if (dev100 >= -2 && dev100 <= 2) {
+                            iconK100.innerHTML = "&#10004;"; // pass icon
+                            iconK100.style.color = "green";
+                        } else {
+                            iconK100.innerHTML = "&#10008;"; // fail icon
+                            iconK100.style.color = "red";
+                        };
+                    });
+                    inputValueK170mu.addEventListener("input", function () {
+                        D170 = inputValueK170nC.value * 100 / inputValueK170mu.value * K5414ndw * KtpOut * K5414Ksat * K5414Kpol * Kqq;
+                        K170outD.textContent = D170;
+                        dev170 = ((D170 / K170ref) - 1) * 100;
+                        K170out.textContent = dev170;
+                        if (dev170 >= -2 && dev170 <= 2) {
+                            iconK170.innerHTML = "&#10004;"; // pass icon
+                            iconK170.style.color = "green";
+                        } else {
+                            iconK170.innerHTML = "&#10008;"; // fail icon
+                            iconK170.style.color = "red";
+                        };
+                    });
+                    inputValueK226mu.addEventListener("input", function () {
+                        D226 = inputValueK226nC.value * 100 / inputValueK226mu.value * K5414ndw * KtpOut * K5414Ksat * K5414Kpol * Kqq;
+                        K226outD.textContent = D226;
+                        dev226 = ((D226 / K226ref) - 1) * 100;
+                        K226out.textContent = dev226;
+                        if (dev226 >= -2 && dev226 <= 2) {
+                            iconK226.innerHTML = "&#10004;"; // pass icon
+                            iconK226.style.color = "green";
+                        } else {
+                            iconK226.innerHTML = "&#10008;"; // fail icon
+                            iconK226.style.color = "red";
+                        };
+                    });
+                    KpolOut.textContent = K5414Kpol;
+                    KsatOut.textContent = K5414Ksat;
+                    KqqOut.textContent = Kqq;
+                }
+            });
+            // mlic vars
+            MLIC70 = document.getElementById("MLIC70LR");
+            MLIC100 = document.getElementById("MLIC100LR");
+            MLIC170 = document.getElementById("MLIC170LR");
+            MLIC226 = document.getElementById("MLIC226LR");
+
+            iconMLIC70 = document.getElementById("iconMLIC70LR");
+            iconMLIC100 = document.getElementById("iconMLIC100LR");
+            iconMLIC170 = document.getElementById("iconMLIC170LR");
+            iconMLIC226 = document.getElementById("iconMLIC226LR");
+
+            MLIC70ref = 4.11;
+            MLIC100ref = 7.71;
+            MLIC170ref = 19.63;
+            MLIC226ref = 31.90;
+
+            MLIC70out = document.getElementById("MLIC70outLR");
+            MLIC100out = document.getElementById("MLIC100outLR");
+            MLIC170out = document.getElementById("MLIC170outLR");
+            MLIC226out = document.getElementById("MLIC226outLR");
+
+            //mlic calcs
+            mlicSelect.addEventListener("change", function () {
+                if (mlicSelect.value === "mlic1") {
+                    MLIC70.addEventListener("input", function () {
+                        LICdev70 = MLIC70.value - MLIC70ref;
+                        if (MLICdev70 >= -0.15 && MLICdev70 <= 0.15) {
+                            iconMLIC70.innerHTML = "&#10004;"; // pass icon
+                            iconMLIC70.style.color = "green";
+                        }
+                    });
+                    MLIC100.addEventListener("input", function () {
+                        LICdev100 = MLIC100.value - MLIC100ref;
+                        if (MLICdev100 >= -0.15 && MLICdev100 <= 0.15) {
+                            iconMLIC100.innerHTML = "&#10004;"; // pass icon
+                            iconMLIC100.style.color = "green";
+                        }
+                    });
+                    MLIC170.addEventListener("input", function () {
+                        LICdev170 = MLIC170.value - MLIC170ref;
+                        if (MLICdev170 >= -0.15 && MLICdev170 <= 0.15) {
+                            iconMLIC170.innerHTML = "&#10004;"; // pass icon
+                            iconMLIC170.style.color = "green";
+                        }
+                    });
+                    MLIC226.addEventListener("input", function () {
+                        LICdev226 = MLIC226.value - MLIC226ref;
+                        if (MLICdev226 >= -0.15 && MLICdev226 <= 0.15) {
+                            iconMLIC226.innerHTML = "&#10004;"; // pass icon
+                            iconMLIC226.style.color = "green";
+                        }
+                    });
+                }
+            });
+            //function updateState() {
+            //    let allChecked = true;
+            //    for (let i = 0; i < checkboxes.length; i++) {
+            //        const checkbox = checkboxes[i];
+
+            //        // Skip checkboxes inside a hidden parent element
+            //        if (checkbox.offsetParent === null) {
+            //            continue;
+            //        }
+
+            //        if (!checkbox.checked) {
+            //            allChecked = false;
+            //            break;
+            //        }
+            //    }
+
+            //    state.allChecked = allChecked;
+
+            //    let allGreen = true;
+
+            //    for (let i = 0; i < checkIcons.length; i++) {
+            //        const checkIcon = checkIcons[i];
+
+            //        // Skip check icons inside a hidden parent element
+            //        if (checkIcon.offsetParent === null) {
+            //            continue;
+            //        }
+
+            //        if (checkIcon.style.color !== 'green') {
+            //            allGreen = false;
+            //            break;
+            //        }
+            //    }
+            //    state.allGreen = allGreen;
+            //    console.log(state);
+            //}
+            //for (let i = 0; i < checkIcons.length; i++) {
+            //    checkboxes[i].addEventListener('click', updateState);
+            //    const checkIcon = checkIcons[i];
+            //    checkIcon.addEventListener('click', () => {
+            //        if (checkIcon.style.color === 'green') {
+            //            checkIcon.style.color = 'black';
+            //        } else {
+            //            checkIcon.style.color = 'green';
+            //        }
+            //        updateState();
+            //    });
+            //}
+            //updateState();
+            //if (state.allChecked = true) {
+            //    iconMisc.innerHTML = "&#10004;"; // pass icon
+            //    iconMisc.style.color = "green";
+            //} else {
+            //    iconMisc.innerHTML = "&#10008;"; // fail icon
+            //    iconMisc.style.color = "red";
+            //}
+            //if (state.allGreen = true) {
+            //    iconAll.innerHTML = "&#10004;"; // pass icon
+            //    iconAll.style.color = "green";
+            //} else {
+            //    iconAll.innerHTML = "&#10008;"; // fail icon
+            //    iconAll.style.color = "red";
+            
         } else if (roomSelect.value === "GTR4") {
             FBTR1.style.display = "none";
             GTR2.style.display = "none";
             GTR3.style.display = "none";
             GTR4.style.display = "block";
+            // misc vars
+            inputValueTemp = document.getElementById("temperature4");
+            iconTemp = document.getElementsById("icon-temp4");
+            inputValuePres = document.getElementById("pressure4");
+            iconPres = document.getElementById("icon-press4");
+            inputValueK = document.getElementById("k4");
+            iconK = document.getElementById("icon-k4");
+            iconMisc = document.getElementById("icon-misc4");
+
+            Temp = document.getElementById("tempOut4");
+            Pres = document.getElementById("presOut4");
+            KtpOut = document.getElementById("ktpOut4");
+
+            KpolOut = document.getElementById("kpolOut4");
+            KsatOut = document.getElementById("ksatOut4");
+            KqqOut = document.getElementById("kqqOut4");
+
+            iconAll = document.getElementById("icon-all4");
+
+            //     // myInput.addEventListener('input', () => {
+            //     //     const inputValue = myInput.value;
+            //     //     const outputValue = inputValue * inputValue;
+            //     //     myOutput.innerHTML = outputValue;
+            //     // });
+            // misc value checks
+            inputValueTemp.addEventListener("input", function () {
+                if (inputValueTemp.value >= 20 && inputValueTemp.value <= 27) {
+                    iconTemp.innerHTML = "&#10004;"; // pass icon
+                    iconTemp.style.color = "green";
+                } else {
+                    iconTemp.innerHTML = "&#10008;"; // fail icon
+                    iconTemp.style.color = "red";
+                }
+                Ktp = ((273.15 + inputValueTemp.value) / (273.15 + 20) * (1013 / inputValuePres.value));
+                KtpOut.textContent = Ktp;
+                Temp.textContent = inputValueTemp.value + 273.15;
+            });
+            inputValuePres.addEventListener("input", function () {
+                if (inputValuePres.value >= 950 && inputValuePres.value <= 1050) {
+                    iconPres.innerHTML = "&#10004;"; // pass icon
+                    iconPres.style.color = "green";
+                } else {
+                    iconPres.innerHTML = "&#10008;"; // fail icon
+                    iconPres.style.color = "red";
+                }
+                Pres.textContent = inputValuePres.value;
+            });
+            inputValueK.addEventListener("input", function () {
+                if (inputValueK.value >= 1 && inputValueK.value <= 1.1) {
+                    iconK.innerHTML = "&#10004;"; // pass icon
+                    iconK.style.color = "green";
+                } else {
+                    iconK.innerHTML = "&#10008;"; // fail icon
+                    iconK.style.color = "red";
+                }
+            });
+            // lynx vars
+            inputValueL11595 = document.getElementById("L115-95");
+            iconL11595 = document.getElementById("iconL115-95");
+            inputValueL11599 = document.getElementById("L115-99");
+            iconL11599 = document.getElementById("iconL115-99");
+            inputValueL14595 = document.getElementById("L145-95");
+            iconL14595 = document.getElementById("iconL145-95");
+            inputValueL14599 = document.gtElementById("L145-99");
+            iconL14599 = document.getElementById("iconL145-99");
+            inputValueL22695 = document.getElementById("L226-95");
+            iconL22695 = document.getElementById("iconL226-95");
+            inputValueL22699 = document.getElementById("L226-99");
+            iconL22699 = document.getElementById("iconL226-99");
+
+            L115avg = document.getElementById("L115-avg");
+            L115max = document.getElementById("L115-max");
+            L145avg = document.getElementById("L145-avg");
+            L145max = document.getElementById("L145-max");
+            L226avg = document.getElementById("L226-avg");
+            L226max = document.getElementById("L226-max");
+            // lynx value checks
+            inputValueL11595.addEventListener("input", function () {
+                if (inputValueL11595.value >= 95 && inputValueL11595.value <= 100) {
+                    iconL11595.innerHTML = "&#10004;"; // pass icon
+                    iconL11595.style.color = "green";
+                } else {
+                    iconL11595.innerHTML = "&#10008;"; // fail icon
+                    iconL11595.style.color = "red";
+                }
+            });
+            inputValueL11599.addEventListener("input", function () {
+                if (inputValueL11599.value >= 99 && inputValueL11599.value <= 100) {
+                    iconL11599.innerHTML = "&#10004;"; // pass icon
+                    iconL11599.style.color = "green";
+                } else {
+                    iconL11599.innerHTML = "&#10008;"; // fail icon
+                    iconL11599.style.color = "red";
+                }
+            });
+
+            inputValueL14595.addEventListener("input", function () {
+                if (inputValueL14595.value >= 95 && inputValueL14595.value <= 100) {
+                    iconL14595.innerHTML = "&#10004;"; // pass icon
+                    iconL14595.style.color = "green";
+                } else {
+                    iconL14595.innerHTML = "&#10008;"; // fail icon
+                    iconL14595.style.color = "red";
+                }
+            });
+            inputValueL14599.addEventListener("input", function () {
+                if (inputValueL14599.value >= 99 && inputValueL14599.value <= 100) {
+                    iconL14599.innerHTML = "&#10004;"; // pass icon
+                    iconL14599.style.color = "green";
+                } else {
+                    iconL14599.innerHTML = "&#10008;"; // fail icon
+                    iconL14599.style.color = "red";
+                }
+            });
+
+            inputValueL22695.addEventListener("input", function () {
+                if (inputValueL22695.value >= 95 && inputValueL22695.value <= 100) {
+                    iconL22695.innerHTML = "&#10004;"; // pass icon
+                    iconL22695.style.color = "green";
+                } else {
+                    iconL22695.innerHTML = "&#10008;"; // fail icon
+                    iconL22695.style.color = "red";
+                }
+            });
+            inputValueL22699.addEventListener("input", function () {
+                if (inputValueL22699.value >= 99 && inputValueL22699.value <= 100) {
+                    iconL22699.innerHTML = "&#10004;"; // pass icon
+                    iconL22699.style.color = "green";
+                } else {
+                    iconL22699.innerHTML = "&#10008;"; // fail icon
+                    iconL22699.style.color = "red";
+                }
+            });
+
+            // komora vars
+            inputValueK100nC = document.getElementById("K100-nC");
+            inputValueK100mu = document.getElementById("K100-mu");
+            iconK100 = document.getElementById("iconK100");
+            inputValueK170nC = document.getElementById("K170-nC");
+            inputValueK170mu = document.getElementById("K170-mu");
+            iconK170 = document.getElementById("iconK170");
+            inputValueK226nC = document.getElementById("K226-nC");
+            inputValueK226mu = document.getElementById("K226-mu");
+            iconK226 = document.getElementById("iconK226");
+            // calculations komora            K100ref = 0.10908;
+            K170ref = 0.10539;
+            K226ref = 0.1068;
+
+            K100outD = document.getElementById('K100outD');
+            K100out = document.getElementById('K100out');
+            K170outD = document.getElementById('K170outD');
+            K170out = document.getElementById('K170out');
+            K226outD = document.getElementById('K226outD');
+            K226out = document.getElementById('K226out');
+            komoraSelect.addEventListener("change", function () {
+                if (komoraSelect.value === "komora3190") {
+                    inputValueK100mu.addEventListener("input", function () {
+                        D100 = inputValueK100nC.value * 100 / inputValueK100mu.value * K3190ndw * KtpOut * K3190Ksat * K3190Kpol * Kqq;
+                        K100outD.textContent = D100;
+                        dev100 = ((D100 / K100ref) - 1) * 100;
+                        K100out.textContent = dev100;
+                        if (dev100 >= -2 && dev100 <= 2) {
+                            iconK100.innerHTML = "&#10004;"; // pass icon
+                            iconK100.style.color = "green";
+                        } else {
+                            iconK100.innerHTML = "&#10008;"; // fail icon
+                            iconK100.style.color = "red";
+                        };
+                    });
+                    inputValueK170mu.addEventListener("input", function () {
+                        D170 = inputValueK170nC.value * 100 / inputValueK170mu.value * K3190ndw * KtpOut * K3190Ksat * K3190Kpol * Kqq;
+                        K170outD.textContent = D170;
+                        dev170 = ((D170 / K170ref) - 1) * 100;
+                        K170out.textContent = dev170;
+                        if (dev170 >= -2 && dev170 <= 2) {
+                            iconK170.innerHTML = "&#10004;"; // pass icon
+                            iconK170.style.color = "green";
+                        } else {
+                            iconK170.innerHTML = "&#10008;"; // fail icon
+                            iconK170.style.color = "red";
+                        };
+                    });
+                    inputValueK226mu.addEventListener("input", function () {
+                        D226 = inputValueK226nC.value * 100 / inputValueK226mu.value * K3190ndw * KtpOut * K3190Ksat * K3190Kpol * Kqq;
+                        K226outD.textContent = D226;
+                        dev226 = ((D226 / K226ref) - 1) * 100;
+                        K226out.textContent = dev226;
+                        if (dev226 >= -2 && dev226 <= 2) {
+                            iconK226.innerHTML = "&#10004;"; // pass icon
+                            iconK226.style.color = "green";
+                        } else {
+                            iconK226.innerHTML = "&#10008;"; // fail icon
+                            iconK226.style.color = "red";
+                        };
+                    });
+                    KpolOut.textContent = K3190Kpol;
+                    KsatOut.textContent = K3190Ksat;
+                    KqqOut.textContent = Kqq;
+                } else if (komoraSelect.value === "komora2132") {
+                    inputValueK100mu.addEventListener("input", function () {
+                        D100 = inputValueK100nC.value * 100 / inputValueK100mu.value * K2132ndw * KtpOut * K2132Ksat * K2132Kpol * Kqq;
+                        K100outD.textContent = D100;
+                        dev100 = ((D100 / K100ref) - 1) * 100;
+                        K100out.textContent = dev100;
+                        if (dev100 >= -2 && dev100 <= 2) {
+                            iconK100.innerHTML = "&#10004;"; // pass icon
+                            iconK100.style.color = "green";
+                        } else {
+                            iconK100.innerHTML = "&#10008;"; // fail icon
+                            iconK100.style.color = "red";
+                        };
+                    });
+                    inputValueK170mu.addEventListener("input", function () {
+                        D170 = inputValueK170nC.value * 100 / inputValueK170mu.value * K2132ndw * KtpOut * K2132Ksat * K2132Kpol * Kqq;
+                        K170outD.textContent = D170;
+                        dev170 = ((D170 / K170ref) - 1) * 100;
+                        K170out.textContent = dev170;
+                        if (dev170 >= -2 && dev170 <= 2) {
+                            iconK170.innerHTML = "&#10004;"; // pass icon
+                            iconK170.style.color = "green";
+                        } else {
+                            iconK170.innerHTML = "&#10008;"; // fail icon
+                            iconK170.style.color = "red";
+                        };
+                    });
+                    inputValueK226mu.addEventListener("input", function () {
+                        D226 = inputValueK226nC.value * 100 / inputValueK226mu.value * K2132ndw * KtpOut * K2132Ksat * K2132Kpol * Kqq;
+                        K226outD.textContent = D226;
+                        dev226 = ((D226 / K226ref) - 1) * 100;
+                        K226out.textContent = dev226;
+                        if (dev226 >= -2 && dev226 <= 2) {
+                            iconK226.innerHTML = "&#10004;"; // pass icon
+                            iconK226.style.color = "green";
+                        } else {
+                            iconK226.innerHTML = "&#10008;"; // fail icon
+                            iconK226.style.color = "red";
+                        };
+                    });
+                    KpolOut.textContent = K2132Kpol;
+                    KsatOut.textContent = K2132Ksat;
+                    KqqOut.textContent = Kqq;
+                } else if (komoraSelect.value === "komora3565") {
+                    inputValueK100mu.addEventListener("input", function () {
+                        D100 = inputValueK100nC.value * 100 / inputValueK100mu.value * K3565ndw * KtpOut * K3565Ksat * K3565Kpol * Kqq;
+                        K100outD.textContent = D100;
+                        dev100 = ((D100 / K100ref) - 1) * 100;
+                        K100out.textContent = dev100;
+                        if (dev100 >= -2 && dev100 <= 2) {
+                            iconK100.innerHTML = "&#10004;"; // pass icon
+                            iconK100.style.color = "green";
+                        } else {
+                            iconK100.innerHTML = "&#10008;"; // fail icon
+                            iconK100.style.color = "red";
+                        };
+                    });
+                    inputValueK170mu.addEventListener("input", function () {
+                        D170 = inputValueK170nC.value * 100 / inputValueK170mu.value * K3565ndw * KtpOut * K3565Ksat * K3565Kpol * Kqq;
+                        K170outD.textContent = D170;
+                        dev170 = ((D170 / K170ref) - 1) * 100;
+                        K170out.textContent = dev170;
+                        if (dev170 >= -2 && dev170 <= 2) {
+                            iconK170.innerHTML = "&#10004;"; // pass icon
+                            iconK170.style.color = "green";
+                        } else {
+                            iconK170.innerHTML = "&#10008;"; // fail icon
+                            iconK170.style.color = "red";
+                        };
+                    });
+                    inputValueK226mu.addEventListener("input", function () {
+                        D226 = inputValueK226nC.value * 100 / inputValueK226mu.value * K3565ndw * KtpOut * K3565Ksat * K3565Kpol * Kqq;
+                        K226outD.textContent = D226;
+                        dev226 = ((D226 / K226ref) - 1) * 100;
+                        K226out.textContent = dev226;
+                        if (dev226 >= -2 && dev226 <= 2) {
+                            iconK226.innerHTML = "&#10004;"; // pass icon
+                            iconK226.style.color = "green";
+                        } else {
+                            iconK226.innerHTML = "&#10008;"; // fail icon
+                            iconK226.style.color = "red";
+                        };
+                    });
+                    KpolOut.textContent = K3565Kpol;
+                    KsatOut.textContent = K3565Ksat;
+                    KqqOut.textContent = Kqq;
+                } else if (komoraSelect.value === "komora4218") {
+                    inputValueK100mu.addEventListener("input", function () {
+                        D100 = inputValueK100nC.value * 100 / inputValueK100mu.value * K4218ndw * KtpOut * K4218Ksat * K4218Kpol * Kqq;
+                        K100outD.textContent = D100;
+                        dev100 = ((D100 / K100ref) - 1) * 100;
+                        K100out.textContent = dev100;
+                        if (dev100 >= -2 && dev100 <= 2) {
+                            iconK100.innerHTML = "&#10004;"; // pass icon
+                            iconK100.style.color = "green";
+                        } else {
+                            iconK100.innerHTML = "&#10008;"; // fail icon
+                            iconK100.style.color = "red";
+                        };
+                    });
+                    inputValueK170mu.addEventListener("input", function () {
+                        D170 = inputValueK170nC.value * 100 / inputValueK170mu.value * K4218ndw * KtpOut * K4218Ksat * K4218Kpol * Kqq;
+                        K170outD.textContent = D170;
+                        dev170 = ((D170 / K170ref) - 1) * 100;
+                        K170out.textContent = dev170;
+                        if (dev170 >= -2 && dev170 <= 2) {
+                            iconK170.innerHTML = "&#10004;"; // pass icon
+                            iconK170.style.color = "green";
+                        } else {
+                            iconK170.innerHTML = "&#10008;"; // fail icon
+                            iconK170.style.color = "red";
+                        };
+                    });
+                    inputValueK226mu.addEventListener("input", function () {
+                        D226 = inputValueK226nC.value * 100 / inputValueK226mu.value * K4218ndw * KtpOut * K4218Ksat * K4218Kpol * Kqq;
+                        K226outD.textContent = D226;
+                        dev226 = ((D226 / K226ref) - 1) * 100;
+                        K226out.textContent = dev226;
+                        if (dev226 >= -2 && dev226 <= 2) {
+                            iconK226.innerHTML = "&#10004;"; // pass icon
+                            iconK226.style.color = "green";
+                        } else {
+                            iconK226.innerHTML = "&#10008;"; // fail icon
+                            iconK226.style.color = "red";
+                        };
+                    });
+                    KpolOut.textContent = K4218Kpol;
+                    KsatOut.textContent = K4218Ksat;
+                    KqqOut.textContent = Kqq;
+                } else if (komoraSelect.value === "komora5414") {
+                    inputValueK100mu.addEventListener("input", function () {
+                        D100 = inputValueK100nC.value * 100 / inputValueK100mu.value * K5414ndw * KtpOut * K5414Ksat * K5414Kpol * Kqq;
+                        K100outD.textContent = D100;
+                        dev100 = ((D100 / K100ref) - 1) * 100;
+                        K100out.textContent = dev100;
+                        if (dev100 >= -2 && dev100 <= 2) {
+                            iconK100.innerHTML = "&#10004;"; // pass icon
+                            iconK100.style.color = "green";
+                        } else {
+                            iconK100.innerHTML = "&#10008;"; // fail icon
+                            iconK100.style.color = "red";
+                        };
+                    });
+                    inputValueK170mu.addEventListener("input", function () {
+                        D170 = inputValueK170nC.value * 100 / inputValueK170mu.value * K5414ndw * KtpOut * K5414Ksat * K5414Kpol * Kqq;
+                        K170outD.textContent = D170;
+                        dev170 = ((D170 / K170ref) - 1) * 100;
+                        K170out.textContent = dev170;
+                        if (dev170 >= -2 && dev170 <= 2) {
+                            iconK170.innerHTML = "&#10004;"; // pass icon
+                            iconK170.style.color = "green";
+                        } else {
+                            iconK170.innerHTML = "&#10008;"; // fail icon
+                            iconK170.style.color = "red";
+                        };
+                    });
+                    inputValueK226mu.addEventListener("input", function () {
+                        D226 = inputValueK226nC.value * 100 / inputValueK226mu.value * K5414ndw * KtpOut * K5414Ksat * K5414Kpol * Kqq;
+                        K226outD.textContent = D226;
+                        dev226 = ((D226 / K226ref) - 1) * 100;
+                        K226out.textContent = dev226;
+                        if (dev226 >= -2 && dev226 <= 2) {
+                            iconK226.innerHTML = "&#10004;"; // pass icon
+                            iconK226.style.color = "green";
+                        } else {
+                            iconK226.innerHTML = "&#10008;"; // fail icon
+                            iconK226.style.color = "red";
+                        };
+                    });
+                    KpolOut.textContent = K5414Kpol;
+                    KsatOut.textContent = K5414Ksat;
+                    KqqOut.textContent = Kqq;
+                }
+            });
+            // mlic vars
+            MLIC100 = document.getElementById("MLIC100");
+            MLIC170 = document.getElementById("MLIC170");
+            MLIC226 = document.getElementById("MLIC226");
+
+            iconMLIC100 = document.getElementById("iconMLIC100");
+            iconMLIC170 = document.getElementById("iconMLIC170");
+            iconMLIC226 = document.getElementById("iconMLIC226");
+
+            MLIC100ref = 7.69;
+            MLIC170ref = 19.61;
+            MLIC226ref = 31.90;
+
+            MLIC100out = document.getElementById("MLIC100out");
+            MLIC170out = document.getElementById("MLIC170out");
+            MLIC226out = document.getElementById("MLIC226out");
+
+            //mlic calcs
+            mlicSelect.addEventListener("change", function () {
+                if (mlicSelect.value === "mlic1") {
+                    MLIC100.addEventListener("input", function () {
+                        MLICdev100 = MLIC100.value - MLIC100ref;
+                        if (MLICdev100 >= -0.15 && MLICdev100 <= 0.15) {
+                            iconMLIC100.innerHTML = "&#10004;"; // pass icon
+                            iconMLIC100.style.color = "green";
+                        }
+                    });
+                    MLIC170.addEventListener("input", function () {
+                        MLICdev170 = MLIC170.value - MLIC170ref;
+                        if (MLICdev170 >= -0.15 && MLICdev170 <= 0.15) {
+                            iconMLIC170.innerHTML = "&#10004;"; // pass icon
+                            iconMLIC170.style.color = "green";
+                        }
+                    });
+                    MLIC226.addEventListener("input", function () {
+                        MLICdev226 = MLIC226.value - MLIC226ref;
+                        if (MLICdev226 >= -0.15 && MLICdev226 <= 0.15) {
+                            iconMLIC226.innerHTML = "&#10004;"; // pass icon
+                            iconMLIC226.style.color = "green";
+                        }
+                    });
+                }
+            });
+            //function updateState() {
+            //    let allChecked = true;
+            //    for (let i = 0; i < checkboxes.length; i++) {
+            //        const checkbox = checkboxes[i];
+
+            //        // Skip checkboxes inside a hidden parent element
+            //        if (checkbox.offsetParent === null) {
+            //            continue;
+            //        }
+
+            //        if (!checkbox.checked) {
+            //            allChecked = false;
+            //            break;
+            //        }
+            //    }
+
+            //    state.allChecked = allChecked;
+
+            //    let allGreen = true;
+
+            //    for (let i = 0; i < checkIcons.length; i++) {
+            //        const checkIcon = checkIcons[i];
+
+            //        // Skip check icons inside a hidden parent element
+            //        if (checkIcon.offsetParent === null) {
+            //            continue;
+            //        }
+
+            //        if (checkIcon.style.color !== 'green') {
+            //            allGreen = false;
+            //            break;
+            //        }
+            //    }
+
+            //    state.allGreen = allGreen;
+            //    console.log(state);
+            //}
+            //for (let i = 0; i < checkIcons.length; i++) {
+            //    checkboxes[i].addEventListener('click', updateState);
+            //    const checkIcon = checkIcons[i];
+            //    checkIcon.addEventListener('click', () => {
+            //        if (checkIcon.style.color === 'green') {
+            //            checkIcon.style.color = 'black';
+            //        } else {
+            //            checkIcon.style.color = 'green';
+            //        }
+            //        updateState();
+            //    });
+            //}
+            //updateState();
+            //if (state.allChecked = true) {
+            //    iconMisc.innerHTML = "&#10004;"; // pass icon
+            //    iconMisc.style.color = "green";
+            //} else {
+            //    iconMisc.innerHTML = "&#10008;"; // fail icon
+            //    iconMisc.style.color = "red";
+            //}
+            //if (state.allGreen = true) {
+            //    iconAll.innerHTML = "&#10004;"; // pass icon
+            //    iconAll.style.color = "green";
+            //} else {
+            //    iconAll.innerHTML = "&#10008;"; // fail icon
+            //    iconAll.style.color = "red";
+            //}
         } else {
             FBTR1.style.display = "none";
             GTR2.style.display = "none";
@@ -576,12 +2687,13 @@
             GTR4.style.display = "none";
         }
         });
-
-
     // lynx select
     lynxSelect.addEventListener("change", function() {
         // Show the selected option form
-        if (lynxSelect.value != "none" && roomSelect.value === "FBTR1") {
+        if (lynxSelect.value === "none" || roomSelect.value === "none") {
+            lynx.style.display = "none";
+            lynxLR.style.display = "none";
+        } else if (lynxSelect.value != "none" && roomSelect.value === "FBTR1") {
             lynx.style.display = "block";
             lynxLR.style.display = "none";
         } else if (lynxSelect.value != "none" && roomSelect.value === "GTR2") {
@@ -599,7 +2711,10 @@
     // komora select
     komoraSelect.addEventListener("change", function() {
         // Show the selected option form
-        if (komoraSelect.value != "none" && roomSelect.value === "FBTR1") {
+        if (komoraSelect.value === "none" || roomSelect.value === "none") {
+            komora.style.display = "none";
+            komoraLR.style.display = "none";
+        } else if (komoraSelect.value != "none" && roomSelect.value === "FBTR1") {
             komora.style.display = "block";
             komoraLR.style.display = "none";
         } else if (komoraSelect.value != "none" && roomSelect.value === "GTR2") {
@@ -617,7 +2732,10 @@
     // mlic select
     mlicSelect.addEventListener("change", function() {
         // Show the selected option form
-        if (mlicSelect.value != "none" && roomSelect.value === "FBTR1") {
+        if (mlicSelect.value === "none" || roomSelect.value === "none") {
+            mlic.style.display = "none";
+            mlicLR.style.display = "none";
+        } else if (mlicSelect.value != "none" && roomSelect.value === "FBTR1") {
             mlic.style.display = "block";
             mlicLR.style.display = "none";
         } else if (mlicSelect.value != "none" && roomSelect.value === "GTR2") {
@@ -630,289 +2748,41 @@
             mlic.style.display = "block";
             mlicLR.style.display = "none";
         }
-        });
-    
-    // const inputs = document.querySelectorAll('input[type="number"]');
-    // const checkIconss = document.querySelectorAll('.check-icon');
-    // if (inputs.offsetParent != null && checkIconss.offsetParent != null) {
-        
-    //     // vars misc
-    //     var inputValueTemp = document.getElementByName("temperature");
-    //     var iconTemp = document.getElementsByName("icon-temp");
-    //     var inputValuePres = document.getElementById("pressure");
-    //     var iconPres = document.getElementById("icon-press");
-    //     var inputValueK = document.getElementById("k");
-    //     var iconK = document.getElementById("icon-k");
-    //     var iconMisc = document.getElementById("icon-misc");
-    //     var iconAll = document.getElementById("icon-all");
+    });
+</script>
 
-    //     // value checks misc
-    //     inputValueTemp.addEventListener("input", function () {
-    //         if (inputValueTemp.value >= 20 && inputValueTemp.value <= 27) {
-    //             iconTemp.innerHTML = "&#10004;"; // pass icon
-    //             iconTemp.style.color = "green";
-    //         } else {
-    //             iconTemp.innerHTML = "&#10008;"; // fail icon
-    //             iconTemp.style.color = "red";
-    //         }
-    //     })
-    //     inputValuePres.addEventListener("input", function () {
-    //         if (inputValuePres.value >= 950 && inputValuePres.value <= 1050) {
-    //             iconPres.innerHTML = "&#10004;"; // pass icon
-    //             iconPres.style.color = "green";
-    //         } else {
-    //             iconPres.innerHTML = "&#10008;"; // fail icon
-    //             iconPres.style.color = "red";
-    //         }
-    //     })
-    //     inputValueK.addEventListener("input", function () {
-    //         if (inputValueK.value >= 1 && inputValueK.value <= 1.1) {
-    //             iconK.innerHTML = "&#10004;"; // pass icon
-    //             iconK.style.color = "green";
-    //         } else {
-    //             iconK.innerHTML = "&#10008;"; // fail icon
-    //             iconK.style.color = "red";
-    //         }
-    //     });
+<script>
 
-    //     //vars lynx
-    //     var inputValueL7095 = document.getElementById("L70-95");
-    //     var iconL7095 = document.getElementById("iconL70-95");
-    //     var inputValueL7099 = document.getElementById("L70-99");
-    //     var iconL7099 = document.getElementById("iconL70-99");
-    //     var inputValueL11595 = document.getElementById("L115-95");
-    //     var iconL11595 = document.getElementById("iconL115-95");
-    //     var inputValueL11599 = document.getElementById("L115-99");
-    //     var iconL11599 = document.getElementById("iconL115-99");
-    //     var inputValueL14595 = document.getElementById("L145-95");
-    //     var iconL14595 = document.getElementById("iconL145-95");
-    //     var inputValueL14599 = document.getElementById("L145-99");
-    //     var iconL14599 = document.getElementById("iconL145-99");
-    //     var inputValueL22695 = document.getElementById("L226-95");
-    //     var iconL22695 = document.getElementById("iconL226-95");
-    //     var inputValueL22699 = document.getElementById("L226-99");
-    //     var iconL22699 = document.getElementById("iconL226-99");
+    var objConnection = new ActiveXObject("adodb.connection");
 
-    //     // value checks lynx
-    //     inputValueL7095.addEventListener("input", function () {
-    //         if (inputValueL7095.value >= 95 && inputValueL7095.value <= 100) {
-    //             iconL7095.innerHTML = "&#10004;"; // pass icon
-    //             iconL7095.style.color = "green";
-    //         } else {
-    //             iconL7095.innerHTML = "&#10008;"; // fail icon
-    //             iconL7095.style.color = "red";
-    //         }
-    //     });
-    //     inputValueL7099.addEventListener("input", function () {
-    //         if (inputValueL7099.value >= 99 && inputValueL7099.value <= 100) {
-    //             iconL7099.innerHTML = "&#10004;"; // pass icon
-    //             iconL7099.style.color = "green";
-    //         } else {
-    //             iconL7099.innerHTML = "&#10008;"; // fail icon
-    //             iconL7099.style.color = "red";
-    //         }
-    //     });
-    //     inputValueL11595.addEventListener("input", function () {
-    //         if (inputValueL11595.value >= 95 && inputValueL11595.value <= 100) {
-    //             iconL11595.innerHTML = "&#10004;"; // pass icon
-    //             iconL11595.style.color = "green";
-    //         } else {
-    //             iconL11595.innerHTML = "&#10008;"; // fail icon
-    //             iconL11595.style.color = "red";
-    //         }
-    //     });
-    //     inputValueL11599.addEventListener("input", function () {
-    //         if (inputValueL11599.value >= 99 && inputValueL11599.value <= 100) {
-    //             iconL11599.innerHTML = "&#10004;"; // pass icon
-    //             iconL11599.style.color = "green";
-    //         } else {
-    //             iconL11599.innerHTML = "&#10008;"; // fail icon
-    //             iconL11599.style.color = "red";
-    //         }
-    //     });
+    var strConn = "driver={sql server};server=QITBLRQIPL030;database=adventureworks;uid=sa;password=12345";
 
-    //     inputValueL14595.addEventListener("input", function () {
-    //         if (inputValueL14595.value >= 95 && inputValueL14595.value <= 100) {
-    //             iconL14595.innerHTML = "&#10004;"; // pass icon
-    //             iconL14595.style.color = "green";
-    //         } else {
-    //             iconL14595.innerHTML = "&#10008;"; // fail icon
-    //             iconL14595.style.color = "red";
-    //         }
-    //     });
-    //     inputValueL14599.addEventListener("input", function () {
-    //         if (inputValueL14599.value >= 99 && inputValueL14599.value <= 100) {
-    //             iconL14599.innerHTML = "&#10004;"; // pass icon
-    //             iconL14599.style.color = "green";
-    //         } else {
-    //             iconL14599.innerHTML = "&#10008;"; // fail icon
-    //             iconL14599.style.color = "red";
-    //         }
-    //     });
+    objConnection.Open(strConn);
 
-    //     inputValueL22695.addEventListener("input", function () {
-    //         if (inputValueL22695.value >= 95 && inputValueL22695.value <= 100) {
-    //             iconL22695.innerHTML = "&#10004;"; // pass icon
-    //             iconL22695.style.color = "green";
-    //         } else {
-    //             iconL22695.innerHTML = "&#10008;"; // fail icon
-    //             iconL22695.style.color = "red";
-    //         }
-    //     });
-    //     inputValueL22699.addEventListener("input", function () {
-    //         if (inputValueL22699.value >= 99 && inputValueL22699.value <= 100) {
-    //             iconL22699.innerHTML = "&#10004;"; // pass icon
-    //             iconL22699.style.color = "green";
-    //         } else {
-    //             iconL22699.innerHTML = "&#10008;"; // fail icon
-    //             iconL22699.style.color = "red";
-    //         }
-    //     });
+    var rs = new ActiveXObject("ADODB.Recordset");
 
-    //     //vars komora
-    //     var inputValueK70nC = document.getElementById("K70-nC");
-    //     var inputValueK70mu = document.getElementById("K70-mu");
-    //     var iconK70 = document.getElementById("iconK70");
-    //     var inputValueK100nC = document.getElementById("K100-nC");
-    //     var inputValueK100mu = document.getElementById("K100-mu");
-    //     var iconK100 = document.getElementById("iconK100");
-    //     var inputValueK170nC = document.getElementById("K170-nC");
-    //     var inputValueK170mu = document.getElementById("K170-mu");
-    //     var iconK170 = document.getElementById("iconK170");
-    //     var inputValueK226nC = document.getElementById("K226-nC");
-    //     var inputValueK226mu = document.getElementById("K226-mu");
-    //     var iconK226 = document.getElementById("iconK226");
+    var strQuery = "SELECT * FROM  Person.Address";
 
-    //     // calculations komora
-    //     const K3190ndw = 47870000;
-    //     const K3190Ksat = 1.005;
-    //     const K3190Kpol = 1;
-    //     const K2132ndw = 48290000;
-    //     const K2132Ksat = 1.006;
-    //     const K2132Kpol = 1;
-    //     const K3565ndw = 48060000;
-    //     const K3565Ksat = 1.0044;
-    //     const K3565Kpol = 1.0001;
-    //     const K4218ndw = 47900000;
-    //     const K4218Ksat = 1.005;
-    //     const K4218Kpol = 1;
-    //     const K5414ndw = 47880000;
-    //     const K5414Ksat = 1.0052;
-    //     const K5414Kpol = 1;
+    rs.Open(strQuery, objConnection);
 
-    //     const K100ref = 0.10908;
-    //     const K170ref = 0.10539;
-    //     const K226ref = 0.1068;
+    rs.MoveFirst();
 
-    //     var K70outD = document.getElementById('K70outD');
-    //     var K70out = document.getElementById('K70out');
-    //     var K100outD = document.getElementById('K100outD');
-    //     var K100out = document.getElementById('K100out');
-    //     var K170outD = document.getElementById('K170outD');
-    //     var K170out = document.getElementById('K170out');
-    //     var K226outD = document.getElementById('K226outD');
-    //     var K226out = document.getElementById('K226out');
+    while (!rs.EOF) {
 
-    //     // myInput.addEventListener('input', () => {
-    //     //     const inputValue = myInput.value;
-    //     //     const outputValue = inputValue * inputValue;
-    //     //     myOutput.innerHTML = outputValue;
-    //     // });
+        document.write(rs.fields(0) + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
 
-    //     //value checks komora
+        document.write(rs.fields(1) + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
 
-    //     //vars mlic
-    //     var inputValueMLIC70 = document.getElementById("MLIC70");
-    //     var iconMLIC70 = document.getElementById("iconMLIC70");
-    //     var inputValueMLIC100 = document.getElementById("MLIC100");
-    //     var iconMLIC100 = document.getElementById("iconMLIC100");
-    //     var inputValueMLIC170 = document.getElementById("MLIC170");
-    //     var iconMLIC170 = document.getElementById("iconMLIC170");
-    //     var inputValueMLIC226 = document.getElementById("MLIC226");
-    //     var iconMLIC226 = document.getElementById("iconMLIC226");
+        document.write(rs.fields(2) + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    ");
 
-    //     // value checks mlic
+        document.write(rs.fields(3) + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    ");
 
+        document.write(rs.fields(4) + "<br/>");
 
-    // } else {
-        
-    // };
-    // checkboxes check + check of all checks, czechs number one
+        rs.movenext();
 
-    // const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    // const checkIcons = document.querySelectorAll('.check-icon');
-    // const state = { allChecked: false, allGreen: false };
+    }
 
-    // function updateState() {
-    //     let allChecked = true;
-
-    //     for (let i = 0; i < checkboxes.length; i++) {
-    //         const checkbox = checkboxes[i];
-
-    //         // Skip checkboxes inside a hidden parent element
-    //         if (checkbox.offsetParent === null) {
-    //             continue;
-    //         }
-
-    //         if (!checkbox.checked) {
-    //             allChecked = false;
-    //             break;
-    //         }
-    //     }
-
-    //     state.allChecked = allChecked;
-
-    //     let allGreen = true;
-
-    //     for (let i = 0; i < checkIcons.length; i++) {
-    //         const checkIcon = checkIcons[i];
-
-    //         // Skip check icons inside a hidden parent element
-    //         if (checkIcon.offsetParent === null) {
-    //             continue;
-    //         }
-
-    //         if (checkIcon.style.color !== 'green') {
-    //             allGreen = false;
-    //             break;
-    //         }
-    //     }
-
-    //     state.allGreen = allGreen;
-
-    //     console.log(state);
-    // }
-
-    // for (let i = 0; i < checkIcons.length; i++) {
-    //     checkboxes[i].addEventListener('click', updateState);
-    //     const checkIcon = checkIcons[i];
-    //     checkIcon.addEventListener('click', () => {
-    //         if (checkIcon.style.color === 'green') {
-    //             checkIcon.style.color = 'black';
-    //         } else {
-    //             checkIcon.style.color = 'green';
-    //         }
-    //         updateState();
-    //     });
-    // }
-
-    // updateState();
-
-
-    // if (state.allChecked = true) {
-    //     iconMisc.innerHTML = "&#10004;"; // pass icon
-    //     iconMisc.style.color = "green";
-    // } else {
-    //     iconMisc.innerHTML = "&#10008;"; // fail icon
-    //     iconMisc.style.color = "red";
-    // }
-    // if (state.allGreen = true) {
-    //     iconAll.innerHTML = "&#10004;"; // pass icon
-    //     iconAll.style.color = "green";
-    // } else {
-    //     iconAll.innerHTML = "&#10008;"; // fail icon
-    //     iconAll.style.color = "red";
-    // }
 </script>
 
 {% endblock %}

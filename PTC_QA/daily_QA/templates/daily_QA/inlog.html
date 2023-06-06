@@ -1,0 +1,15 @@
+{% extends "daily_QA/base.html" %}
+
+{% block content %}      
+
+<!--Login--> 
+<div class="container py-5">
+  <h1>Login</h1>
+  <form method="POST">
+    {% csrf_token %}
+    {{ loginform }}
+    <button class="btn btn-primary" type="submit">Login</button>
+  </form>
+  </div>
+
+{% endblock %}

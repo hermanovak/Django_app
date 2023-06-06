@@ -1,0 +1,74 @@
+
+    //const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    //const checkIcons = document.querySelectorAll('.check-icon');
+    //const state = {allChecked: false, allGreen: false };
+
+    //function updateState() {
+    //    let allChecked = true;
+    //    for (let i = 0; i < checkboxes.length; i++) {
+    //        const checkbox = checkboxes[i];
+
+    //        // Skip checkboxes inside a hidden parent element
+    //        if (checkbox.offsetParent === null) {
+    //            continue;
+    //        }
+
+    //        if (!checkbox.checked) {
+    //            allChecked = false;
+    //            break;
+    //        }
+    //    }
+
+    //    state.allChecked = allChecked;
+
+    //    let allGreen = true;
+
+    //    for (let i = 0; i < checkIcons.length; i++) {
+    //        const checkIcon = checkIcons[i];
+
+    //        // Skip check icons inside a hidden parent element
+    //        if (checkIcon.offsetParent === null) {
+    //            continue;
+    //        }
+
+    //        if (checkIcon.style.color !== 'green') {
+    //            allGreen = false;
+    //            break;
+    //        }
+    //    }
+
+    //    state.allGreen = allGreen;
+
+    //    console.log(state);
+    //    }
+
+    //for (let i = 0; i < checkIcons.length; i++) {
+    //checkboxes[i].addEventListener('click', updateState);
+    //const checkIcon = checkIcons[i];
+    //checkIcon.addEventListener('click', () => {
+    //    if (checkIcon.style.color === 'green') {
+    //        checkIcon.style.color = 'black';
+    //    } else {
+    //        checkIcon.style.color = 'green';
+    //    }
+    //    updateState();
+    //});
+    //}
+
+    //updateState();
+
+
+    //if (state.allChecked = true) {
+    //    iconMisc.innerHTML = "&#10004;"; // pass icon
+    //    iconMisc.style.color = "green";
+    //} else {
+    //    iconMisc.innerHTML = "&#10008;"; // fail icon
+    //    iconMisc.style.color = "red";
+    //}
+    //if (state.allGreen = true) {
+    //    iconAll.innerHTML = "&#10004;"; // pass icon
+    //    iconAll.style.color = "green";
+    //} else {
+    //    iconAll.innerHTML = "&#10008;"; // fail icon
+    //    iconAll.style.color = "red";
+    //}

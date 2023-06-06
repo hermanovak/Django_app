@@ -233,7 +233,7 @@ class DailyTestInput(models.Model):
     input3 = models.DecimalField(db_column='input3', max_digits=10, decimal_places=4, blank=True, null=True)  # Field name made lowercase.
     input4 = models.DecimalField(db_column='input4', max_digits=10, decimal_places=4, blank=True, null=True)  # Field name made lowercase.
     configID = models.IntegerField(db_column='configID',null=True)
-    #indexid = models.ForeignKey(DailyTest, on_delete=models.CASCADE, null=True)  # Field name made lowercase.
+    indexid = models.ForeignKey(DailyTest, on_delete=models.CASCADE, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = True

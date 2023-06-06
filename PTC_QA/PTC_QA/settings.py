@@ -42,7 +42,10 @@ INSTALLED_APPS = [
     #'daily_QA.apps.DailyQaConfig',
     #'PTC_QA.apps.DailyQaConfig',
     'PTC_QA',
+    'crispy_forms',
 ]
+
+CRISPY_TEMPLATE_PACK = 'uni_form'
 
 SITE_ID = 1
 
@@ -119,11 +122,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'CET'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
