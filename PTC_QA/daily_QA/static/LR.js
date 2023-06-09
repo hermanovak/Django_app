@@ -15,25 +15,25 @@ document.addEventListener('DOMContentLoaded', function () {
     lynxSelect.addEventListener("change", function() {
         // Show the selected option form
         if (lynxSelect.value === "none") {
-            lynx.style.display = "none";
+            lynxLR.style.display = "none";
         } else if (lynxSelect.value != "none") {
-            lynx.style.display = "block";
+            lynxLR.style.display = "block";
         }
     });
     komoraSelect.addEventListener("change", function() {
         // Show the selected option form
         if (komoraSelect.value === "none") {
-            komora.style.display = "none";
+            komoraLR.style.display = "none";
         } else if (komoraSelect.value != "none") {
-            komora.style.display = "block";
+            komoraLR.style.display = "block";
         }
     });
     mlicSelect.addEventListener("change", function() {
         // Show the selected option form
         if (mlicSelect.value === "none") {
-            mlic.style.display = "none";
-        } else if (mlicSelect.value != "none") {
-            mlic.style.display = "block";
+            mlicLR.style.display = "none";
+        } else if (lynxSelect.value != "none") {
+            mlicLR.style.display = "block";
         }
     });
 
@@ -85,7 +85,6 @@ document.addEventListener('DOMContentLoaded', function () {
     var iconMisc;
 
     var laserX;
-    var X;
     var laserY;
     var laserZ;
     var flatpanels;
@@ -111,6 +110,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var iconAll;
     //lynx vars declare
+    var inputValueL7095;
+    var iconL7095;
+    var inputValueL7099;
+    var iconL7099;
     var inputValueL11595;
     var iconL11595;
     var inputValueL11599;
@@ -123,6 +126,8 @@ document.addEventListener('DOMContentLoaded', function () {
     var iconL22695;
     var inputValueL22699;
     var iconL22699;
+    var L70avg;
+    var L70max;
     var L115avg;
     var L115max;
     var L145avg;
@@ -130,6 +135,10 @@ document.addEventListener('DOMContentLoaded', function () {
     var L226avg;
     var L226max;
     //lynx outs
+    var L7095out;
+    var L7099out;
+    var L70avgout;
+    var L70maxout;
     var L11595out;
     var L11599out;
     var L115avgout;
@@ -153,7 +162,6 @@ document.addEventListener('DOMContentLoaded', function () {
     var inputValueK226mu;
     var iconK226;
     //komory refs
-    var NDW;
     const K3190ndw = 47870000;
     const K3190Ksat = 1.005;
     const K3190Kpol = 1;
@@ -170,11 +178,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const K5414Ksat = 1.0052;
     const K5414Kpol = 1;
     const Kqq = 1.035;
-    //dose refs
-    document.getElementById("K100refD").textContent = K100ref;
-    document.getElementById("K170refD").textContent = K170ref;
-    document.getElementById("K226refD").textContent = K226ref;
+    // //dose refs
+    // var K70ref;
+    // var K100ref;
+    // var K170ref;
+    // var K226ref;
     //komora outs
+    var K70outD;
+    var K70out;
     var K100outD;
     var K100out;
     var K170outD;
@@ -182,38 +193,35 @@ document.addEventListener('DOMContentLoaded', function () {
     var K226outD;
     var K226out;
     //komora calcs
-    var K100mu;
-    var K100nc;
-    var K170mu;
-    var K170nc;
-    var K226mu;
-    var K226nc;
+    var D70;
+    var dev70;
     var D100;
     var dev100;
     var D170;
     var dev170;
     var D226;
     var dev226;
-    //mlic refs
-    document.getElementById("MLIC100refRLR").textContent = MLIC100ref;
-    document.getElementById("MLIC170refRLR").textContent = MLIC170ref;
-    document.getElementById("MLIC226refRLR").textContent = MLIC226ref;
     //mlic vars declare
+    var MLIC70;
     var MLIC100;
     var MLIC170;
     var MLIC226;
+    var iconMLIC70;
     var iconMLIC100;
     var iconMLIC170;
     var iconMLIC226;
-    //mlic refs
+    // //mlic refs
+    // var MLIC70ref;
     // var MLIC100ref;
     // var MLIC170ref;
     // var MLIC226ref;
     //mlic outs
+    var MLIC70out;
     var MLIC100out;
     var MLIC170out;
     var MLIC226out;
     //mlic calcs
+    var MLICdev70;
     var MLICdev100;
     var MLICdev170;
     var MLICdev226;
@@ -226,109 +234,13 @@ document.addEventListener('DOMContentLoaded', function () {
         //checks na lasers a ine doplnit
     };
     function MiscCalc () {
-        Ktp = (((parseFloat(Temp.value) + 273.15) / (273.15 + 20)) * (1013 / parseFloat(Pres.value)));
+        Ktp = (((parseInt(Temp.value) + 273.15) / (273.15 + 20)) * (1013 / parseInt(Pres.value)));
         KtpOut.value = Ktp;
     };
     function MiscCheck () {
         miscChecksX = document.querySelectorAll('input[type="checkbox"]:checked');
     };
-    function DoseCalc () {
-        D100 = parseFloat(K100nc) * 100 / parseFloat(K100mu) * parseFloat(NDW) * parseFloat(KtpOut.value) * parseFloat(KsatOut.value) * parseFloat(KpolOut.value) * parseFloat(KqqOut.value) * 1e-9;
-        dev100 = ((D100 / K100ref) - 1) * 100;
-        D170 = parseFloat(K170nc) * 100 / parseFloat(K170mu-K100mu) * parseFloat(NDW) * parseFloat(KtpOut.value) * parseFloat(KsatOut.value) * parseFloat(KpolOut.value) * parseFloat(KqqOut.value) * 1e-9;
-        dev170 = ((D170 / K170ref) - 1) * 100;
-        D226 = parseFloat(K226nc) * 100 / parseFloat(K226mu-K170mu) * parseFloat(NDW) * parseFloat(KtpOut.value) * parseFloat(KsatOut.value) * parseFloat(KpolOut.value) * parseFloat(KqqOut.value) * 1e-9;
-        dev226 = ((D226 / K226ref) - 1) * 100;
-        if (inputValueK100mu.value.length != 0 && inputValueK100nC.value.length != 0) {
-            K100outD.textContent = parseFloat(D100);
-            K100out.textContent = parseFloat(dev100);
-            if (dev100 >= -2 && dev100 <= 2) {
-                iconK100.innerHTML = "&#10004;"; // pass icon
-                iconK100.style.color = "green";
-            } else {
-                iconK100.innerHTML = "&#10008;"; // fail icon
-                iconK100.style.color = "red";
-            };
-        } else {
-            K100outD.textContent = "";
-            K100out.textContent = "";
-            iconK100.innerHTML = "";
-        }
-        if (inputValueK170mu.value.length != 0 && inputValueK170nC.value.length != 0) {
-            K170outD.textContent = parseFloat(D170);
-            K170out.textContent = parseFloat(dev170);
-            if (dev170 >= -2 && dev170 <= 2) {
-                iconK170.innerHTML = "&#10004;"; // pass icon
-                iconK170.style.color = "green";
-            } else {
-                iconK170.innerHTML = "&#10008;"; // fail icon
-                iconK170.style.color = "red";
-            };
-        } else {
-            K170outD.textContent = "";
-            K170out.textContent = "";
-            iconK170.innerHTML = "";
-        }
-        if (inputValueK226mu.value.length != 0 && inputValueK226nC.value.length != 0) {
-            K226outD.textContent = parseFloat(D226);
-            K226out.textContent = parseFloat(dev226);
-            if (dev226 >= -2 && dev226 <= 2) {
-                iconK226.innerHTML = "&#10004;"; // pass icon
-                iconK226.style.color = "green";
-            } else {
-                iconK226.innerHTML = "&#10008;"; // fail icon
-                iconK226.style.color = "red";
-            };
-        } else {
-            K226outD.textContent = "";
-            K226out.textContent = "";
-            iconK226.innerHTML = "";
-        }
-    };
-    function MlicCalc () {
-        MLICdev100 = parseFloat(MLIC100out.value) - parseFloat(MLIC100ref);
-        MLICdev170 = parseFloat(MLIC170out.value) - parseFloat(MLIC170ref);
-        MLICdev226 = parseFloat(MLIC226out.value) - parseFloat(MLIC226ref);
-        if (MLIC100.value.length != 0) {
-            MLIC100out.textContent = MLICdev100;
-            if (MLICdev100 >= -0.15 && MLICdev100 <= 0.15) {
-                iconMLIC100.innerHTML = "&#10004;"; // pass icon
-                iconMLIC100.style.color = "green";
-            } else {
-                iconMLIC100.innerHTML = "&#10008;"; // fail icon
-                iconMLIC100.style.color = "red";
-            };
-        } else {
-            MLIC100out.textContent = "";
-            iconMLIC100.innerHTML = "";
-        };
-        if (MLIC170.value.length != 0) {
-            MLIC170out.textContent = MLICdev170;
-            if (MLICdev170 >= -0.15 && MLICdev170 <= 0.15) {
-                iconMLIC170.innerHTML = "&#10004;"; // pass icon
-                iconMLIC170.style.color = "green";
-            } else {
-                iconMLIC170.innerHTML = "&#10008;"; // fail icon
-                iconMLIC170.style.color = "red";
-            };
-        } else {
-            MLIC170out.textContent = "";
-            iconMLIC170.innerHTML = "";
-        };
-        if (MLIC226.value.length != 0) {
-            MLIC226out.textContent = MLICdev226;
-            if (MLICdev226 >= -0.15 && MLICdev226 <= 0.15) {
-                iconMLIC226.innerHTML = "&#10004;"; // pass icon
-                iconMLIC226.style.color = "green";
-            } else {
-                iconMLIC226.innerHTML = "&#10008;"; // fail icon
-                iconMLIC226.style.color = "red";
-            };
-        } else {
-            MLIC226out.textContent = "";
-            iconMLIC226.innerHTML = "";
-        };
-    };
+
 
     //checkboxes check + check of all checks, czechs number one
 
@@ -384,7 +296,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (inputValueTemp.value >= 15 && inputValueTemp.value <= 30) {
             iconTemp.innerHTML = "&#10004;"; // pass icon
             iconTemp.style.color = "green";
-            var T = parseFloat(inputValueTemp.value) + 273.15;
+            var T = parseInt(inputValueTemp.value) + 273.15;
             //Temp = T
             Temp.textContent = T;
             //Ktp = ((273.15 + Temp.value) / (273.15 + 20) * (1013 / Pres.value));
@@ -395,7 +307,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         MiscUpdate();
         MiscCalc();
-        DoseCalc ();
         KtpOut.textContent = KtpOut.value;
         });
     inputValueTemp.addEventListener("blur", function(){
@@ -412,7 +323,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (inputValuePres.value >= 900 && inputValuePres.value <= 1100) {
             iconPres.innerHTML = "&#10004;"; // pass icon
             iconPres.style.color = "green";
-            var p = parseFloat(inputValuePres.value);
+            var p = parseInt(inputValuePres.value);
             //Pres = p;
             Pres.textContent = p;
             
@@ -424,7 +335,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         MiscUpdate();
         MiscCalc();
-        DoseCalc ();
         KtpOut.textContent = KtpOut.value;
         //p = inputValuePres.value;
     });
@@ -448,7 +358,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         MiscUpdate();
         MiscCalc();
-        DoseCalc ();
         KtpOut.textContent = KtpOut.value;
     });
     inputValueK.addEventListener("blur", function(){
@@ -460,9 +369,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 success:function(response){}});
         });
     });
-    laserX.addEventListener("change", function(){
+
+    laserX.addEventListener("input", function(){
         MiscCheck();
-        laserX.value = laserX.checked;
         if (miscChecksX.length == miscChecks0.length) {
             iconMisc.innerHTML = "&#10004;"; // pass icon
             iconMisc.style.color = "green";
@@ -470,6 +379,8 @@ document.addEventListener('DOMContentLoaded', function () {
             iconMisc.innerHTML = "&#10008;"; // fail icon
             iconMisc.style.color = "red";
         };
+    });
+    laserX.addEventListener("blur", function(){
         $(function() {
             $.ajax({
                 type: 'POST',
@@ -479,9 +390,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    laserY.addEventListener("change", function(){
+    laserY.addEventListener("input", function(){
         MiscCheck();
-        laserY.value = laserY.checked;
         if (miscChecksX.length == miscChecks0.length) {
             iconMisc.innerHTML = "&#10004;"; // pass icon
             iconMisc.style.color = "green";
@@ -489,6 +399,8 @@ document.addEventListener('DOMContentLoaded', function () {
             iconMisc.innerHTML = "&#10008;"; // fail icon
             iconMisc.style.color = "red";
         };
+    });
+    laserY.addEventListener("blur", function(){
         $(function() {
             $.ajax({
                 type: 'POST',
@@ -498,9 +410,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    laserZ.addEventListener("change", function(){
+    laserZ.addEventListener("input", function(){
         MiscCheck();
-        laserZ.value = laserZ.checked;
         if (miscChecksX.length == miscChecks0.length) {
             iconMisc.innerHTML = "&#10004;"; // pass icon
             iconMisc.style.color = "green";
@@ -508,6 +419,8 @@ document.addEventListener('DOMContentLoaded', function () {
             iconMisc.innerHTML = "&#10008;"; // fail icon
             iconMisc.style.color = "red";
         };
+    });
+    laserZ.addEventListener("blur", function(){
         $(function() {
             $.ajax({
                 type: 'POST',
@@ -517,9 +430,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    flatpanels.addEventListener("change", function(){
+    flatpanels.addEventListener("input", function(){
         MiscCheck();
-        flatpanels.value = flatpanels.checked;
         if (miscChecksX.length == miscChecks0.length) {
             iconMisc.innerHTML = "&#10004;"; // pass icon
             iconMisc.style.color = "green";
@@ -527,6 +439,8 @@ document.addEventListener('DOMContentLoaded', function () {
             iconMisc.innerHTML = "&#10008;"; // fail icon
             iconMisc.style.color = "red";
         };
+    });
+    flatpanels.addEventListener("blur", function(){
         $(function() {
             $.ajax({
                 type: 'POST',
@@ -536,9 +450,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    DynR.addEventListener("change", function(){
+    DynR.addEventListener("input", function(){
         MiscCheck();
-        DynR.value = DynR.checked;
         if (miscChecksX.length == miscChecks0.length) {
             iconMisc.innerHTML = "&#10004;"; // pass icon
             iconMisc.style.color = "green";
@@ -546,6 +459,8 @@ document.addEventListener('DOMContentLoaded', function () {
             iconMisc.innerHTML = "&#10008;"; // fail icon
             iconMisc.style.color = "red";
         };
+    });
+    DynR.addEventListener("blur", function(){
         $(function() {
             $.ajax({
                 type: 'POST',
@@ -555,9 +470,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    VisionRT.addEventListener("change", function(){
+    VisionRT.addEventListener("input", function(){
         MiscCheck();
-        VisionRT.value = VisionRT.checked;
         if (miscChecksX.length == miscChecks0.length) {
             iconMisc.innerHTML = "&#10004;"; // pass icon
             iconMisc.style.color = "green";
@@ -565,6 +479,8 @@ document.addEventListener('DOMContentLoaded', function () {
             iconMisc.innerHTML = "&#10008;"; // fail icon
             iconMisc.style.color = "red";
         };
+    });
+    VisionRT.addEventListener("blur", function(){
         $(function() {
             $.ajax({
                 type: 'POST',
@@ -574,6 +490,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+
+    
     //console.log(Pres.value);
     
     //Pres.textContent = p;
@@ -798,62 +716,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    //komora
-    komoraSelect.addEventListener("change", function () {
-        MiscUpdate();
-        MiscCalc();
-        DoseCalc();
-        if (komoraSelect.value == "none"){
-            KpolOut.textContent = "";
-            KsatOut.textContent = "";
-            KqqOut.textContent = "";
-        } else if (komoraSelect.value === "komora3190") {
-            KpolOut.textContent = K3190Kpol;
-            KsatOut.textContent = K3190Ksat;
-            KqqOut.textContent = Kqq;
-            KpolOut.value = K3190Kpol;
-            KsatOut.value = K3190Ksat;
-            KqqOut.value = Kqq;
-            NDW = K3190ndw;
-            DoseCalc();
-        } else if (komoraSelect.value === "komora2132") {
-            KpolOut.textContent = K2132Kpol;
-            KsatOut.textContent = K2132Ksat;
-            KqqOut.textContent = Kqq;
-            KpolOut.value = K2132Kpol;
-            KsatOut.value = K2132Ksat;
-            KqqOut.value = Kqq;
-            NDW = K2132ndw;
-            DoseCalc();
-        } else if (komoraSelect.value === "komora3565") {
-            KpolOut.textContent = K3565Kpol;
-            KsatOut.textContent = K3565Ksat;
-            KqqOut.textContent = Kqq;
-            KpolOut.value = K3565Kpol;
-            KsatOut.value = K3565Ksat;
-            KqqOut.value = Kqq;
-            NDW = K3565ndw;
-            DoseCalc();
-        } else if (komoraSelect.value === "komora4218") {
-            KpolOut.textContent = K4218Kpol;
-            KsatOut.textContent = K4218Ksat;
-            KqqOut.textContent = Kqq;
-            KpolOut.value = K4218Kpol;
-            KsatOut.value = K4218Ksat;
-            KqqOut.value = Kqq;
-            NDW = K4218ndw;
-            DoseCalc();
-        } else if (komoraSelect.value === "komora5414") {
-            KpolOut.textContent = K5414Kpol;
-            KsatOut.textContent = K5414Ksat;
-            KqqOut.textContent = Kqq;
-            KpolOut.value = K5414Kpol;
-            KsatOut.value = K5414Ksat;
-            KqqOut.value = Kqq;
-            NDW = K5414ndw;
-            DoseCalc();
-        }
-    });
     // komora vars
     inputValueK100nC = document.getElementById("K100-nC");
     inputValueK100mu = document.getElementById("K100-mu");
@@ -871,114 +733,224 @@ document.addEventListener('DOMContentLoaded', function () {
     K170out = document.getElementById('K170out');
     K226outD = document.getElementById('K226outD');
     K226out = document.getElementById('K226out');
-
-    inputValueK100mu.addEventListener("input", function () {
-        K100mu = inputValueK100mu.value;
-        MiscUpdate();
-        MiscCalc();
-        DoseCalc();
-    });
-    inputValueK100mu.addEventListener("blur", function () {
-        $(function() {
-            $.ajax({
-                type: 'POST',
-                url:"/daily",
-                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, K100mu: K100mu},
-                success:function(response){}});
+    komoraSelect.addEventListener("change", function () {
+    if (komoraSelect.value === "komora3190") {
+        inputValueK100mu.addEventListener("input", function () {
+            D100 = inputValueK100nC.value * 100 / inputValueK100mu.value * K3190ndw * KtpOut * K3190Ksat * K3190Kpol * Kqq;
+            K100outD.textContent = D100;
+            dev100 = ((D100 / K100ref) - 1) * 100;
+            K100out.textContent = dev100;
+            if (dev100 >= -2 && dev100 <= 2) {
+                iconK100.innerHTML = "&#10004;"; // pass icon
+                iconK100.style.color = "green";
+            } else {
+                iconK100.innerHTML = "&#10008;"; // fail icon
+                iconK100.style.color = "red";
+            };
         });
-    });
-    inputValueK100nC.addEventListener("input", function () {
-        K100nc = inputValueK100nC.value;
-        MiscUpdate();
-        MiscCalc();
-        DoseCalc();
-    });
-    inputValueK100nC.addEventListener("blur", function () {
-        $(function() {
-            $.ajax({
-                type: 'POST',
-                url:"/daily",
-                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, K100nc: K100nc},
-                success:function(response){}});
+        inputValueK170mu.addEventListener("input", function () {
+            D170 = inputValueK170nC.value * 100 / inputValueK170mu.value * K3190ndw * KtpOut * K3190Ksat * K3190Kpol * Kqq;
+            K170outD.textContent = D170;
+            dev170 = ((D170 / K170ref) - 1) * 100;
+            K170out.textContent = dev170;
+            if (dev170 >= -2 && dev170 <= 2) {
+                iconK170.innerHTML = "&#10004;"; // pass icon
+                iconK170.style.color = "green";
+            } else {
+                iconK170.innerHTML = "&#10008;"; // fail icon
+                iconK170.style.color = "red";
+            };
         });
-    });
-
-    inputValueK170mu.addEventListener("input", function () {
-        K170mu = inputValueK170mu.value;
-        MiscUpdate();
-        MiscCalc();
-        DoseCalc();
-    });
-    inputValueK170mu.addEventListener("blur", function () {
-        $(function() {
-            $.ajax({
-                type: 'POST',
-                url:"/daily",
-                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, K170mu: K170mu},
-                success:function(response){}});
+        inputValueK226mu.addEventListener("input", function () {
+            D226 = inputValueK226nC.value * 100 / inputValueK226mu.value * K3190ndw * KtpOut * K3190Ksat * K3190Kpol * Kqq;
+            K226outD.textContent = D226;
+            dev226 = ((D226 / K226ref) - 1) * 100;
+            K226out.textContent = dev226;
+            if (dev226 >= -2 && dev226 <= 2) {
+                iconK226.innerHTML = "&#10004;"; // pass icon
+                iconK226.style.color = "green";
+            } else {
+                iconK226.innerHTML = "&#10008;"; // fail icon
+                iconK226.style.color = "red";
+            };
         });
-    });
-    inputValueK170nC.addEventListener("input", function () {
-        K170nc = inputValueK170nC.value;
-        MiscUpdate();
-        MiscCalc();
-        DoseCalc();
-        if (dev170 >= -2 && dev170 <= 2) {
-            iconK170.innerHTML = "&#10004;"; // pass icon
-            iconK170.style.color = "green";
-        } else {
-            iconK170.innerHTML = "&#10008;"; // fail icon
-            iconK170.style.color = "red";
-        };
-    });
-    inputValueK170nC.addEventListener("blur", function () {
-        $(function() {
-            $.ajax({
-                type: 'POST',
-                url:"/daily",
-                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, K170nc: K170nc},
-                success:function(response){}});
+        KpolOut.textContent = K3190Kpol;
+        KsatOut.textContent = K3190Ksat;
+        KqqOut.textContent = Kqq;
+    } else if (komoraSelect.value === "komora2132") {
+        inputValueK100mu.addEventListener("input", function () {
+            D100 = inputValueK100nC.value * 100 / inputValueK100mu.value * K2132ndw * KtpOut * K2132Ksat * K2132Kpol * Kqq;
+            K100outD.textContent = D100;
+            dev100 = ((D100 / K100ref) - 1) * 100;
+            K100out.textContent = dev100;
+            if (dev100 >= -2 && dev100 <= 2) {
+                iconK100.innerHTML = "&#10004;"; // pass icon
+                iconK100.style.color = "green";
+            } else {
+                iconK100.innerHTML = "&#10008;"; // fail icon
+                iconK100.style.color = "red";
+            };
         });
-    });
-
-    inputValueK226mu.addEventListener("input", function () {
-        K226mu = inputValueK226mu.value;
-        MiscUpdate();
-        MiscCalc();
-        DoseCalc();
-    });
-    inputValueK226mu.addEventListener("blur", function () {
-        $(function() {
-            $.ajax({
-                type: 'POST',
-                url:"/daily",
-                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, K226mu: K226mu},
-                success:function(response){}});
+        inputValueK170mu.addEventListener("input", function () {
+            D170 = inputValueK170nC.value * 100 / inputValueK170mu.value * K2132ndw * KtpOut * K2132Ksat * K2132Kpol * Kqq;
+            K170outD.textContent = D170;
+            dev170 = ((D170 / K170ref) - 1) * 100;
+            K170out.textContent = dev170;
+            if (dev170 >= -2 && dev170 <= 2) {
+                iconK170.innerHTML = "&#10004;"; // pass icon
+                iconK170.style.color = "green";
+            } else {
+                iconK170.innerHTML = "&#10008;"; // fail icon
+                iconK170.style.color = "red";
+            };
         });
-    });
-    inputValueK226nC.addEventListener("input", function () {
-        K226nc = inputValueK226nC.value;
-        MiscUpdate();
-        MiscCalc();
-        DoseCalc();
-        if (dev226 >= -2 && dev226 <= 2) {
-            iconK226.innerHTML = "&#10004;"; // pass icon
-            iconK226.style.color = "green";
-        } else {
-            iconK226.innerHTML = "&#10008;"; // fail icon
-            iconK226.style.color = "red";
-        };
-    });
-    inputValueK226nC.addEventListener("blur", function () {
-        $(function() {
-            $.ajax({
-                type: 'POST',
-                url:"/daily",
-                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, K226nc: K226nc},
-                success:function(response){}});
+        inputValueK226mu.addEventListener("input", function () {
+            D226 = inputValueK226nC.value * 100 / inputValueK226mu.value * K2132ndw * KtpOut * K2132Ksat * K2132Kpol * Kqq;
+            K226outD.textContent = D226;
+            dev226 = ((D226 / K226ref) - 1) * 100;
+            K226out.textContent = dev226;
+            if (dev226 >= -2 && dev226 <= 2) {
+                iconK226.innerHTML = "&#10004;"; // pass icon
+                iconK226.style.color = "green";
+            } else {
+                iconK226.innerHTML = "&#10008;"; // fail icon
+                iconK226.style.color = "red";
+            };
         });
+        KpolOut.textContent = K2132Kpol;
+        KsatOut.textContent = K2132Ksat;
+        KqqOut.textContent = Kqq;
+    } else if (komoraSelect.value === "komora3565") {
+        inputValueK100mu.addEventListener("input", function () {
+            D100 = inputValueK100nC.value * 100 / inputValueK100mu.value * K3565ndw * KtpOut * K3565Ksat * K3565Kpol * Kqq;
+            K100outD.textContent = D100;
+            dev100 = ((D100 / K100ref) - 1) * 100;
+            K100out.textContent = dev100;
+            if (dev100 >= -2 && dev100 <= 2) {
+                iconK100.innerHTML = "&#10004;"; // pass icon
+                iconK100.style.color = "green";
+            } else {
+                iconK100.innerHTML = "&#10008;"; // fail icon
+                iconK100.style.color = "red";
+            };
+        });
+        inputValueK170mu.addEventListener("input", function () {
+            D170 = inputValueK170nC.value * 100 / inputValueK170mu.value * K3565ndw * KtpOut * K3565Ksat * K3565Kpol * Kqq;
+            K170outD.textContent = D170;
+            dev170 = ((D170 / K170ref) - 1) * 100;
+            K170out.textContent = dev170;
+            if (dev170 >= -2 && dev170 <= 2) {
+                iconK170.innerHTML = "&#10004;"; // pass icon
+                iconK170.style.color = "green";
+            } else {
+                iconK170.innerHTML = "&#10008;"; // fail icon
+                iconK170.style.color = "red";
+            };
+        });
+        inputValueK226mu.addEventListener("input", function () {
+            D226 = inputValueK226nC.value * 100 / inputValueK226mu.value * K3565ndw * KtpOut * K3565Ksat * K3565Kpol * Kqq;
+            K226outD.textContent = D226;
+            dev226 = ((D226 / K226ref) - 1) * 100;
+            K226out.textContent = dev226;
+            if (dev226 >= -2 && dev226 <= 2) {
+                iconK226.innerHTML = "&#10004;"; // pass icon
+                iconK226.style.color = "green";
+            } else {
+                iconK226.innerHTML = "&#10008;"; // fail icon
+                iconK226.style.color = "red";
+            };
+        });
+        KpolOut.textContent = K3565Kpol;
+        KsatOut.textContent = K3565Ksat;
+        KqqOut.textContent = Kqq;
+    } else if (komoraSelect.value === "komora4218") {
+        inputValueK100mu.addEventListener("input", function () {
+            D100 = inputValueK100nC.value * 100 / inputValueK100mu.value * K4218ndw * KtpOut * K4218Ksat * K4218Kpol * Kqq;
+            K100outD.textContent = D100;
+            dev100 = ((D100 / K100ref) - 1) * 100;
+            K100out.textContent = dev100;
+            if (dev100 >= -2 && dev100 <= 2) {
+                iconK100.innerHTML = "&#10004;"; // pass icon
+                iconK100.style.color = "green";
+            } else {
+                iconK100.innerHTML = "&#10008;"; // fail icon
+                iconK100.style.color = "red";
+            };
+        });
+        inputValueK170mu.addEventListener("input", function () {
+            D170 = inputValueK170nC.value * 100 / inputValueK170mu.value * K4218ndw * KtpOut * K4218Ksat * K4218Kpol * Kqq;
+            K170outD.textContent = D170;
+            dev170 = ((D170 / K170ref) - 1) * 100;
+            K170out.textContent = dev170;
+            if (dev170 >= -2 && dev170 <= 2) {
+                iconK170.innerHTML = "&#10004;"; // pass icon
+                iconK170.style.color = "green";
+            } else {
+                iconK170.innerHTML = "&#10008;"; // fail icon
+                iconK170.style.color = "red";
+            };
+        });
+        inputValueK226mu.addEventListener("input", function () {
+            D226 = inputValueK226nC.value * 100 / inputValueK226mu.value * K4218ndw * KtpOut * K4218Ksat * K4218Kpol * Kqq;
+            K226outD.textContent = D226;
+            dev226 = ((D226 / K226ref) - 1) * 100;
+            K226out.textContent = dev226;
+            if (dev226 >= -2 && dev226 <= 2) {
+                iconK226.innerHTML = "&#10004;"; // pass icon
+                iconK226.style.color = "green";
+            } else {
+                iconK226.innerHTML = "&#10008;"; // fail icon
+                iconK226.style.color = "red";
+            };
+        });
+        KpolOut.textContent = K4218Kpol;
+        KsatOut.textContent = K4218Ksat;
+        KqqOut.textContent = Kqq;
+    } else if (komoraSelect.value === "komora5414") {
+        inputValueK100mu.addEventListener("input", function () {
+            D100 = inputValueK100nC.value * 100 / inputValueK100mu.value * K5414ndw * KtpOut * K5414Ksat * K5414Kpol * Kqq;
+            K100outD.textContent = D100;
+            dev100 = ((D100 / K100ref) - 1) * 100;
+            K100out.textContent = dev100;
+            if (dev100 >= -2 && dev100 <= 2) {
+                iconK100.innerHTML = "&#10004;"; // pass icon
+                iconK100.style.color = "green";
+            } else {
+                iconK100.innerHTML = "&#10008;"; // fail icon
+                iconK100.style.color = "red";
+            };
+        });
+        inputValueK170mu.addEventListener("input", function () {
+            D170 = inputValueK170nC.value * 100 / inputValueK170mu.value * K5414ndw * KtpOut * K5414Ksat * K5414Kpol * Kqq;
+            K170outD.textContent = D170;
+            dev170 = ((D170 / K170ref) - 1) * 100;
+            K170out.textContent = dev170;
+            if (dev170 >= -2 && dev170 <= 2) {
+                iconK170.innerHTML = "&#10004;"; // pass icon
+                iconK170.style.color = "green";
+            } else {
+                iconK170.innerHTML = "&#10008;"; // fail icon
+                iconK170.style.color = "red";
+            };
+        });
+        inputValueK226mu.addEventListener("input", function () {
+            D226 = inputValueK226nC.value * 100 / inputValueK226mu.value * K5414ndw * KtpOut * K5414Ksat * K5414Kpol * Kqq;
+            K226outD.textContent = D226;
+            dev226 = ((D226 / K226ref) - 1) * 100;
+            K226out.textContent = dev226;
+            if (dev226 >= -2 && dev226 <= 2) {
+                iconK226.innerHTML = "&#10004;"; // pass icon
+                iconK226.style.color = "green";
+            } else {
+                iconK226.innerHTML = "&#10008;"; // fail icon
+                iconK226.style.color = "red";
+            };
+        });
+        KpolOut.textContent = K5414Kpol;
+        KsatOut.textContent = K5414Ksat;
+        KqqOut.textContent = Kqq;
+        }
     });
-    
     // mlic vars
     MLIC100 = document.getElementById("MLIC100");
     MLIC170 = document.getElementById("MLIC170");
@@ -993,54 +965,46 @@ document.addEventListener('DOMContentLoaded', function () {
     MLIC226out = document.getElementById("MLIC226out");
 
     //mlic calcs
-    MLIC100.addEventListener("input", function () {
-        MLIC100out.value = MLIC100.value;
-        MiscUpdate();
-        MiscCalc();
-        MlicCalc();
+    mlicSelect.addEventListener("change", function () {
+        if (mlicSelect.value === "mlic1") {
+            MLIC100.addEventListener("input", function () {
+                MLICdev100 = MLIC100.value - MLIC100ref;
+                MLIC100out.value = MLIC100.value;
+                MLIC100out.textContent = MLICdev100;
+                if (MLICdev100 >= -0.15 && MLICdev100 <= 0.15) {
+                    iconMLIC100.innerHTML = "&#10004;"; // pass icon
+                    iconMLIC100.style.color = "green";
+                } else {
+                    iconMLIC100.innerHTML = "&#10008;"; // fail icon
+                    iconMLIC100.style.color = "red";
+                };
+            });
+            MLIC170.addEventListener("input", function () {
+                MLICdev170 = MLIC170.value - MLIC170ref;
+                MLIC170out.value = MLIC170.value;
+                MLIC170out.textContent = MLICdev170;
+                if (MLICdev170 >= -0.15 && MLICdev170 <= 0.15) {
+                    iconMLIC170.innerHTML = "&#10004;"; // pass icon
+                    iconMLIC170.style.color = "green";
+                } else {
+                    iconMLIC170.innerHTML = "&#10008;"; // fail icon
+                    iconMLIC170.style.color = "red";
+                };
+            });
+            MLIC226.addEventListener("input", function () {
+                MLICdev226 = MLIC226.value - MLIC226ref;
+                MLIC226out.value = MLIC226.value;
+                MLIC226out.textContent = MLICdev226;
+                if (MLICdev226 >= -0.15 && MLICdev226 <= 0.15) {
+                    iconMLIC226.innerHTML = "&#10004;"; // pass icon
+                    iconMLIC226.style.color = "green";
+                } else {
+                    iconMLIC226.innerHTML = "&#10008;"; // fail icon
+                    iconMLIC226.style.color = "red";
+                };
+            });
+        }
     });
-    MLIC100.addEventListener("blur", function () {
-        $(function() {
-            $.ajax({
-                type: 'POST',
-                url:"/daily",
-                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, MLIC100: MLIC100out.value},
-                success:function(response){}});
-        });
-    });
-
-    MLIC170.addEventListener("input", function () {
-        MLIC170out.value = MLIC170.value;
-        MiscUpdate();
-        MiscCalc();
-        MlicCalc();
-    });
-    MLIC170.addEventListener("blur", function () {
-        $(function() {
-            $.ajax({
-                type: 'POST',
-                url:"/daily",
-                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, MLIC170: MLIC170out.value},
-                success:function(response){}});
-        });
-    });
-
-    MLIC226.addEventListener("input", function () {
-        MLIC226out.value = MLIC226.value;
-        MiscUpdate();
-        MiscCalc();
-        MlicCalc();
-    });
-    MLIC226.addEventListener("blur", function () {
-        $(function() {
-            $.ajax({
-                type: 'POST',
-                url:"/daily",
-                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, MLIC226: MLIC226out.value},
-                success:function(response){}});
-        });
-    });
-
     //function updateState() {
     //    let allChecked = true;
     //    for (let i = 0; i < checkboxes.length; i++) {

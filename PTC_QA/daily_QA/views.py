@@ -1,18 +1,21 @@
 from django.shortcuts import render, redirect
-from .models import DailyTest, DailyTestInput #must import all needed tables
-from .forms import DailyTestForm, DailyTestInputForm
+from .models import DailyTest, DailyTestInput, DLynxMeasurement #must import all needed tables
+#from .forms import DailyTestForm, DailyTestInputForm
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
-import calendar
-from calendar import HTMLCalendar
-from datetime import datetime
+#import calendar
+#from calendar import HTMLCalendar
+#from datetime import datetime
 from django.utils import timezone
-from django.core.exceptions import ValidationError
-from django.forms import formset_factory #multiple forms in one?
+#from django.core.exceptions import ValidationError
+#from django.forms import formset_factory #multiple forms in one?
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
+
+#Global variables
+
 
 #@login_required   
 def inlog(request):
@@ -39,70 +42,73 @@ def gtrselect(request):
 
 
 def daily(request):
-    submitted = False
-   
-    #form = DailyTestForm(request.POST)
-    #form2 = DailyTestInputForm(request.POST)
-    #print(request.user.id)
+    datacheck = DailyTest.objects.filter(gantry=1,date_added__contains=timezone.now().date())
+    if datacheck.count()==0:
+        print("Create new input")
+        form = DailyTest()
+        form.gantry = 1 
+        form.date_added = timezone.now()
+        form.save()
+    
+    last = DailyTest.objects.values().order_by("-index",)[0]
+    index = (last['index'])
 
-    #print (form.data['gantry']) 
     if request.method == "POST":
 
-        temperature_val = request.POST.get('Temp')
-        pressure_val = request.POST.get('Pres')
-        print(temperature_val)
-        print(pressure_val)
+        form = DailyTest.objects.get(pk=index)    
+        if request.POST.get('Temp')!=None: 
+            form.temperature = request.POST.get('Temp')
+        
+        if request.POST.get('Pres')!=None: 
+            form.pressure = request.POST.get('Pres')
 
-        form = DailyTestForm(request.POST)
-        form2 = DailyTestInputForm(request.POST)
+        if request.POST.get('kfactor')!=None: 
+            form.kfactor = request.POST.get('kfactor')
 
+        #print(bool(request.POST.getlist('X')))
+        if (request.POST.get('X')=='true'): form.laserx = 1
+        elif (request.POST.get('X')=='false'): form.laserx = 0
 
-        if form.is_valid() or form2.is_valid():
-            f = form.save(commit=False)
-            #f.gantry = gantry_val
-            f.temperature = temperature_val
-            f.pressure = pressure_val
-            #f.kfactor = k_val
-            f.date_added = timezone.now()
-            f.save()
-            form.save_m2m()
+        if request.POST.get('Y')=='true': form.lasery = 1
+        elif request.POST.get('Y')=='false': form.lasery=0
 
-            #f2 = form2.save(commit=False)
-            idx = DailyTest.objects.all().order_by("-index",)[0]
-            #idx_int = Convert.ToInt32(idx.ExecuteScalar());
-            #idx_int=int(idx)
-            #print(type(idx_int))
-            #f2.indexid = idx+1
-            #f2.save()
-            #print(request.user)
-            #form2.save(commit=False)
-            #form2.indexid=gantry_val
-            #form2.save_m2m()
-          
-            #print(f.cleaned_data)
-            print("Validated")
-        else:
-            #raise ValidationError("Not validating")
-            print("Not validating")
+        if request.POST.get('Z')=='true': form.laserz = 1
+        elif request.POST.get('Z')=='false': form.laserz=0
 
+        if request.POST.get('FlatPanels')=='true': form.flatpanels_check = 1
+        elif request.POST.get('FlatPanels')=='false': form.flatpanels_check=0
 
-            return HttpResponseRedirect('/daily?submitted=True') #pass the submitted along
+        if request.POST.get('VisionRT')=='true': form.visionrt_check = 1
+        elif request.POST.get('VisionRT')=='false': form.visionrt_check=0
+
+        if request.POST.get('DynR')=='true': form.dynr = 1
+        elif request.POST.get('DynR')=='false': form.dynr=0  #pokud jsou disabled, nic se tam nezapisuje   
+        form.save()
+
+        #other form - foreign key
+        #form2 = DailyTestInput()
+        #if request.POST.get('L11595')!='None': form2.input1 = request.POST.get('L11595')
+        #form2 = DLynxMeasurement(measurement_id=form.pk)
+
+        #form2 = DLynxMeasurement.objects.create(
+        #    measurementid=DailyTest.objects.get(pk=index))
+        #form2.save()
+
+        return HttpResponseRedirect('/daily') #?submitted=True') #pass the submitted along
     else:
         
         #form = DailyTestForm(request.POST)
         #form2 = DailyTestInputForm(request.POST)
-        print("You are here")
-        form = DailyTestForm()
-        form2 = DailyTestInputForm()
+        print("Not POST")
         
-        if 'submitted' in request.GET: #check whether form was submitted
-            submitted = True
+        #if 'submitted' in request.GET: #check whether form was submitted
+        #    submitted = True
 
     return render(request, 'daily_QA/1.html', {
         #context dictionary
-        'dailytestform':form, 
-        'inputform': form2,
-        'submitted':submitted
+        #'dailytestform':form, 
+        #'inputform': form2,
+        #'submitted':submitted
     })
 
 def weekly(request):

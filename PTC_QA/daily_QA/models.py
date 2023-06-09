@@ -146,16 +146,7 @@ class DLynxConfig(models.Model):
         db_table = 'd_lynx_config'
 
 
-class DLynxMeasurement(models.Model):
-    measurementid = models.IntegerField(db_column='measurementID', primary_key=True)  # Field name made lowercase.
-    lynxconfigid = models.ForeignKey(DLynxConfig, models.DO_NOTHING, db_column='LynxconfigID', blank=True, null=True)  # Field name made lowercase.
-    value = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-    lynxid = models.IntegerField(db_column='LynxID', blank=True, null=True)  # Field name made lowercase.
-    energy = models.IntegerField(blank=True, null=True)
 
-    class Meta:
-        managed = False
-        db_table = 'd_lynx_measurement'
 
 
 class DLynxReference(models.Model):
@@ -214,19 +205,39 @@ class DailyTest(models.Model):
     visionrt_check = models.IntegerField(db_column='VisionRT_check', blank=True, null=True)  # Field name made lowercase.
     flatpanels_check = models.IntegerField(db_column='FlatPanels_check', blank=True, null=True)  # Field name made lowercase.
     dynr = models.IntegerField(db_column='DynR', blank=True, null=True)  # Field name made lowercase.
-    lasers = models.IntegerField(db_column='Lasers', blank=True, null=True)  # Field name made lowercase.
+    laserx = models.IntegerField(db_column='Laserx', blank=True, null=True)  # Field name made lowercase.
+    lasery = models.IntegerField(db_column='Lasery', blank=True, null=True)
+    laserz = models.IntegerField(db_column='Laserz', blank=True, null=True)
     temperature = models.DecimalField(db_column='Temperature', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
     pressure = models.DecimalField(db_column='Pressure', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
     kfactor = models.DecimalField(db_column='KFactor', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
     
+    def __str__(self):
+        return f'This record is from {self.date_added.date()} and gantry #{self.gantry}'
     
     class Meta:
         managed = True
         db_table = 'daily_test'
         db_table_comment = 'Lasers stored as binary number (0-x, 1-z, 2-y)'
 
+
+class DLynxMeasurement(models.Model):
+    index = models.IntegerField(db_column='Index', primary_key=True)  # Field name made lowercase.
+    measurementid = models.ForeignKey(DailyTest, models.CASCADE)  # Field name made lowercase.
+    val95 = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    val99 = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    avg = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    max = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    lynxid = models.IntegerField(db_column='LynxID', blank=True, null=True)  # Field name made lowercase.
+    energy = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'd_lynx_measurement'
+
+
 class DailyTestInput(models.Model):
-    index = models.AutoField(db_column='Index', primary_key=True, null=False)  # Field name made lowercase.
+    index = models.AutoField(db_column='Index', primary_key=True)  # Field name made lowercase.
     energyID = models.IntegerField(db_column='energyID',null=True)
     input1 = models.DecimalField(db_column='input1', max_digits=10, decimal_places=4, blank=True, null=True)  # Field name made lowercase.
     input2 = models.DecimalField(db_column='input2', max_digits=10, decimal_places=4, blank=True, null=True)  # Field name made lowercase.

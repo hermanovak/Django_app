@@ -1,0 +1,4 @@
+table { table-layout: fixed; }
+table td.wideRow, table th.wideRow {
+    width: 30px;
+  }
