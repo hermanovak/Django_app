@@ -86,6 +86,18 @@ def daily(request,gtr):
             
         if request.POST.get('LynxID')!=None: 
             form.lynxid = request.POST.get('LynxID')
+
+        if request.POST.get('L7095')!=None: 
+            form.lynx70_95 = request.POST.get('L7095')
+
+        if request.POST.get('L7099')!=None:
+            form.lynx70_99 = request.POST.get('L7099')
+
+        if request.POST.get('L70max')!=None:
+            form.lynx70_max = request.POST.get('L70max')
+
+        if request.POST.get('L70avg')!=None:
+            form.lynx70_avg = request.POST.get('L70avg')
             
         if request.POST.get('L11595')!=None: 
             form.lynx115_95 = request.POST.get('L11595')
@@ -126,6 +138,12 @@ def daily(request,gtr):
         if request.POST.get('IcID')!=None: 
             form.icid = request.POST.get('IcID')
 
+        if request.POST.get('K70mu')!=None:
+            form.ic70_mu = request.POST.get('K70mu')
+
+        if request.POST.get('K70nc')!=None:
+            form.ic100_nc = request.POST.get('K70nc')
+
         if request.POST.get('K100mu')!=None:
             form.ic100_mu = request.POST.get('K100mu')
 
@@ -147,6 +165,9 @@ def daily(request,gtr):
         if request.POST.get('MlicID')!=None:
             form.mlicid = request.POST.get('MlicID')
 
+        if request.POST.get('MLIC70')!=None:
+            form.mlic70_range = request.POST.get('MLIC70')
+
         if request.POST.get('MLIC100')!=None:
             form.mlic100_range = request.POST.get('MLIC100')
 
@@ -157,6 +178,11 @@ def daily(request,gtr):
             form.mlic226_range = request.POST.get('MLIC226')
 
         form.save()
+        
+        # if request.POST.get('LynxID')!=None: 
+        #     lynxid = request.POST.get('LynxID')
+        # form2 = DailyTestInput(configID=lynxid, DailyTest.objects.get(pk=index))
+        # form2.save()  
         
         return HttpResponseRedirect('/daily'+str(gtr))
     return render(request, 'daily_QA/'+str(gtr)+'.html', {'gtr':gtr})
