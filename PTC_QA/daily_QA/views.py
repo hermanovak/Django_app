@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .models import DailyTest, DailyTestInput, DLynxMeasurement, DailyTestDraft #must import all needed tables
 #from .forms import DailyTestForm, DailyTestInputForm
 from django.http import HttpResponseRedirect
-from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
+#from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 #import calendar
 #from calendar import HTMLCalendar
 #from datetime import datetime
@@ -12,7 +12,7 @@ from django.utils import timezone
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib import messages
+#from django.contrib import messages
 from django.contrib.sessions.models import Session
 
 
@@ -25,7 +25,7 @@ def inlog(request):
         loginform = AuthenticationForm(request, data=request.POST)
         if loginform.is_valid():
             user = loginform.get_user()
-            print(user)
+            #print(user)
             login(request, user)
             return redirect('daily_QA:home')
     else:
@@ -43,7 +43,6 @@ def gtrselect(request):
 
 
 def daily(request,gtr):
-    print(gtr)
     datacheck = DailyTestDraft.objects.filter(gantry=gtr,date_added__contains=timezone.now().date())
     if datacheck.count()==0:
         print("Create new input")
@@ -162,46 +161,6 @@ def daily(request,gtr):
         return HttpResponseRedirect('/daily'+str(gtr))
     return render(request, 'daily_QA/'+str(gtr)+'.html', {'gtr':gtr})
 
-
-
-# def daily1(request):
-#     #check if there is already a record for today
-#     #gtr = 1
-#     if request.method == "POST":
-#         form2db(request)
-#         #other form - foreign key
-#         #form2 = DailyTestInput()
-#         #if request.POST.get('L11595')!='None': form2.input1 = request.POST.get('L11595')
-#         #form2 = DLynxMeasurement(measurement_id=form.pk)
-
-#         #form2 = DLynxMeasurement.objects.create(
-#         #    measurementid=DailyTest.objects.get(pk=index))
-#         #form2.save()
-#         return HttpResponseRedirect('/daily1') #?submitted=True') #pass the submitted along
-#     return render(request, 'daily_QA/1.html', {})
-
-# def daily2(request):
-#     #gtr = 2
-#     if request.method == "POST":
-#         form2db(request)
-#         #other form - foreign key
-#         #form2 = DailyTestInput()
-#         #if request.POST.get('L11595')!='None': form2.input1 = request.POST.get('L11595')
-#         #form2 = DLynxMeasurement(measurement_id=form.pk)
-
-#         #form2 = DLynxMeasurement.objects.create(
-#         #    measurementid=DailyTest.objects.get(pk=index))
-#         #form2.save()
-#         return HttpResponseRedirect('/daily2') #?submitted=True') #pass the submitted along
-#     return render(request, 'daily_QA/2.html', {})
-
-# def daily3(request):
-#     gtr = 3
-#     return render(request, 'daily_QA/3.html', {})
-
-# def daily4(request):
-#     gtr = 4
-#     return render(request, 'daily_QA/4.html', {})
 
 def weekly(request):
     return render(request, 'daily_QA/weekly.html', {})
