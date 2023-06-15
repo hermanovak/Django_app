@@ -212,12 +212,65 @@ class DailyTest(models.Model):
     pressure = models.DecimalField(db_column='Pressure', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
     kfactor = models.DecimalField(db_column='KFactor', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
     
-    def __str__(self):
-        return f'This record is from {self.date_added.date()} and gantry #{self.gantry}'
+    #def __str__(self):
+    #    return f'This record is from {self.date_added.date()} and gantry #{self.gantry}'
     
     class Meta:
         managed = True
         db_table = 'daily_test'
+        db_table_comment = 'Lasers stored as binary number (0-x, 1-z, 2-y)'
+
+class DailyTestDraft(models.Model):
+    index = models.AutoField(db_column='Index', primary_key=True)  # Field name made lowercase.
+    date_added = models.DateTimeField(db_column='Date_added')  # Field name made lowercase.
+    gantry = models.IntegerField(db_column='Gantry', null=True)  # Field name made lowercase.
+    visionrt_check = models.IntegerField(db_column='VisionRT_check', blank=True, null=True)  # Field name made lowercase.
+    flatpanels_check = models.IntegerField(db_column='FlatPanels_check', blank=True, null=True)  # Field name made lowercase.
+    dynr = models.IntegerField(db_column='DynR', blank=True, null=True)  # Field name made lowercase.
+    laserx = models.IntegerField(db_column='Laserx', blank=True, null=True)  # Field name made lowercase.
+    lasery = models.IntegerField(db_column='Lasery', blank=True, null=True)
+    laserz = models.IntegerField(db_column='Laserz', blank=True, null=True)
+    temperature = models.DecimalField(db_column='Temperature', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
+    pressure = models.DecimalField(db_column='Pressure', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
+    kfactor = models.DecimalField(db_column='KFactor', max_digits=10, decimal_places=3, blank=True, null=True)  # Field name made lowercase.
+    lynxid = models.IntegerField(db_column='LynxID', blank=True, null=True)
+    lynx70_95 = models.DecimalField(db_column='Lynx70_95', max_digits=10, decimal_places=3, blank=True, null=True)
+    lynx70_99 = models.DecimalField(db_column='Lynx70_99', max_digits=10, decimal_places=3, blank=True, null=True)
+    lynx70_avg = models.DecimalField(db_column='Lynx70_avg', max_digits=10, decimal_places=3, blank=True, null=True)
+    lynx70_max = models.DecimalField(db_column='Lynx70_max', max_digits=10, decimal_places=3, blank=True, null=True)
+    lynx115_95 = models.DecimalField(db_column='Lynx115_95', max_digits=10, decimal_places=3, blank=True, null=True)
+    lynx115_99 = models.DecimalField(db_column='Lynx115_99', max_digits=10, decimal_places=3, blank=True, null=True)
+    lynx115_avg = models.DecimalField(db_column='Lynx115_avg', max_digits=10, decimal_places=3, blank=True, null=True)
+    lynx115_max = models.DecimalField(db_column='Lynx115_max', max_digits=10, decimal_places=3, blank=True, null=True)
+    lynx145_95 = models.DecimalField(db_column='Lynx145_95', max_digits=10, decimal_places=3, blank=True, null=True)
+    lynx145_99 = models.DecimalField(db_column='Lynx145_99', max_digits=10, decimal_places=3, blank=True, null=True)
+    lynx145_avg = models.DecimalField(db_column='Lynx145_avg', max_digits=10, decimal_places=3, blank=True, null=True)
+    lynx145_max = models.DecimalField(db_column='Lynx145_max', max_digits=10, decimal_places=3, blank=True, null=True)
+    lynx226_95 = models.DecimalField(db_column='Lynx226_95', max_digits=10, decimal_places=3, blank=True, null=True)
+    lynx226_99 = models.DecimalField(db_column='Lynx226_99', max_digits=10, decimal_places=3, blank=True, null=True)
+    lynx226_avg = models.DecimalField(db_column='Lynx226_avg', max_digits=10, decimal_places=3, blank=True, null=True)
+    lynx226_max = models.DecimalField(db_column='Lynx226_max', max_digits=10, decimal_places=3, blank=True, null=True)
+    icid = models.IntegerField(db_column='IcID', blank=True, null=True)
+    ic70_nc = models.DecimalField(db_column='Ic70_nc', max_digits=10, decimal_places=3, blank=True, null=True)
+    ic70_mu = models.DecimalField(db_column='Ic70_MU', max_digits=10, decimal_places=3, blank=True, null=True)
+    ic100_nc = models.DecimalField(db_column='Ic100_nc', max_digits=10, decimal_places=3, blank=True, null=True)
+    ic100_mu = models.DecimalField(db_column='Ic100_MU', max_digits=10, decimal_places=3, blank=True, null=True)
+    ic170_nc = models.DecimalField(db_column='Ic170_nc', max_digits=10, decimal_places=3, blank=True, null=True)
+    ic170_mu = models.DecimalField(db_column='Ic170_MU', max_digits=10, decimal_places=3, blank=True, null=True)
+    ic226_nc = models.DecimalField(db_column='Ic226_nc', max_digits=10, decimal_places=3, blank=True, null=True)
+    ic226_mu = models.DecimalField(db_column='Ic226_MU', max_digits=10, decimal_places=3, blank=True, null=True)
+    mlicid = models.IntegerField(db_column='MlicID', blank=True, null=True)
+    mlic70_range = models.DecimalField(db_column='Mlic70_range', max_digits=10, decimal_places=3, blank=True, null=True)
+    mlic100_range = models.DecimalField(db_column='Mlic100_range', max_digits=10, decimal_places=3, blank=True, null=True)
+    mlic170_range = models.DecimalField(db_column='Mlic170_range', max_digits=10, decimal_places=3, blank=True, null=True)
+    mlic226_range = models.DecimalField(db_column='Mlic226_range', max_digits=10, decimal_places=3, blank=True, null=True)
+
+
+    def __str__(self):
+        return f'Gantry #{self.gantry}: {self.date_added.date()}'
+    class Meta:
+        managed = True
+        db_table = 'daily_test_draft'
         db_table_comment = 'Lasers stored as binary number (0-x, 1-z, 2-y)'
 
 

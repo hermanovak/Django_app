@@ -1,6 +1,23 @@
 //db
 // Construct the data object with your variables
 document.addEventListener('DOMContentLoaded', function () {
+   var isPost = 0;
+   /* $(function() {
+        if (isPost ==0){
+            $.ajax({
+                type: 'POST',
+                url:"/daily"+String(gtr),
+                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, gtr: gtr},
+                success:function(response){},
+                error: function (response) {
+                    // alert the error if any error occured
+                    console.log(response.responseJSON.errors)
+                    
+                }});
+        isPost = 1;
+        }
+    });*/
+    //console.log("/daily"+String(gtr))
     const lynxSelect = document.getElementById("lynx-select");
     const lynx = document.getElementById("lynx");
     const lynxLR = document.getElementById("lynxLR");
@@ -8,6 +25,21 @@ document.addEventListener('DOMContentLoaded', function () {
     const komoraSelect = document.getElementById("komora-select");
     const komora = document.getElementById("komora");
     const komoraLR = document.getElementById("komoraLR");
+
+    komoraSelect.addEventListener("change", function() {
+        if (komoraSelect.value == "none") {
+            komora.style.display = "none"
+        } else {
+            komora.style.display = "block"
+        }
+        $(function() {
+            $.ajax({
+                type: 'POST',
+                url:"/daily"+String(gtr),
+                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, IcID: komoraSelect.value},
+                success:function(response){}});
+        });
+    });
 
     const mlicSelect = document.getElementById("mlic-select");
     const mlic = document.getElementById("mlic");
@@ -19,15 +51,15 @@ document.addEventListener('DOMContentLoaded', function () {
         } else if (lynxSelect.value != "none") {
             lynx.style.display = "block";
         }
+        $(function() {
+            $.ajax({
+                type: 'POST',
+                url:"/daily"+String(gtr),
+                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, LynxID: lynxSelect.value},
+                success:function(response){console.log(gtr)}});
+        });
     });
-    komoraSelect.addEventListener("change", function() {
-        // Show the selected option form
-        if (komoraSelect.value === "none") {
-            komora.style.display = "none";
-        } else if (komoraSelect.value != "none") {
-            komora.style.display = "block";
-        }
-    });
+
     mlicSelect.addEventListener("change", function() {
         // Show the selected option form
         if (mlicSelect.value === "none") {
@@ -35,6 +67,13 @@ document.addEventListener('DOMContentLoaded', function () {
         } else if (mlicSelect.value != "none") {
             mlic.style.display = "block";
         }
+        $(function() {
+            $.ajax({
+                type: 'POST',
+                url:"/daily"+String(gtr),
+                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, MlicID: mlicSelect.value},
+                success:function(response){}});
+        });
     });
 
     var data = {
@@ -85,7 +124,6 @@ document.addEventListener('DOMContentLoaded', function () {
     var iconMisc;
 
     var laserX;
-    var X;
     var laserY;
     var laserZ;
     var flatpanels;
@@ -195,9 +233,9 @@ document.addEventListener('DOMContentLoaded', function () {
     var D226;
     var dev226;
     //mlic refs
-    document.getElementById("MLIC100refRLR").textContent = MLIC100ref;
-    document.getElementById("MLIC170refRLR").textContent = MLIC170ref;
-    document.getElementById("MLIC226refRLR").textContent = MLIC226ref;
+    document.getElementById("MLIC100refR").textContent = MLIC100ref;
+    document.getElementById("MLIC170refR").textContent = MLIC170ref;
+    document.getElementById("MLIC226refR").textContent = MLIC226ref;
     //mlic vars declare
     var MLIC100;
     var MLIC170;
@@ -240,8 +278,8 @@ document.addEventListener('DOMContentLoaded', function () {
         D226 = parseFloat(K226nc) * 100 / parseFloat(K226mu-K170mu) * parseFloat(NDW) * parseFloat(KtpOut.value) * parseFloat(KsatOut.value) * parseFloat(KpolOut.value) * parseFloat(KqqOut.value) * 1e-9;
         dev226 = ((D226 / K226ref) - 1) * 100;
         if (inputValueK100mu.value.length != 0 && inputValueK100nC.value.length != 0) {
-            K100outD.textContent = parseFloat(D100);
-            K100out.textContent = parseFloat(dev100);
+            K100outD.textContent = D100;
+            K100out.textContent = dev100;
             if (dev100 >= -2 && dev100 <= 2) {
                 iconK100.innerHTML = "&#10004;"; // pass icon
                 iconK100.style.color = "green";
@@ -255,8 +293,8 @@ document.addEventListener('DOMContentLoaded', function () {
             iconK100.innerHTML = "";
         }
         if (inputValueK170mu.value.length != 0 && inputValueK170nC.value.length != 0) {
-            K170outD.textContent = parseFloat(D170);
-            K170out.textContent = parseFloat(dev170);
+            K170outD.textContent = D170;
+            K170out.textContent = dev170;
             if (dev170 >= -2 && dev170 <= 2) {
                 iconK170.innerHTML = "&#10004;"; // pass icon
                 iconK170.style.color = "green";
@@ -270,8 +308,8 @@ document.addEventListener('DOMContentLoaded', function () {
             iconK170.innerHTML = "";
         }
         if (inputValueK226mu.value.length != 0 && inputValueK226nC.value.length != 0) {
-            K226outD.textContent = parseFloat(D226);
-            K226out.textContent = parseFloat(dev226);
+            K226outD.textContent = D226;
+            K226out.textContent = dev226;
             if (dev226 >= -2 && dev226 <= 2) {
                 iconK226.innerHTML = "&#10004;"; // pass icon
                 iconK226.style.color = "green";
@@ -393,6 +431,7 @@ document.addEventListener('DOMContentLoaded', function () {
             iconTemp.innerHTML = "&#10008;"; // fail icon
             iconTemp.style.color = "red";
         }
+        console.log(gtr);
         MiscUpdate();
         MiscCalc();
         DoseCalc ();
@@ -402,7 +441,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, Temp: Temp.value},
                 success:function(response){}});
         });
@@ -432,7 +471,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, Pres: Pres.value},
                 success:function(response){}});
         });
@@ -455,7 +494,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, kfactor: K},
                 success:function(response){}});
         });
@@ -473,7 +512,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, X: laserX.value},
                 success:function(response){}});
         });
@@ -492,7 +531,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, Y: laserY.value},
                 success:function(response){}});
         });
@@ -511,7 +550,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, Z: laserZ.value},
                 success:function(response){}});
         });
@@ -530,7 +569,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, FlatPanels: flatpanels.value},
                 success:function(response){}});
         });
@@ -549,7 +588,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, DynR: DynR.value},
                 success:function(response){}});
         });
@@ -568,7 +607,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, VisionRT: VisionRT.value},
                 success:function(response){}});
         });
@@ -614,7 +653,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L11595: L11595out},
                 success:function(response){}});
         });
@@ -634,7 +673,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L11599: L11599out},
                 success:function(response){}});
         });
@@ -647,7 +686,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L115avg: L115avgout},
                 success:function(response){}});
         });
@@ -660,7 +699,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L115max: L115maxout},
                 success:function(response){}});
         });
@@ -680,7 +719,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L14595: L14595out},
                 success:function(response){}});
         });
@@ -700,7 +739,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L14599: L14599out},
                 success:function(response){}});
         });
@@ -713,7 +752,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L145avg: L145avgout},
                 success:function(response){}});
         });
@@ -726,7 +765,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L145max: L145maxout},
                 success:function(response){}});
         });
@@ -746,7 +785,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L22695: L22695out},
                 success:function(response){}});
         });
@@ -766,7 +805,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L22699: L22699out},
                 success:function(response){}});
         });
@@ -779,7 +818,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L226avg: L226avgout},
                 success:function(response){}});
         });
@@ -792,7 +831,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L226max: L226maxout},
                 success:function(response){}});
         });
@@ -807,7 +846,7 @@ document.addEventListener('DOMContentLoaded', function () {
             KpolOut.textContent = "";
             KsatOut.textContent = "";
             KqqOut.textContent = "";
-        } else if (komoraSelect.value === "komora3190") {
+        } else if (komoraSelect.value == "3190") {
             KpolOut.textContent = K3190Kpol;
             KsatOut.textContent = K3190Ksat;
             KqqOut.textContent = Kqq;
@@ -816,7 +855,7 @@ document.addEventListener('DOMContentLoaded', function () {
             KqqOut.value = Kqq;
             NDW = K3190ndw;
             DoseCalc();
-        } else if (komoraSelect.value === "komora2132") {
+        } else if (komoraSelect.value == "2132") {
             KpolOut.textContent = K2132Kpol;
             KsatOut.textContent = K2132Ksat;
             KqqOut.textContent = Kqq;
@@ -825,7 +864,7 @@ document.addEventListener('DOMContentLoaded', function () {
             KqqOut.value = Kqq;
             NDW = K2132ndw;
             DoseCalc();
-        } else if (komoraSelect.value === "komora3565") {
+        } else if (komoraSelect.value == "3565") {
             KpolOut.textContent = K3565Kpol;
             KsatOut.textContent = K3565Ksat;
             KqqOut.textContent = Kqq;
@@ -834,7 +873,7 @@ document.addEventListener('DOMContentLoaded', function () {
             KqqOut.value = Kqq;
             NDW = K3565ndw;
             DoseCalc();
-        } else if (komoraSelect.value === "komora4218") {
+        } else if (komoraSelect.value == "4218") {
             KpolOut.textContent = K4218Kpol;
             KsatOut.textContent = K4218Ksat;
             KqqOut.textContent = Kqq;
@@ -843,7 +882,7 @@ document.addEventListener('DOMContentLoaded', function () {
             KqqOut.value = Kqq;
             NDW = K4218ndw;
             DoseCalc();
-        } else if (komoraSelect.value === "komora5414") {
+        } else if (komoraSelect.value == "5414") {
             KpolOut.textContent = K5414Kpol;
             KsatOut.textContent = K5414Ksat;
             KqqOut.textContent = Kqq;
@@ -882,7 +921,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, K100mu: K100mu},
                 success:function(response){}});
         });
@@ -897,7 +936,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, K100nc: K100nc},
                 success:function(response){}});
         });
@@ -913,7 +952,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, K170mu: K170mu},
                 success:function(response){}});
         });
@@ -935,7 +974,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, K170nc: K170nc},
                 success:function(response){}});
         });
@@ -951,7 +990,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, K226mu: K226mu},
                 success:function(response){}});
         });
@@ -973,7 +1012,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, K226nc: K226nc},
                 success:function(response){}});
         });
@@ -1003,7 +1042,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, MLIC100: MLIC100out.value},
                 success:function(response){}});
         });
@@ -1019,7 +1058,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, MLIC170: MLIC170out.value},
                 success:function(response){}});
         });
@@ -1035,7 +1074,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, MLIC226: MLIC226out.value},
                 success:function(response){}});
         });

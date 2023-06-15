@@ -1,6 +1,7 @@
-//db
+﻿//db
 // Construct the data object with your variables
 document.addEventListener('DOMContentLoaded', function () {
+    var isPost = 0;
     const lynxSelect = document.getElementById("lynx-select");
     const lynx = document.getElementById("lynx");
     const lynxLR = document.getElementById("lynxLR");
@@ -19,22 +20,43 @@ document.addEventListener('DOMContentLoaded', function () {
         } else if (lynxSelect.value != "none") {
             lynxLR.style.display = "block";
         }
+        $(function() {
+            $.ajax({
+                type: 'POST',
+                url:"/daily"+String(gtr),
+                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, LynxID: lynxSelect.value},
+                success:function(response){}});
+        });
     });
     komoraSelect.addEventListener("change", function() {
         // Show the selected option form
         if (komoraSelect.value === "none") {
             komoraLR.style.display = "none";
-        } else if (komoraSelect.value != "none") {
+        } else {
             komoraLR.style.display = "block";
         }
+        $(function() {
+            $.ajax({
+                type: 'POST',
+                url:"/daily"+String(gtr),
+                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, IcID: komoraSelect.value},
+                success:function(response){}});
+        });
     });
     mlicSelect.addEventListener("change", function() {
         // Show the selected option form
         if (mlicSelect.value === "none") {
             mlicLR.style.display = "none";
-        } else if (lynxSelect.value != "none") {
+        } else if (mlicSelect.value != "none") {
             mlicLR.style.display = "block";
         }
+        $(function() {
+            $.ajax({
+                type: 'POST',
+                url:"/daily"+String(gtr),
+                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, MlicID: mlicSelect.value},
+                success:function(response){}});
+        });
     });
 
     var data = {
@@ -85,6 +107,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var iconMisc;
 
     var laserX;
+    var X;
     var laserY;
     var laserZ;
     var flatpanels;
@@ -152,6 +175,9 @@ document.addEventListener('DOMContentLoaded', function () {
     var L226avgout;
     var L226maxout;
     //komora vars declare
+    var inputValueK70nC;
+    var inputValueK70mu;
+    var iconK70;
     var inputValueK100nC;
     var inputValueK100mu;
     var iconK100;
@@ -162,6 +188,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var inputValueK226mu;
     var iconK226;
     //komory refs
+    var NDW;
     const K3190ndw = 47870000;
     const K3190Ksat = 1.005;
     const K3190Kpol = 1;
@@ -178,11 +205,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const K5414Ksat = 1.0052;
     const K5414Kpol = 1;
     const Kqq = 1.035;
-    // //dose refs
-    // var K70ref;
-    // var K100ref;
-    // var K170ref;
-    // var K226ref;
+    //dose refs
+    document.getElementById("K70refDLR").textContent = K70ref;
+    document.getElementById("K100refDLR").textContent = K100ref;
+    document.getElementById("K170refDLR").textContent = K170ref;
+    document.getElementById("K226refDLR").textContent = K226ref;
     //komora outs
     var K70outD;
     var K70out;
@@ -193,6 +220,14 @@ document.addEventListener('DOMContentLoaded', function () {
     var K226outD;
     var K226out;
     //komora calcs
+    var K70mu;
+    var K70nc;
+    var K100mu;
+    var K100nc;
+    var K170mu;
+    var K170nc;
+    var K226mu;
+    var K226nc;
     var D70;
     var dev70;
     var D100;
@@ -201,6 +236,11 @@ document.addEventListener('DOMContentLoaded', function () {
     var dev170;
     var D226;
     var dev226;
+    //mlic refs
+    document.getElementById("MLIC70refRLR").textContent = MLIC70ref;
+    document.getElementById("MLIC100refRLR").textContent = MLIC100ref;
+    document.getElementById("MLIC170refRLR").textContent = MLIC170ref;
+    document.getElementById("MLIC226refRLR").textContent = MLIC226ref;
     //mlic vars declare
     var MLIC70;
     var MLIC100;
@@ -210,8 +250,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var iconMLIC100;
     var iconMLIC170;
     var iconMLIC226;
-    // //mlic refs
-    // var MLIC70ref;
+    //mlic refs
     // var MLIC100ref;
     // var MLIC170ref;
     // var MLIC226ref;
@@ -234,13 +273,140 @@ document.addEventListener('DOMContentLoaded', function () {
         //checks na lasers a ine doplnit
     };
     function MiscCalc () {
-        Ktp = (((parseInt(Temp.value) + 273.15) / (273.15 + 20)) * (1013 / parseInt(Pres.value)));
+        Ktp = (((parseFloat(Temp.value) + 273.15) / (273.15 + 20)) * (1013 / parseFloat(Pres.value)));
         KtpOut.value = Ktp;
     };
     function MiscCheck () {
         miscChecksX = document.querySelectorAll('input[type="checkbox"]:checked');
     };
-
+    function DoseCalc () {
+        D70 = parseFloat(K70nc) * 100 / parseFloat(K70mu) * parseFloat(NDW) * parseFloat(KtpOut.value) * parseFloat(KsatOut.value) * parseFloat(KpolOut.value) * parseFloat(KqqOut.value) * 1e-9;
+        dev70 = ((D70 / K70ref) - 1) * 100;
+        D100 = parseFloat(K100nc) * 100 / parseFloat(K100mu) * parseFloat(NDW) * parseFloat(KtpOut.value) * parseFloat(KsatOut.value) * parseFloat(KpolOut.value) * parseFloat(KqqOut.value) * 1e-9;
+        dev100 = ((D100 / K100ref) - 1) * 100;
+        D170 = parseFloat(K170nc) * 100 / parseFloat(K170mu-K100mu) * parseFloat(NDW) * parseFloat(KtpOut.value) * parseFloat(KsatOut.value) * parseFloat(KpolOut.value) * parseFloat(KqqOut.value) * 1e-9;
+        dev170 = ((D170 / K170ref) - 1) * 100;
+        D226 = parseFloat(K226nc) * 100 / parseFloat(K226mu-K170mu) * parseFloat(NDW) * parseFloat(KtpOut.value) * parseFloat(KsatOut.value) * parseFloat(KpolOut.value) * parseFloat(KqqOut.value) * 1e-9;
+        dev226 = ((D226 / K226ref) - 1) * 100;
+        if (inputValueK70mu.value.length != 0 && inputValueK70nC.value.length != 0) {
+            K70outD.textContent = parseFloat(D70);
+            K70out.textContent = parseFloat(dev70);
+            if (dev70 >= -2 && dev70 <= 2) {
+                iconK70.innerHTML = "&#10004;"; // pass icon
+                iconK70.style.color = "green";
+            } else {
+                iconK70.innerHTML = "&#10008;"; // fail icon
+                iconK70.style.color = "red";
+            };
+        } else {
+            K70outD.textContent = "";
+            K70out.textContent = "";
+            iconK70.innerHTML = "";
+        }
+        if (inputValueK100mu.value.length != 0 && inputValueK100nC.value.length != 0) {
+            K100outD.textContent = parseFloat(D100);
+            K100out.textContent = parseFloat(dev100);
+            if (dev100 >= -2 && dev100 <= 2) {
+                iconK100.innerHTML = "&#10004;"; // pass icon
+                iconK100.style.color = "green";
+            } else {
+                iconK100.innerHTML = "&#10008;"; // fail icon
+                iconK100.style.color = "red";
+            };
+        } else {
+            K100outD.textContent = "";
+            K100out.textContent = "";
+            iconK100.innerHTML = "";
+        }
+        if (inputValueK170mu.value.length != 0 && inputValueK170nC.value.length != 0) {
+            K170outD.textContent = parseFloat(D170);
+            K170out.textContent = parseFloat(dev170);
+            if (dev170 >= -2 && dev170 <= 2) {
+                iconK170.innerHTML = "&#10004;"; // pass icon
+                iconK170.style.color = "green";
+            } else {
+                iconK170.innerHTML = "&#10008;"; // fail icon
+                iconK170.style.color = "red";
+            };
+        } else {
+            K170outD.textContent = "";
+            K170out.textContent = "";
+            iconK170.innerHTML = "";
+        }
+        if (inputValueK226mu.value.length != 0 && inputValueK226nC.value.length != 0) {
+            K226outD.textContent = parseFloat(D226);
+            K226out.textContent = parseFloat(dev226);
+            if (dev226 >= -2 && dev226 <= 2) {
+                iconK226.innerHTML = "&#10004;"; // pass icon
+                iconK226.style.color = "green";
+            } else {
+                iconK226.innerHTML = "&#10008;"; // fail icon
+                iconK226.style.color = "red";
+            };
+        } else {
+            K226outD.textContent = "";
+            K226out.textContent = "";
+            iconK226.innerHTML = "";
+        }
+    };
+    function MlicCalc () {
+        MLICdev70 = parseFloat(MLIC70out.value) - parseFloat(MLIC70ref);
+        MLICdev100 = parseFloat(MLIC100out.value) - parseFloat(MLIC100ref);
+        MLICdev170 = parseFloat(MLIC170out.value) - parseFloat(MLIC170ref);
+        MLICdev226 = parseFloat(MLIC226out.value) - parseFloat(MLIC226ref);
+        if (MLIC70.value.length != 0) {
+            MLIC70out.textContent = MLICdev70;
+            if (MLICdev70 >= -0.15 && MLICdev70 <= 0.15) {
+                iconMLIC70.innerHTML = "&#10004;"; // pass icon
+                iconMLIC70.style.color = "green";
+            } else {
+                iconMLIC70.innerHTML = "&#10008;"; // fail icon
+                iconMLIC70.style.color = "red";
+            };
+        } else {
+            MLIC70out.textContent = "";
+            iconMLIC70.innerHTML = "";
+        };
+        if (MLIC100.value.length != 0) {
+            MLIC100out.textContent = MLICdev100;
+            if (MLICdev100 >= -0.15 && MLICdev100 <= 0.15) {
+                iconMLIC100.innerHTML = "&#10004;"; // pass icon
+                iconMLIC100.style.color = "green";
+            } else {
+                iconMLIC100.innerHTML = "&#10008;"; // fail icon
+                iconMLIC100.style.color = "red";
+            };
+        } else {
+            MLIC100out.textContent = "";
+            iconMLIC100.innerHTML = "";
+        };
+        if (MLIC170.value.length != 0) {
+            MLIC170out.textContent = MLICdev170;
+            if (MLICdev170 >= -0.15 && MLICdev170 <= 0.15) {
+                iconMLIC170.innerHTML = "&#10004;"; // pass icon
+                iconMLIC170.style.color = "green";
+            } else {
+                iconMLIC170.innerHTML = "&#10008;"; // fail icon
+                iconMLIC170.style.color = "red";
+            };
+        } else {
+            MLIC170out.textContent = "";
+            iconMLIC170.innerHTML = "";
+        };
+        if (MLIC226.value.length != 0) {
+            MLIC226out.textContent = MLICdev226;
+            if (MLICdev226 >= -0.15 && MLICdev226 <= 0.15) {
+                iconMLIC226.innerHTML = "&#10004;"; // pass icon
+                iconMLIC226.style.color = "green";
+            } else {
+                iconMLIC226.innerHTML = "&#10008;"; // fail icon
+                iconMLIC226.style.color = "red";
+            };
+        } else {
+            MLIC226out.textContent = "";
+            iconMLIC226.innerHTML = "";
+        };
+    };
 
     //checkboxes check + check of all checks, czechs number one
 
@@ -296,7 +462,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (inputValueTemp.value >= 15 && inputValueTemp.value <= 30) {
             iconTemp.innerHTML = "&#10004;"; // pass icon
             iconTemp.style.color = "green";
-            var T = parseInt(inputValueTemp.value) + 273.15;
+            var T = parseFloat(inputValueTemp.value) + 273.15;
             //Temp = T
             Temp.textContent = T;
             //Ktp = ((273.15 + Temp.value) / (273.15 + 20) * (1013 / Pres.value));
@@ -307,13 +473,14 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         MiscUpdate();
         MiscCalc();
+        DoseCalc ();
         KtpOut.textContent = KtpOut.value;
         });
     inputValueTemp.addEventListener("blur", function(){
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, Temp: Temp.value},
                 success:function(response){}});
         });
@@ -323,7 +490,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (inputValuePres.value >= 900 && inputValuePres.value <= 1100) {
             iconPres.innerHTML = "&#10004;"; // pass icon
             iconPres.style.color = "green";
-            var p = parseInt(inputValuePres.value);
+            var p = parseFloat(inputValuePres.value);
             //Pres = p;
             Pres.textContent = p;
             
@@ -335,6 +502,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         MiscUpdate();
         MiscCalc();
+        DoseCalc ();
         KtpOut.textContent = KtpOut.value;
         //p = inputValuePres.value;
     });
@@ -342,7 +510,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, Pres: Pres.value},
                 success:function(response){}});
         });
@@ -358,20 +526,21 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         MiscUpdate();
         MiscCalc();
+        DoseCalc ();
         KtpOut.textContent = KtpOut.value;
     });
     inputValueK.addEventListener("blur", function(){
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, kfactor: K},
                 success:function(response){}});
         });
     });
-
-    laserX.addEventListener("input", function(){
+    laserX.addEventListener("change", function(){
         MiscCheck();
+        laserX.value = laserX.checked;
         if (miscChecksX.length == miscChecks0.length) {
             iconMisc.innerHTML = "&#10004;"; // pass icon
             iconMisc.style.color = "green";
@@ -379,19 +548,18 @@ document.addEventListener('DOMContentLoaded', function () {
             iconMisc.innerHTML = "&#10008;"; // fail icon
             iconMisc.style.color = "red";
         };
-    });
-    laserX.addEventListener("blur", function(){
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, X: laserX.value},
                 success:function(response){}});
         });
     });
 
-    laserY.addEventListener("input", function(){
+    laserY.addEventListener("change", function(){
         MiscCheck();
+        laserY.value = laserY.checked;
         if (miscChecksX.length == miscChecks0.length) {
             iconMisc.innerHTML = "&#10004;"; // pass icon
             iconMisc.style.color = "green";
@@ -399,19 +567,18 @@ document.addEventListener('DOMContentLoaded', function () {
             iconMisc.innerHTML = "&#10008;"; // fail icon
             iconMisc.style.color = "red";
         };
-    });
-    laserY.addEventListener("blur", function(){
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, Y: laserY.value},
                 success:function(response){}});
         });
     });
 
-    laserZ.addEventListener("input", function(){
+    laserZ.addEventListener("change", function(){
         MiscCheck();
+        laserZ.value = laserZ.checked;
         if (miscChecksX.length == miscChecks0.length) {
             iconMisc.innerHTML = "&#10004;"; // pass icon
             iconMisc.style.color = "green";
@@ -419,19 +586,18 @@ document.addEventListener('DOMContentLoaded', function () {
             iconMisc.innerHTML = "&#10008;"; // fail icon
             iconMisc.style.color = "red";
         };
-    });
-    laserZ.addEventListener("blur", function(){
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, Z: laserZ.value},
                 success:function(response){}});
         });
     });
 
-    flatpanels.addEventListener("input", function(){
+    flatpanels.addEventListener("change", function(){
         MiscCheck();
+        flatpanels.value = flatpanels.checked;
         if (miscChecksX.length == miscChecks0.length) {
             iconMisc.innerHTML = "&#10004;"; // pass icon
             iconMisc.style.color = "green";
@@ -439,19 +605,18 @@ document.addEventListener('DOMContentLoaded', function () {
             iconMisc.innerHTML = "&#10008;"; // fail icon
             iconMisc.style.color = "red";
         };
-    });
-    flatpanels.addEventListener("blur", function(){
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, FlatPanels: flatpanels.value},
                 success:function(response){}});
         });
     });
 
-    DynR.addEventListener("input", function(){
+    DynR.addEventListener("change", function(){
         MiscCheck();
+        DynR.value = DynR.checked;
         if (miscChecksX.length == miscChecks0.length) {
             iconMisc.innerHTML = "&#10004;"; // pass icon
             iconMisc.style.color = "green";
@@ -459,19 +624,18 @@ document.addEventListener('DOMContentLoaded', function () {
             iconMisc.innerHTML = "&#10008;"; // fail icon
             iconMisc.style.color = "red";
         };
-    });
-    DynR.addEventListener("blur", function(){
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, DynR: DynR.value},
                 success:function(response){}});
         });
     });
 
-    VisionRT.addEventListener("input", function(){
+    VisionRT.addEventListener("change", function(){
         MiscCheck();
+        VisionRT.value = VisionRT.checked;
         if (miscChecksX.length == miscChecks0.length) {
             iconMisc.innerHTML = "&#10004;"; // pass icon
             iconMisc.style.color = "green";
@@ -479,45 +643,115 @@ document.addEventListener('DOMContentLoaded', function () {
             iconMisc.innerHTML = "&#10008;"; // fail icon
             iconMisc.style.color = "red";
         };
-    });
-    VisionRT.addEventListener("blur", function(){
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, VisionRT: VisionRT.value},
                 success:function(response){}});
         });
     });
 
-
-    
     //console.log(Pres.value);
     
     //Pres.textContent = p;
     //Temp.textContent = T;
 
     // lynx vars
-    inputValueL11595 = document.getElementById("L115-95");
-    iconL11595 = document.getElementById("iconL115-95");
-    inputValueL11599 = document.getElementById("L115-99");
-    iconL11599 = document.getElementById("iconL115-99");
-    inputValueL14595 = document.getElementById("L145-95");
-    iconL14595 = document.getElementById("iconL145-95");
-    inputValueL14599 = document.getElementById("L145-99");
-    iconL14599 = document.getElementById("iconL145-99");
-    inputValueL22695 = document.getElementById("L226-95");
-    iconL22695 = document.getElementById("iconL226-95");
-    inputValueL22699 = document.getElementById("L226-99");
-    iconL22699 = document.getElementById("iconL226-99");
+    inputValueL7095 = document.getElementById("L70-95LR");
+    iconL7095 = document.getElementById("iconL70-95LR");
+    inputValueL7099 = document.getElementById("L70-99LR");
+    iconL7099 = document.getElementById("iconL70-99LR");
+    inputValueL11595 = document.getElementById("L115-95LR");
+    iconL11595 = document.getElementById("iconL115-95LR");
+    inputValueL11599 = document.getElementById("L115-99LR");
+    iconL11599 = document.getElementById("iconL115-99LR");
+    inputValueL14595 = document.getElementById("L145-95LR");
+    iconL14595 = document.getElementById("iconL145-95LR");
+    inputValueL14599 = document.getElementById("L145-99LR");
+    iconL14599 = document.getElementById("iconL145-99LR");
+    inputValueL22695 = document.getElementById("L226-95LR");
+    iconL22695 = document.getElementById("iconL226-95LR");
+    inputValueL22699 = document.getElementById("L226-99LR");
+    iconL22699 = document.getElementById("iconL226-99LR");
 
-    L115avg = document.getElementById("L115-avg");
-    L115max = document.getElementById("L115-max");
-    L145avg = document.getElementById("L145-avg");
-    L145max = document.getElementById("L145-max");
-    L226avg = document.getElementById("L226-avg");
-    L226max = document.getElementById("L226-max");
+    L70avg = document.getElementById("L70-avgLR");
+    L70max = document.getElementById("L70-maxLR");
+    L115avg = document.getElementById("L115-avgLR");
+    L115max = document.getElementById("L115-maxLR");
+    L145avg = document.getElementById("L145-avgLR");
+    L145max = document.getElementById("L145-maxLR");
+    L226avg = document.getElementById("L226-avgLR");
+    L226max = document.getElementById("L226-maxLR");
     // lynx value checks
+    inputValueL7095.addEventListener("input", function () {
+        L7095out = inputValueL7095.value;
+        if (inputValueL7095.value >= 95 && inputValueL7095.value <= 100) {
+        iconL7095.innerHTML = "&#10004;"; // pass icon
+        iconL7095.style.color = "green";
+        } else {
+        iconL7095.innerHTML = "&#10008;"; // fail icon
+        iconL7095.style.color = "red";
+        }
+    });
+    inputValueL7095.addEventListener("blur", function(){
+        $(function() {
+            $.ajax({
+                type: 'POST',
+                url:"/daily"+String(gtr),
+                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L7095: L7095out},
+                success:function(response){}});
+        });
+    });
+
+    inputValueL7099.addEventListener("input", function () {
+        L7099out = inputValueL7099.value;
+        if (inputValueL7099.value >= 99 && inputValueL7099.value <= 100) {
+            iconL7099.innerHTML = "&#10004;"; // pass icon
+            iconL7099.style.color = "green";
+        } else {
+            iconL7099.innerHTML = "&#10008;"; // fail icon
+            iconL7099.style.color = "red";
+        }
+    });
+    inputValueL7099.addEventListener("blur", function(){
+        $(function() {
+            $.ajax({
+                type: 'POST',
+                url:"/daily"+String(gtr),
+                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L7099: L7099out},
+                success:function(response){}});
+        });
+    });
+
+    L70avg.addEventListener("input", function () {
+        L70avgout = L70avg.value;
+    });
+    L70avg.addEventListener("blur", function(){
+        $(function() {
+            $.ajax({
+                type: 'POST',
+                url:"/daily"+String(gtr),
+                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L70avg: L70avgout},
+                success:function(response){}});
+        });
+    });
+
+    L70max.addEventListener("input", function () {
+        L70maxout = L70max.value;
+    });
+    L70max.addEventListener("blur", function(){
+        $(function() {
+            $.ajax({
+                type: 'POST',
+                url:"/daily"+String(gtr),
+                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L70max: L70maxout},
+                success:function(response){}});
+        });
+    });
+
+
+
     inputValueL11595.addEventListener("input", function () {
         L11595out = inputValueL11595.value;
         if (inputValueL11595.value >= 95 && inputValueL11595.value <= 100) {
@@ -532,7 +766,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L11595: L11595out},
                 success:function(response){}});
         });
@@ -552,7 +786,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L11599: L11599out},
                 success:function(response){}});
         });
@@ -565,7 +799,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L115avg: L115avgout},
                 success:function(response){}});
         });
@@ -578,7 +812,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L115max: L115maxout},
                 success:function(response){}});
         });
@@ -598,7 +832,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L14595: L14595out},
                 success:function(response){}});
         });
@@ -618,7 +852,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L14599: L14599out},
                 success:function(response){}});
         });
@@ -631,7 +865,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L145avg: L145avgout},
                 success:function(response){}});
         });
@@ -644,7 +878,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L145max: L145maxout},
                 success:function(response){}});
         });
@@ -664,7 +898,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L22695: L22695out},
                 success:function(response){}});
         });
@@ -684,7 +918,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L22699: L22699out},
                 success:function(response){}});
         });
@@ -697,7 +931,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L226avg: L226avgout},
                 success:function(response){}});
         });
@@ -710,301 +944,309 @@ document.addEventListener('DOMContentLoaded', function () {
         $(function() {
             $.ajax({
                 type: 'POST',
-                url:"/daily",
+                url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L226max: L226maxout},
                 success:function(response){}});
         });
     });
 
-    // komora vars
-    inputValueK100nC = document.getElementById("K100-nC");
-    inputValueK100mu = document.getElementById("K100-mu");
-    iconK100 = document.getElementById("iconK100");
-    inputValueK170nC = document.getElementById("K170-nC");
-    inputValueK170mu = document.getElementById("K170-mu");
-    iconK170 = document.getElementById("iconK170");
-    inputValueK226nC = document.getElementById("K226-nC");
-    inputValueK226mu = document.getElementById("K226-mu");
-    iconK226 = document.getElementById("iconK226");
-    // calculations komora
-    K100outD = document.getElementById('K100outD');
-    K100out = document.getElementById('K100out');
-    K170outD = document.getElementById('K170outD');
-    K170out = document.getElementById('K170out');
-    K226outD = document.getElementById('K226outD');
-    K226out = document.getElementById('K226out');
+    //komora
     komoraSelect.addEventListener("change", function () {
-    if (komoraSelect.value === "komora3190") {
-        inputValueK100mu.addEventListener("input", function () {
-            D100 = inputValueK100nC.value * 100 / inputValueK100mu.value * K3190ndw * KtpOut * K3190Ksat * K3190Kpol * Kqq;
-            K100outD.textContent = D100;
-            dev100 = ((D100 / K100ref) - 1) * 100;
-            K100out.textContent = dev100;
-            if (dev100 >= -2 && dev100 <= 2) {
-                iconK100.innerHTML = "&#10004;"; // pass icon
-                iconK100.style.color = "green";
-            } else {
-                iconK100.innerHTML = "&#10008;"; // fail icon
-                iconK100.style.color = "red";
-            };
-        });
-        inputValueK170mu.addEventListener("input", function () {
-            D170 = inputValueK170nC.value * 100 / inputValueK170mu.value * K3190ndw * KtpOut * K3190Ksat * K3190Kpol * Kqq;
-            K170outD.textContent = D170;
-            dev170 = ((D170 / K170ref) - 1) * 100;
-            K170out.textContent = dev170;
-            if (dev170 >= -2 && dev170 <= 2) {
-                iconK170.innerHTML = "&#10004;"; // pass icon
-                iconK170.style.color = "green";
-            } else {
-                iconK170.innerHTML = "&#10008;"; // fail icon
-                iconK170.style.color = "red";
-            };
-        });
-        inputValueK226mu.addEventListener("input", function () {
-            D226 = inputValueK226nC.value * 100 / inputValueK226mu.value * K3190ndw * KtpOut * K3190Ksat * K3190Kpol * Kqq;
-            K226outD.textContent = D226;
-            dev226 = ((D226 / K226ref) - 1) * 100;
-            K226out.textContent = dev226;
-            if (dev226 >= -2 && dev226 <= 2) {
-                iconK226.innerHTML = "&#10004;"; // pass icon
-                iconK226.style.color = "green";
-            } else {
-                iconK226.innerHTML = "&#10008;"; // fail icon
-                iconK226.style.color = "red";
-            };
-        });
-        KpolOut.textContent = K3190Kpol;
-        KsatOut.textContent = K3190Ksat;
-        KqqOut.textContent = Kqq;
-    } else if (komoraSelect.value === "komora2132") {
-        inputValueK100mu.addEventListener("input", function () {
-            D100 = inputValueK100nC.value * 100 / inputValueK100mu.value * K2132ndw * KtpOut * K2132Ksat * K2132Kpol * Kqq;
-            K100outD.textContent = D100;
-            dev100 = ((D100 / K100ref) - 1) * 100;
-            K100out.textContent = dev100;
-            if (dev100 >= -2 && dev100 <= 2) {
-                iconK100.innerHTML = "&#10004;"; // pass icon
-                iconK100.style.color = "green";
-            } else {
-                iconK100.innerHTML = "&#10008;"; // fail icon
-                iconK100.style.color = "red";
-            };
-        });
-        inputValueK170mu.addEventListener("input", function () {
-            D170 = inputValueK170nC.value * 100 / inputValueK170mu.value * K2132ndw * KtpOut * K2132Ksat * K2132Kpol * Kqq;
-            K170outD.textContent = D170;
-            dev170 = ((D170 / K170ref) - 1) * 100;
-            K170out.textContent = dev170;
-            if (dev170 >= -2 && dev170 <= 2) {
-                iconK170.innerHTML = "&#10004;"; // pass icon
-                iconK170.style.color = "green";
-            } else {
-                iconK170.innerHTML = "&#10008;"; // fail icon
-                iconK170.style.color = "red";
-            };
-        });
-        inputValueK226mu.addEventListener("input", function () {
-            D226 = inputValueK226nC.value * 100 / inputValueK226mu.value * K2132ndw * KtpOut * K2132Ksat * K2132Kpol * Kqq;
-            K226outD.textContent = D226;
-            dev226 = ((D226 / K226ref) - 1) * 100;
-            K226out.textContent = dev226;
-            if (dev226 >= -2 && dev226 <= 2) {
-                iconK226.innerHTML = "&#10004;"; // pass icon
-                iconK226.style.color = "green";
-            } else {
-                iconK226.innerHTML = "&#10008;"; // fail icon
-                iconK226.style.color = "red";
-            };
-        });
-        KpolOut.textContent = K2132Kpol;
-        KsatOut.textContent = K2132Ksat;
-        KqqOut.textContent = Kqq;
-    } else if (komoraSelect.value === "komora3565") {
-        inputValueK100mu.addEventListener("input", function () {
-            D100 = inputValueK100nC.value * 100 / inputValueK100mu.value * K3565ndw * KtpOut * K3565Ksat * K3565Kpol * Kqq;
-            K100outD.textContent = D100;
-            dev100 = ((D100 / K100ref) - 1) * 100;
-            K100out.textContent = dev100;
-            if (dev100 >= -2 && dev100 <= 2) {
-                iconK100.innerHTML = "&#10004;"; // pass icon
-                iconK100.style.color = "green";
-            } else {
-                iconK100.innerHTML = "&#10008;"; // fail icon
-                iconK100.style.color = "red";
-            };
-        });
-        inputValueK170mu.addEventListener("input", function () {
-            D170 = inputValueK170nC.value * 100 / inputValueK170mu.value * K3565ndw * KtpOut * K3565Ksat * K3565Kpol * Kqq;
-            K170outD.textContent = D170;
-            dev170 = ((D170 / K170ref) - 1) * 100;
-            K170out.textContent = dev170;
-            if (dev170 >= -2 && dev170 <= 2) {
-                iconK170.innerHTML = "&#10004;"; // pass icon
-                iconK170.style.color = "green";
-            } else {
-                iconK170.innerHTML = "&#10008;"; // fail icon
-                iconK170.style.color = "red";
-            };
-        });
-        inputValueK226mu.addEventListener("input", function () {
-            D226 = inputValueK226nC.value * 100 / inputValueK226mu.value * K3565ndw * KtpOut * K3565Ksat * K3565Kpol * Kqq;
-            K226outD.textContent = D226;
-            dev226 = ((D226 / K226ref) - 1) * 100;
-            K226out.textContent = dev226;
-            if (dev226 >= -2 && dev226 <= 2) {
-                iconK226.innerHTML = "&#10004;"; // pass icon
-                iconK226.style.color = "green";
-            } else {
-                iconK226.innerHTML = "&#10008;"; // fail icon
-                iconK226.style.color = "red";
-            };
-        });
-        KpolOut.textContent = K3565Kpol;
-        KsatOut.textContent = K3565Ksat;
-        KqqOut.textContent = Kqq;
-    } else if (komoraSelect.value === "komora4218") {
-        inputValueK100mu.addEventListener("input", function () {
-            D100 = inputValueK100nC.value * 100 / inputValueK100mu.value * K4218ndw * KtpOut * K4218Ksat * K4218Kpol * Kqq;
-            K100outD.textContent = D100;
-            dev100 = ((D100 / K100ref) - 1) * 100;
-            K100out.textContent = dev100;
-            if (dev100 >= -2 && dev100 <= 2) {
-                iconK100.innerHTML = "&#10004;"; // pass icon
-                iconK100.style.color = "green";
-            } else {
-                iconK100.innerHTML = "&#10008;"; // fail icon
-                iconK100.style.color = "red";
-            };
-        });
-        inputValueK170mu.addEventListener("input", function () {
-            D170 = inputValueK170nC.value * 100 / inputValueK170mu.value * K4218ndw * KtpOut * K4218Ksat * K4218Kpol * Kqq;
-            K170outD.textContent = D170;
-            dev170 = ((D170 / K170ref) - 1) * 100;
-            K170out.textContent = dev170;
-            if (dev170 >= -2 && dev170 <= 2) {
-                iconK170.innerHTML = "&#10004;"; // pass icon
-                iconK170.style.color = "green";
-            } else {
-                iconK170.innerHTML = "&#10008;"; // fail icon
-                iconK170.style.color = "red";
-            };
-        });
-        inputValueK226mu.addEventListener("input", function () {
-            D226 = inputValueK226nC.value * 100 / inputValueK226mu.value * K4218ndw * KtpOut * K4218Ksat * K4218Kpol * Kqq;
-            K226outD.textContent = D226;
-            dev226 = ((D226 / K226ref) - 1) * 100;
-            K226out.textContent = dev226;
-            if (dev226 >= -2 && dev226 <= 2) {
-                iconK226.innerHTML = "&#10004;"; // pass icon
-                iconK226.style.color = "green";
-            } else {
-                iconK226.innerHTML = "&#10008;"; // fail icon
-                iconK226.style.color = "red";
-            };
-        });
-        KpolOut.textContent = K4218Kpol;
-        KsatOut.textContent = K4218Ksat;
-        KqqOut.textContent = Kqq;
-    } else if (komoraSelect.value === "komora5414") {
-        inputValueK100mu.addEventListener("input", function () {
-            D100 = inputValueK100nC.value * 100 / inputValueK100mu.value * K5414ndw * KtpOut * K5414Ksat * K5414Kpol * Kqq;
-            K100outD.textContent = D100;
-            dev100 = ((D100 / K100ref) - 1) * 100;
-            K100out.textContent = dev100;
-            if (dev100 >= -2 && dev100 <= 2) {
-                iconK100.innerHTML = "&#10004;"; // pass icon
-                iconK100.style.color = "green";
-            } else {
-                iconK100.innerHTML = "&#10008;"; // fail icon
-                iconK100.style.color = "red";
-            };
-        });
-        inputValueK170mu.addEventListener("input", function () {
-            D170 = inputValueK170nC.value * 100 / inputValueK170mu.value * K5414ndw * KtpOut * K5414Ksat * K5414Kpol * Kqq;
-            K170outD.textContent = D170;
-            dev170 = ((D170 / K170ref) - 1) * 100;
-            K170out.textContent = dev170;
-            if (dev170 >= -2 && dev170 <= 2) {
-                iconK170.innerHTML = "&#10004;"; // pass icon
-                iconK170.style.color = "green";
-            } else {
-                iconK170.innerHTML = "&#10008;"; // fail icon
-                iconK170.style.color = "red";
-            };
-        });
-        inputValueK226mu.addEventListener("input", function () {
-            D226 = inputValueK226nC.value * 100 / inputValueK226mu.value * K5414ndw * KtpOut * K5414Ksat * K5414Kpol * Kqq;
-            K226outD.textContent = D226;
-            dev226 = ((D226 / K226ref) - 1) * 100;
-            K226out.textContent = dev226;
-            if (dev226 >= -2 && dev226 <= 2) {
-                iconK226.innerHTML = "&#10004;"; // pass icon
-                iconK226.style.color = "green";
-            } else {
-                iconK226.innerHTML = "&#10008;"; // fail icon
-                iconK226.style.color = "red";
-            };
-        });
-        KpolOut.textContent = K5414Kpol;
-        KsatOut.textContent = K5414Ksat;
-        KqqOut.textContent = Kqq;
+        MiscUpdate();
+        MiscCalc();
+        DoseCalc();
+        if (komoraSelect.value == "none"){
+            KpolOut.textContent = "";
+            KsatOut.textContent = "";
+            KqqOut.textContent = "";
+        } else if (komoraSelect.value == "3190") {
+            KpolOut.textContent = K3190Kpol;
+            KsatOut.textContent = K3190Ksat;
+            KqqOut.textContent = Kqq;
+            KpolOut.value = K3190Kpol;
+            KsatOut.value = K3190Ksat;
+            KqqOut.value = Kqq;
+            NDW = K3190ndw;
+            DoseCalc();
+        } else if (komoraSelect.value == "2132") {
+            KpolOut.textContent = K2132Kpol;
+            KsatOut.textContent = K2132Ksat;
+            KqqOut.textContent = Kqq;
+            KpolOut.value = K2132Kpol;
+            KsatOut.value = K2132Ksat;
+            KqqOut.value = Kqq;
+            NDW = K2132ndw;
+            DoseCalc();
+        } else if (komoraSelect.value == "3565") {
+            KpolOut.textContent = K3565Kpol;
+            KsatOut.textContent = K3565Ksat;
+            KqqOut.textContent = Kqq;
+            KpolOut.value = K3565Kpol;
+            KsatOut.value = K3565Ksat;
+            KqqOut.value = Kqq;
+            NDW = K3565ndw;
+            DoseCalc();
+        } else if (komoraSelect.value == "4218") {
+            KpolOut.textContent = K4218Kpol;
+            KsatOut.textContent = K4218Ksat;
+            KqqOut.textContent = Kqq;
+            KpolOut.value = K4218Kpol;
+            KsatOut.value = K4218Ksat;
+            KqqOut.value = Kqq;
+            NDW = K4218ndw;
+            DoseCalc();
+        } else if (komoraSelect.value == "5414") {
+            KpolOut.textContent = K5414Kpol;
+            KsatOut.textContent = K5414Ksat;
+            KqqOut.textContent = Kqq;
+            KpolOut.value = K5414Kpol;
+            KsatOut.value = K5414Ksat;
+            KqqOut.value = Kqq;
+            NDW = K5414ndw;
+            DoseCalc();
         }
     });
+    // komora vars
+    inputValueK70nC = document.getElementById("K70-nCLR");
+    inputValueK70mu = document.getElementById("K70-muLR");
+    iconK70 = document.getElementById("iconK70LR");
+    inputValueK100nC = document.getElementById("K100-nCLR");
+    inputValueK100mu = document.getElementById("K100-muLR");
+    iconK100 = document.getElementById("iconK100LR");
+    inputValueK170nC = document.getElementById("K170-nCLR");
+    inputValueK170mu = document.getElementById("K170-muLR");
+    iconK170 = document.getElementById("iconK170LR");
+    inputValueK226nC = document.getElementById("K226-nCLR");
+    inputValueK226mu = document.getElementById("K226-muLR");
+    iconK226 = document.getElementById("iconK226LR");
+    // calculations komora
+    K70outD = document.getElementById('K70outDLR');
+    K70out = document.getElementById('K70outLR');
+    K100outD = document.getElementById('K100outDLR');
+    K100out = document.getElementById('K100outLR');
+    K170outD = document.getElementById('K170outDLR');
+    K170out = document.getElementById('K170outLR');
+    K226outD = document.getElementById('K226outDLR');
+    K226out = document.getElementById('K226outLR');
+
+    inputValueK70mu.addEventListener("input", function () {
+        K70mu = inputValueK70mu.value;
+        MiscUpdate();
+        MiscCalc();
+        DoseCalc();
+    });
+    inputValueK70mu.addEventListener("blur", function () {
+        $(function() {
+            $.ajax({
+                type: 'POST',
+                url:"/daily"+String(gtr),
+                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, K70mu: K70mu},
+                success:function(response){}});
+        });
+    });
+    inputValueK70nC.addEventListener("input", function () {
+        K70nc = inputValueK70nC.value;
+        MiscUpdate();
+        MiscCalc();
+        DoseCalc();
+    });
+    inputValueK70nC.addEventListener("blur", function () {
+        $(function() {
+            $.ajax({
+                type: 'POST',
+                url:"/daily"+String(gtr),
+                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, K70nc: K70nc},
+                success:function(response){}});
+        });
+    });
+
+    inputValueK100mu.addEventListener("input", function () {
+        K100mu = inputValueK100mu.value;
+        MiscUpdate();
+        MiscCalc();
+        DoseCalc();
+    });
+    inputValueK100mu.addEventListener("blur", function () {
+        $(function() {
+            $.ajax({
+                type: 'POST',
+                url:"/daily"+String(gtr),
+                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, K100mu: K100mu},
+                success:function(response){}});
+        });
+    });
+    inputValueK100nC.addEventListener("input", function () {
+        K100nc = inputValueK100nC.value;
+        MiscUpdate();
+        MiscCalc();
+        DoseCalc();
+    });
+    inputValueK100nC.addEventListener("blur", function () {
+        $(function() {
+            $.ajax({
+                type: 'POST',
+                url:"/daily"+String(gtr),
+                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, K100nc: K100nc},
+                success:function(response){}});
+        });
+    });
+
+    inputValueK170mu.addEventListener("input", function () {
+        K170mu = inputValueK170mu.value;
+        MiscUpdate();
+        MiscCalc();
+        DoseCalc();
+    });
+    inputValueK170mu.addEventListener("blur", function () {
+        $(function() {
+            $.ajax({
+                type: 'POST',
+                url:"/daily"+String(gtr),
+                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, K170mu: K170mu},
+                success:function(response){}});
+        });
+    });
+    inputValueK170nC.addEventListener("input", function () {
+        K170nc = inputValueK170nC.value;
+        MiscUpdate();
+        MiscCalc();
+        DoseCalc();
+        if (dev170 >= -2 && dev170 <= 2) {
+            iconK170.innerHTML = "&#10004;"; // pass icon
+            iconK170.style.color = "green";
+        } else {
+            iconK170.innerHTML = "&#10008;"; // fail icon
+            iconK170.style.color = "red";
+        };
+    });
+    inputValueK170nC.addEventListener("blur", function () {
+        $(function() {
+            $.ajax({
+                type: 'POST',
+                url:"/daily"+String(gtr),
+                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, K170nc: K170nc},
+                success:function(response){}});
+        });
+    });
+
+    inputValueK226mu.addEventListener("input", function () {
+        K226mu = inputValueK226mu.value;
+        MiscUpdate();
+        MiscCalc();
+        DoseCalc();
+    });
+    inputValueK226mu.addEventListener("blur", function () {
+        $(function() {
+            $.ajax({
+                type: 'POST',
+                url:"/daily"+String(gtr),
+                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, K226mu: K226mu},
+                success:function(response){}});
+        });
+    });
+    inputValueK226nC.addEventListener("input", function () {
+        K226nc = inputValueK226nC.value;
+        MiscUpdate();
+        MiscCalc();
+        DoseCalc();
+        if (dev226 >= -2 && dev226 <= 2) {
+            iconK226.innerHTML = "&#10004;"; // pass icon
+            iconK226.style.color = "green";
+        } else {
+            iconK226.innerHTML = "&#10008;"; // fail icon
+            iconK226.style.color = "red";
+        };
+    });
+    inputValueK226nC.addEventListener("blur", function () {
+        $(function() {
+            $.ajax({
+                type: 'POST',
+                url:"/daily"+String(gtr),
+                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, K226nc: K226nc},
+                success:function(response){}});
+        });
+    });
+    
     // mlic vars
-    MLIC100 = document.getElementById("MLIC100");
-    MLIC170 = document.getElementById("MLIC170");
-    MLIC226 = document.getElementById("MLIC226");
+    MLIC70 = document.getElementById("MLIC70LR");
+    MLIC100 = document.getElementById("MLIC100LR");
+    MLIC170 = document.getElementById("MLIC170LR");
+    MLIC226 = document.getElementById("MLIC226LR");
 
-    iconMLIC100 = document.getElementById("iconMLIC100");
-    iconMLIC170 = document.getElementById("iconMLIC170");
-    iconMLIC226 = document.getElementById("iconMLIC226");
+    iconMLIC70 = document.getElementById("iconMLIC70LR");
+    iconMLIC100 = document.getElementById("iconMLIC100LR");
+    iconMLIC170 = document.getElementById("iconMLIC170LR");
+    iconMLIC226 = document.getElementById("iconMLIC226LR");
 
-    MLIC100out = document.getElementById("MLIC100out");
-    MLIC170out = document.getElementById("MLIC170out");
-    MLIC226out = document.getElementById("MLIC226out");
+    MLIC70out = document.getElementById("MLIC70outLR");
+    MLIC100out = document.getElementById("MLIC100outLR");
+    MLIC170out = document.getElementById("MLIC170outLR");
+    MLIC226out = document.getElementById("MLIC226outLR");
 
     //mlic calcs
-    mlicSelect.addEventListener("change", function () {
-        if (mlicSelect.value === "mlic1") {
-            MLIC100.addEventListener("input", function () {
-                MLICdev100 = MLIC100.value - MLIC100ref;
-                MLIC100out.value = MLIC100.value;
-                MLIC100out.textContent = MLICdev100;
-                if (MLICdev100 >= -0.15 && MLICdev100 <= 0.15) {
-                    iconMLIC100.innerHTML = "&#10004;"; // pass icon
-                    iconMLIC100.style.color = "green";
-                } else {
-                    iconMLIC100.innerHTML = "&#10008;"; // fail icon
-                    iconMLIC100.style.color = "red";
-                };
-            });
-            MLIC170.addEventListener("input", function () {
-                MLICdev170 = MLIC170.value - MLIC170ref;
-                MLIC170out.value = MLIC170.value;
-                MLIC170out.textContent = MLICdev170;
-                if (MLICdev170 >= -0.15 && MLICdev170 <= 0.15) {
-                    iconMLIC170.innerHTML = "&#10004;"; // pass icon
-                    iconMLIC170.style.color = "green";
-                } else {
-                    iconMLIC170.innerHTML = "&#10008;"; // fail icon
-                    iconMLIC170.style.color = "red";
-                };
-            });
-            MLIC226.addEventListener("input", function () {
-                MLICdev226 = MLIC226.value - MLIC226ref;
-                MLIC226out.value = MLIC226.value;
-                MLIC226out.textContent = MLICdev226;
-                if (MLICdev226 >= -0.15 && MLICdev226 <= 0.15) {
-                    iconMLIC226.innerHTML = "&#10004;"; // pass icon
-                    iconMLIC226.style.color = "green";
-                } else {
-                    iconMLIC226.innerHTML = "&#10008;"; // fail icon
-                    iconMLIC226.style.color = "red";
-                };
-            });
-        }
+    MLIC70.addEventListener("input", function () {
+        MLIC70out.value = MLIC70.value;
+        MiscUpdate();
+        MiscCalc();
+        MlicCalc();
     });
+    MLIC70.addEventListener("blur", function () {
+        $(function() {
+            $.ajax({
+                type: 'POST',
+                url:"/daily"+String(gtr),
+                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, MLIC70: MLIC70out.value},
+                success:function(response){}});
+        });
+    });
+    MLIC100.addEventListener("input", function () {
+        MLIC100out.value = MLIC100.value;
+        MiscUpdate();
+        MiscCalc();
+        MlicCalc();
+    });
+    MLIC100.addEventListener("blur", function () {
+        $(function() {
+            $.ajax({
+                type: 'POST',
+                url:"/daily"+String(gtr),
+                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, MLIC100: MLIC100out.value},
+                success:function(response){}});
+        });
+    });
+
+    MLIC170.addEventListener("input", function () {
+        MLIC170out.value = MLIC170.value;
+        MiscUpdate();
+        MiscCalc();
+        MlicCalc();
+    });
+    MLIC170.addEventListener("blur", function () {
+        $(function() {
+            $.ajax({
+                type: 'POST',
+                url:"/daily"+String(gtr),
+                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, MLIC170: MLIC170out.value},
+                success:function(response){}});
+        });
+    });
+
+    MLIC226.addEventListener("input", function () {
+        MLIC226out.value = MLIC226.value;
+        MiscUpdate();
+        MiscCalc();
+        MlicCalc();
+    });
+    MLIC226.addEventListener("blur", function () {
+        $(function() {
+            $.ajax({
+                type: 'POST',
+                url:"/daily"+String(gtr),
+                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, MLIC226: MLIC226out.value},
+                success:function(response){}});
+        });
+    });
+
     //function updateState() {
     //    let allChecked = true;
     //    for (let i = 0; i < checkboxes.length; i++) {

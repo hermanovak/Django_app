@@ -8,14 +8,16 @@
 
 
 
-<h2>Daily QA Test for FBTR1</h2>
+<h2>Daily QA Test for GTR3</h2>
 
 <body>
+
+
     <form method="post">
         {% csrf_token %}
         <label for="lynx-select">Select Lynx:</label>
         <select class="form-control" id="lynx-select" name="lynx-select">
-            <option value="none"><i>Select Lynx</i></option>
+            <option value=''><i>Select Lynx</i></option>
             <option value="3" id="l3">Lynx 3</option>
             <option value="6" id="l6">Lynx 6</option>
             <option value="5" id="l5">Lynx 5</option>
@@ -34,6 +36,7 @@
         <label for="mlic-select">Select MLIC:</label>
         <!-- <select class="form-control" id="mlic-select" name="mlic-select" disabled="disabled"> -->
         <select class="form-control" id="mlic-select" name="mlic-select">
+
             <option value="none"><i>Select MLIC</i></option>
             <option value="1" id="mlic1">MLIC SN 16351</option>
         </select>
@@ -62,7 +65,7 @@
                     <td>Laser Z <input type="checkbox" id="Z"></td>
                 </tr>
                 <tr>
-                    <td>Vision RT Daily QA <input type="checkbox" id="vision" disabled="disabled"></td>
+                    <td>Vision RT Daily QA <input type="checkbox" id="vision"></td>
                     <td>DynR Daily Calibration <input type="checkbox" id="dynr" disabled="disabled"></td>
                     <td></td>
                     <td></td>
@@ -372,17 +375,20 @@
 
 
 <script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
-<script type="text/javascript" src="{% static 'reg.js' %}"></script>
+<script type="text/javascript" src="{% static 'LR.js' %}"></script>
 <script>
-    var gtr = 1;
-    K100ref = 0.11019;
-    K170ref = 0.10681;
-    K226ref = 0.10751;
+    var gtr = 3;
+    K70ref = 0.11982603;
+    K100ref = 0.10592007;
+    K170ref = 0.1019005;
+    K226ref = 0.10222064;
 
-    MLIC100ref = 7.73;
-    MLIC170ref = 19.61;
-    MLIC226ref = 32.02;
+    MLIC70ref = 4.11;
+    MLIC100ref = 7.71;
+    MLIC170ref = 19.63;
+    MLIC226ref = 31.90;
 </script>
+
 
 
 {% endblock %}

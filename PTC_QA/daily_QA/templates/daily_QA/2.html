@@ -8,9 +8,11 @@
 
 
 
-<h2>Daily QA Test for FBTR1</h2>
+<h2>Daily QA Test for GTR2</h2>
 
 <body>
+
+
     <form method="post">
         {% csrf_token %}
         <label for="lynx-select">Select Lynx:</label>
@@ -34,6 +36,7 @@
         <label for="mlic-select">Select MLIC:</label>
         <!-- <select class="form-control" id="mlic-select" name="mlic-select" disabled="disabled"> -->
         <select class="form-control" id="mlic-select" name="mlic-select">
+
             <option value="none"><i>Select MLIC</i></option>
             <option value="1" id="mlic1">MLIC SN 16351</option>
         </select>
@@ -62,8 +65,8 @@
                     <td>Laser Z <input type="checkbox" id="Z"></td>
                 </tr>
                 <tr>
-                    <td>Vision RT Daily QA <input type="checkbox" id="vision" disabled="disabled"></td>
-                    <td>DynR Daily Calibration <input type="checkbox" id="dynr" disabled="disabled"></td>
+                    <td>Vision RT Daily QA <input type="checkbox" id="vision"></td>
+                    <td>DynR Daily Calibration <input type="checkbox" id="dynr"></td>
                     <td></td>
                     <td></td>
                 </tr>
@@ -374,15 +377,16 @@
 <script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
 <script type="text/javascript" src="{% static 'reg.js' %}"></script>
 <script>
-    var gtr = 1;
-    K100ref = 0.11019;
-    K170ref = 0.10681;
-    K226ref = 0.10751;
+    var gtr = 2;
+    K100ref = 0.10908;
+    K170ref = 0.10539;
+    K226ref = 0.1068;
 
-    MLIC100ref = 7.73;
+    MLIC100ref = 7.69;
     MLIC170ref = 19.61;
-    MLIC226ref = 32.02;
+    MLIC226ref = 31.90;
 </script>
+
 
 
 {% endblock %}
