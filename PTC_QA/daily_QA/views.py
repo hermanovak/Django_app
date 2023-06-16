@@ -46,17 +46,19 @@ def daily(request,gtr):
     datacheck = DailyTestDraft.objects.filter(gantry=gtr,date_added__contains=timezone.now().date())
     if datacheck.count()==0:
         print("Create new input")
-        form = DailyTestDraft()
-        form.gantry = gtr
-        form.date_added = timezone.now()
-        form.save()
+        form = DailyTestDraft.objects.create(gantry=gtr, date_added = timezone.now())
     
     #identify record's index
     listbygantry = DailyTestDraft.objects.values().filter(gantry=gtr)#.order_by("-index",)[0]
     last=listbygantry.order_by('-index')[0]
     index = (last['index'])
     if request.method == "POST":    
-        form = DailyTestDraft.objects.get(pk=index)    
+        form = DailyTestDraft.objects.get(pk=index)
+        form2 = DailyTestInput(indexid=form)
+        form2.save()
+        #lynxform70 = DLynxMeasurement(energy=70, measurementid=form)
+        #lynxform70.save()
+
         if request.POST.get('Temp')!=None: 
             form.temperature = request.POST.get('Temp')
         
@@ -86,18 +88,23 @@ def daily(request,gtr):
             
         if request.POST.get('LynxID')!=None: 
             form.lynxid = request.POST.get('LynxID')
-
+            #lynxform70.LynxID = request.POST.get('LynxID')
+            
         if request.POST.get('L7095')!=None: 
             form.lynx70_95 = request.POST.get('L7095')
+            #lynxform70.val95 = request.POST.get('L7095')
 
         if request.POST.get('L7099')!=None:
             form.lynx70_99 = request.POST.get('L7099')
+            #lynxform70.val99 = request.POST.get('L7099')
 
         if request.POST.get('L70max')!=None:
             form.lynx70_max = request.POST.get('L70max')
+            #lynxform70.max = request.POST.get('L70max')
 
         if request.POST.get('L70avg')!=None:
             form.lynx70_avg = request.POST.get('L70avg')
+            #lynxform70.avg = request.POST.get('L70avg')
             
         if request.POST.get('L11595')!=None: 
             form.lynx115_95 = request.POST.get('L11595')
@@ -178,11 +185,22 @@ def daily(request,gtr):
             form.mlic226_range = request.POST.get('MLIC226')
 
         form.save()
+        #lynxform70.save()
         
         # if request.POST.get('LynxID')!=None: 
         #     lynxid = request.POST.get('LynxID')
-        # form2 = DailyTestInput(configID=lynxid, DailyTest.objects.get(pk=index))
-        # form2.save()  
+        #print(type(form.index))
+
+
+        
+        #form2.indexid_id = form
+        #form2recordHandle = form2.Objects.Create(indexid=form)
+        #print(type(form2.indexid))
+        # form2 = DailyTestInput(energyID = 1, input1 = 1, input2 = 1, input3 = 1, input4 = 1 , configID = 1, indexid_id=form)
+        # form2.save()
+        #form2.configid = lynxid
+        #form2.save()  
+        #print(form2.index.id)
         
         return HttpResponseRedirect('/daily'+str(gtr))
     return render(request, 'daily_QA/'+str(gtr)+'.html', {'gtr':gtr})
