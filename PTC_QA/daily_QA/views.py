@@ -1,14 +1,9 @@
 from django.shortcuts import render, redirect
-from .models import DailyTest, DailyTestInput, DLynxMeasurement, DailyTestDraft #must import all needed tables
-#from .forms import DailyTestForm, DailyTestInputForm
+from .models import DailyTest, DailyTestInput, DLynxMeasurement, DailyTestDraft, DIcMeasurement, DMlicMeasurement #must import all needed tables
 from django.http import HttpResponseRedirect
 #from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
-#import calendar
-#from calendar import HTMLCalendar
 #from datetime import datetime
 from django.utils import timezone
-#from django.core.exceptions import ValidationError
-#from django.forms import formset_factory #multiple forms in one?
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
@@ -44,15 +39,22 @@ def gtrselect(request):
 
 def daily(request,gtr):
     datacheck = DailyTest.objects.filter(gantry=gtr,date_added__contains=timezone.now().date())
-    print(datacheck.count())
     if datacheck.count()==0:
         print("Create new input")
         form = DailyTest.objects.create(gantry=gtr, date_added = timezone.now())
         if gtr==3: 
             lynxform70 = DLynxMeasurement.objects.create(energy=70, measurementid=form)
+            icform70 = DIcMeasurement.objects.create(energy=70, measurementid=form)
+            mlicform70 = DMlicMeasurement.objects.create(energy=70, measurementid=form)
         lynxform115 = DLynxMeasurement.objects.create(energy=115, measurementid=form)
         lynxform145 = DLynxMeasurement.objects.create(energy=145, measurementid=form)
         lynxform226 = DLynxMeasurement.objects.create(energy=226, measurementid=form)
+        icform100 = DIcMeasurement.objects.create(energy=100, measurementid=form)
+        icform170 = DIcMeasurement.objects.create(energy=170, measurementid=form)
+        icform226 = DIcMeasurement.objects.create(energy=226, measurementid=form)
+        mlicform100 = DMlicMeasurement.objects.create(energy=100, measurementid=form)
+        mlicform170 = DMlicMeasurement.objects.create(energy=170, measurementid=form)
+        mlicform226 = DMlicMeasurement.objects.create(energy=226, measurementid=form)
     
     #identify record's index
     listbygantry = DailyTest.objects.values().filter(gantry=gtr)#.order_by("-index",)[0]
@@ -61,9 +63,17 @@ def daily(request,gtr):
     form = DailyTest.objects.get(pk=index)
     if gtr==3:
         lynxform70 = DLynxMeasurement.objects.get(measurementid=index,energy=70)
+        icform70 = DIcMeasurement.objects.get(measurementid=index,energy=70)
+        mlicform70 = DMlicMeasurement.objects.get(measurementid=index,energy=70)
     lynxform115 = DLynxMeasurement.objects.get(measurementid=index,energy=115)
     lynxform145 = DLynxMeasurement.objects.get(measurementid=index,energy=145)
     lynxform226 = DLynxMeasurement.objects.get(measurementid=index,energy=226)
+    icform100 = DIcMeasurement.objects.get(measurementid=index,energy=100)
+    icform170 = DIcMeasurement.objects.get(measurementid=index,energy=170)
+    icform226 = DIcMeasurement.objects.get(measurementid=index,energy=226)
+    mlicform100 = DMlicMeasurement.objects.get(measurementid=index,energy=100)
+    mlicform170 = DMlicMeasurement.objects.get(measurementid=index,energy=170)
+    mlicform226 = DMlicMeasurement.objects.get(measurementid=index,energy=226)
 
     if request.method == "POST":    
         
@@ -71,7 +81,6 @@ def daily(request,gtr):
         #form2.save()
         
         #lynxform70.save()
-
         if request.POST.get('Temp')!=None: 
             form.temperature = request.POST.get('Temp')
         
@@ -101,7 +110,6 @@ def daily(request,gtr):
             
         if request.POST.get('LynxID')!=None: 
             #form.lynxid = request.POST.get('LynxID')
-            print(request.POST.get('LynxID'))
             if gtr==3:
                 lynxform70.lynxid = request.POST.get('LynxID')
             lynxform115.lynxid = request.POST.get('LynxID')
@@ -167,53 +175,67 @@ def daily(request,gtr):
             lynxform226.avg = request.POST.get('L226avg')
 
         if request.POST.get('IcID')!=None: 
-            form.icid = request.POST.get('IcID')
+            icform70.ic_id = request.POST.get('IcID')
 
         if request.POST.get('K70mu')!=None:
-            form.ic70_mu = request.POST.get('K70mu')
+            icform70.response_mu = request.POST.get('K70mu')
 
         if request.POST.get('K70nc')!=None:
-            form.ic100_nc = request.POST.get('K70nc')
+            icform70.response_nc = request.POST.get('K70nc')
 
         if request.POST.get('K100mu')!=None:
-            form.ic100_mu = request.POST.get('K100mu')
+            icform100.response_mu = request.POST.get('K100mu')
 
         if request.POST.get('K100nc')!=None:
-            form.ic100_nc = request.POST.get('K100nc')
+            icform100.response_nc = request.POST.get('K100nc')
 
         if request.POST.get('K170mu')!=None:
-            form.ic170_mu = request.POST.get('K170mu')
+            icform170.response_mu = request.POST.get('K170mu')
 
         if request.POST.get('K170nc')!=None:
-            form.ic170_nc = request.POST.get('K170nc')
+            icform170.response_nc = request.POST.get('K170nc')
 
         if request.POST.get('K226mu')!=None:
-            form.ic226_mu = request.POST.get('K226mu')
+            icform226.response_mu = request.POST.get('K226mu')
 
         if request.POST.get('K226nc')!=None:
-            form.ic226_nc = request.POST.get('K226nc')
+            icform226.response_nc = request.POST.get('K226nc')
 
         if request.POST.get('MlicID')!=None:
-            form.mlicid = request.POST.get('MlicID')
+            #form.mlicid = request.POST.get('MlicID')
+            if gtr==3:
+                mlicform70.mlicid = request.POST.get('MlicID')
+            mlicform100.mlicid = request.POST.get('MlicID')
+            mlicform170.mlicid = request.POST.get('MlicID')
+            mlicform226.mlicid = request.POST.get('MlicID')
 
         if request.POST.get('MLIC70')!=None:
-            form.mlic70_range = request.POST.get('MLIC70')
+            mlicform70.range = request.POST.get('MLIC70')
 
         if request.POST.get('MLIC100')!=None:
-            form.mlic100_range = request.POST.get('MLIC100')
+            mlicform100.range = request.POST.get('MLIC100')
 
         if request.POST.get('MLIC170')!=None:
-            form.mlic170_range = request.POST.get('MLIC170')
+            mlicform170.range = request.POST.get('MLIC170')
 
         if request.POST.get('MLIC226')!=None:
-            form.mlic226_range = request.POST.get('MLIC226')
+            mlicform226.range = request.POST.get('MLIC226')
 
         form.save()
         if gtr==3:
             lynxform70.save()
+            icform70.save()
+            mlicform70.save()
         lynxform115.save()
         lynxform145.save()
         lynxform226.save()
+        icform100.save()
+        icform170.save()
+        icform226.save()
+        mlicform100.save()
+        mlicform170.save()
+        mlicform226.save()
+
                 
         return HttpResponseRedirect('/daily'+str(gtr))
     return render(request, 'daily_QA/'+str(gtr)+'.html', {'gtr':gtr})

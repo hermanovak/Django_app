@@ -124,17 +124,6 @@ class DIcKoefReference(models.Model):
         db_table = 'd_ic_koef_reference'
 
 
-class DIcMeasurement(models.Model):
-    measurementid = models.IntegerField(db_column='measurementID', primary_key=True)  # Field name made lowercase.
-    configid = models.ForeignKey(DIcConfig, models.DO_NOTHING, db_column='configID', blank=True, null=True)  # Field name made lowercase.
-    ic_id = models.IntegerField(db_column='IC_ID', blank=True, null=True)  # Field name made lowercase.
-    energy = models.IntegerField(blank=True, null=True)
-    value = models.DecimalField(max_digits=10, decimal_places=3, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'd_ic_measurement'
-
 
 class DLynxConfig(models.Model):
     configid = models.IntegerField(db_column='configID', primary_key=True)  # Field name made lowercase.
@@ -193,13 +182,14 @@ class DMlicConfig(models.Model):
 
 
 class DMlicMeasurement(models.Model):
-    measurementid = models.IntegerField(db_column='measurementID', primary_key=True)  # Field name made lowercase.
-    configid = models.ForeignKey(DMlicConfig, models.DO_NOTHING, db_column='configID', blank=True, null=True)  # Field name made lowercase.
+    index = models.AutoField(db_column='Index', primary_key=True)
+    measurementid = models.ForeignKey(DailyTest, db_column='measurementid', on_delete=models.CASCADE, null=True, blank=True, default=None)
+    mlicid = models.IntegerField(db_column='MlicID', blank=True, null=True)
     energy = models.IntegerField(blank=True, null=True)
-    value = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    range = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'd_mlic_measurement'
 
 
@@ -275,7 +265,7 @@ class DailyTestDraft(models.Model):
 
 
 class DLynxMeasurement(models.Model):
-    index = models.IntegerField(db_column='Index', primary_key=True)  # Field name made lowercase.
+    index = models.AutoField(db_column='Index', primary_key=True)  # Field name made lowercase.
     measurementid = models.ForeignKey(DailyTest, db_column='measurementid', on_delete=models.CASCADE, null=True, blank=True, default=None)  # Field name made lowercase.
     val95 = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     val99 = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
@@ -287,6 +277,20 @@ class DLynxMeasurement(models.Model):
     class Meta:
         managed = True
         db_table = 'd_lynx_measurement'
+
+class DIcMeasurement(models.Model):
+    index = models.AutoField(db_column='Index', primary_key=True)
+    measurementid = models.ForeignKey(DailyTest, db_column='measurementid', on_delete=models.CASCADE, null=True, blank=True, default=None)
+    #configid = models.ForeignKey(DIcConfig, models.DO_NOTHING, db_column='configID', blank=True, null=True)  # Field name made lowercase.
+    ic_id = models.IntegerField(db_column='IC_ID', blank=True, null=True)  # Field name made lowercase.
+    energy = models.IntegerField(blank=True, null=True)
+    response_nc = models.DecimalField(max_digits=10, decimal_places=3, blank=True, null=True)
+    response_mu = models.DecimalField(max_digits=10, decimal_places=3, blank=True, null=True)
+
+    class Meta:
+        managed = True
+        db_table = 'd_ic_measurement'
+
 
 
 class DailyTestInput(models.Model):
