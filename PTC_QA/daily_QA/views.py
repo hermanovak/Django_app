@@ -76,7 +76,6 @@ def daily(request,gtr):
     mlicform226 = DMlicMeasurement.objects.get(measurementid=index,energy=226)
 
     if request.method == "POST":    
-        
         #form2 = DailyTestInput(indexid=form)
         #form2.save()
         
@@ -174,8 +173,12 @@ def daily(request,gtr):
         if request.POST.get('L226avg')!=None:
             lynxform226.avg = request.POST.get('L226avg')
 
-        if request.POST.get('IcID')!=None: 
-            icform70.ic_id = request.POST.get('IcID')
+        if request.POST.get('IcID')!=None:
+            if gtr==3: 
+                icform70.ic_id = request.POST.get('IcID')
+            icform100.ic_id = request.POST.get('IcID')
+            icform170.ic_id = request.POST.get('IcID')
+            icform226.ic_id = request.POST.get('IcID')
 
         if request.POST.get('K70mu')!=None:
             icform70.response_mu = request.POST.get('K70mu')
