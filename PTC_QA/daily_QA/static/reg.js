@@ -1,7 +1,6 @@
 //db
 // Construct the data object with your variables
 document.addEventListener('DOMContentLoaded', function () {
-   var isPost = 0;
    /* $(function() {
         if (isPost ==0){
             $.ajax({
@@ -431,20 +430,21 @@ document.addEventListener('DOMContentLoaded', function () {
             iconTemp.innerHTML = "&#10008;"; // fail icon
             iconTemp.style.color = "red";
         }
-        console.log(gtr);
         MiscUpdate();
         MiscCalc();
         DoseCalc ();
         KtpOut.textContent = KtpOut.value;
         });
     inputValueTemp.addEventListener("blur", function(){
-        $(function() {
-            $.ajax({
-                type: 'POST',
-                url:"/daily"+String(gtr),
-                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, Temp: Temp.value},
-                success:function(response){}});
-        });
+        if (inputValueTemp.value >= 15 && inputValueTemp.value <= 30) {
+            $(function() {
+                $.ajax({
+                    type: 'POST',
+                    url:"/daily"+String(gtr),
+                    data: {csrfmiddlewaretoken: window.CSRF_TOKEN, Temp: Temp.value},
+                    success:function(response){}});
+            });
+        };
     });
 
     inputValuePres.addEventListener("input", function () {
@@ -468,13 +468,15 @@ document.addEventListener('DOMContentLoaded', function () {
         //p = inputValuePres.value;
     });
     inputValuePres.addEventListener("blur", function(){
-        $(function() {
-            $.ajax({
-                type: 'POST',
-                url:"/daily"+String(gtr),
-                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, Pres: Pres.value},
-                success:function(response){}});
-        });
+        if (inputValuePres.value >= 900 && inputValuePres.value <= 1100) {
+            $(function() {
+                $.ajax({
+                    type: 'POST',
+                    url:"/daily"+String(gtr),
+                    data: {csrfmiddlewaretoken: window.CSRF_TOKEN, Pres: Pres.value},
+                    success:function(response){}});
+            });
+        };
     });
 
     inputValueK.addEventListener("input", function () {
@@ -491,13 +493,15 @@ document.addEventListener('DOMContentLoaded', function () {
         KtpOut.textContent = KtpOut.value;
     });
     inputValueK.addEventListener("blur", function(){
-        $(function() {
-            $.ajax({
-                type: 'POST',
-                url:"/daily"+String(gtr),
-                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, kfactor: K},
-                success:function(response){}});
-        });
+        if (inputValueK.value >= 1 && inputValueK.value <= 1.1) {
+            $(function() {
+                $.ajax({
+                    type: 'POST',
+                    url:"/daily"+String(gtr),
+                    data: {csrfmiddlewaretoken: window.CSRF_TOKEN, kfactor: K},
+                    success:function(response){}});
+            });
+        }
     });
     laserX.addEventListener("change", function(){
         MiscCheck();
@@ -642,21 +646,23 @@ document.addEventListener('DOMContentLoaded', function () {
     inputValueL11595.addEventListener("input", function () {
         L11595out = inputValueL11595.value;
         if (inputValueL11595.value >= 95 && inputValueL11595.value <= 100) {
-        iconL11595.innerHTML = "&#10004;"; // pass icon
-        iconL11595.style.color = "green";
+            iconL11595.innerHTML = "&#10004;"; // pass icon
+            iconL11595.style.color = "green";
         } else {
-        iconL11595.innerHTML = "&#10008;"; // fail icon
-        iconL11595.style.color = "red";
+            iconL11595.innerHTML = "&#10008;"; // fail icon
+            iconL11595.style.color = "red";
         }
     });
     inputValueL11595.addEventListener("blur", function(){
-        $(function() {
-            $.ajax({
-                type: 'POST',
-                url:"/daily"+String(gtr),
-                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L11595: L11595out},
-                success:function(response){}});
-        });
+        if (inputValueL11595.value >= 95 && inputValueL11595.value <= 100) {
+            $(function() {
+                $.ajax({
+                    type: 'POST',
+                    url:"/daily"+String(gtr),
+                    data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L11595: L11595out},
+                    success:function(response){}});
+            });
+        }
     });
 
     inputValueL11599.addEventListener("input", function () {
@@ -670,13 +676,15 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
     inputValueL11599.addEventListener("blur", function(){
-        $(function() {
-            $.ajax({
-                type: 'POST',
-                url:"/daily"+String(gtr),
-                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L11599: L11599out},
-                success:function(response){}});
-        });
+        if (inputValueL11599.value >= 99 && inputValueL11599.value <= 100) {
+            $(function() {
+                $.ajax({
+                    type: 'POST',
+                    url:"/daily"+String(gtr),
+                    data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L11599: L11599out},
+                    success:function(response){}});
+            });
+        }
     });
 
     L115avg.addEventListener("input", function () {
@@ -716,13 +724,15 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
     inputValueL14595.addEventListener("blur", function(){
-        $(function() {
-            $.ajax({
-                type: 'POST',
-                url:"/daily"+String(gtr),
-                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L14595: L14595out},
-                success:function(response){}});
-        });
+        if (inputValueL14595.value >= 95 && inputValueL14595.value <= 100) {
+            $(function() {
+                $.ajax({
+                    type: 'POST',
+                    url:"/daily"+String(gtr),
+                    data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L14595: L14595out},
+                    success:function(response){}});
+            });
+        };
     });
 
     inputValueL14599.addEventListener("input", function () {
@@ -736,13 +746,15 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
     inputValueL14599.addEventListener("blur", function(){
-        $(function() {
-            $.ajax({
-                type: 'POST',
-                url:"/daily"+String(gtr),
-                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L14599: L14599out},
-                success:function(response){}});
-        });
+        if (inputValueL14599.value >= 99 && inputValueL14599.value <= 100) {
+            $(function() {
+                $.ajax({
+                    type: 'POST',
+                    url:"/daily"+String(gtr),
+                    data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L14599: L14599out},
+                    success:function(response){}});
+            });
+        }
     });
 
     L145avg.addEventListener("input", function () {
@@ -782,13 +794,15 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
     inputValueL22695.addEventListener("blur", function(){
-        $(function() {
-            $.ajax({
-                type: 'POST',
-                url:"/daily"+String(gtr),
-                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L22695: L22695out},
-                success:function(response){}});
-        });
+        if (inputValueL22695.value >= 95 && inputValueL22695.value <= 100) {
+            $(function() {
+                $.ajax({
+                    type: 'POST',
+                    url:"/daily"+String(gtr),
+                    data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L22695: L22695out},
+                    success:function(response){}});
+            });
+        }
     });
 
     inputValueL22699.addEventListener("input", function () {
@@ -802,13 +816,15 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
     inputValueL22699.addEventListener("blur", function(){
-        $(function() {
-            $.ajax({
-                type: 'POST',
-                url:"/daily"+String(gtr),
-                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L22699: L22699out},
-                success:function(response){}});
-        });
+        if (inputValueL22699.value >= 99 && inputValueL22699.value <= 100) {
+            $(function() {
+                $.ajax({
+                    type: 'POST',
+                    url:"/daily"+String(gtr),
+                    data: {csrfmiddlewaretoken: window.CSRF_TOKEN, L22699: L22699out},
+                    success:function(response){}});
+            });
+        }
     });
     
     L226avg.addEventListener("input", function () {

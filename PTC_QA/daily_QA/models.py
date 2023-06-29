@@ -6,6 +6,8 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
+from django.views.generic import UpdateView
+
 
 class Meta:
     app_label = 'daily_QA'
@@ -572,3 +574,8 @@ class WeeklyTest(models.Model):
         managed = False
         db_table = 'weekly_test'
         db_table_comment = 'Lasers (0-horn� na nozzlu, 1-doln� na nozzlu, 2-vertik�ln� na st�n� gtr, 3-horizont�ln� na st�n� gtr, 4-stropn�, 5-bo�n� na zdi, 6-bo�n� na nozzlu, 7-vz�jemn� odchylka v izocentru)'
+
+class DailyReload(UpdateView):
+    model = DailyTest
+    template_name='daily_QA/daily_reload.html'
+    success_url = 'daily_QA/daily'

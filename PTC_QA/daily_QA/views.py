@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import DailyTest, DailyTestInput, DLynxMeasurement, DailyTestDraft, DIcMeasurement, DMlicMeasurement #must import all needed tables
 from django.http import HttpResponseRedirect
-#from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
+from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 #from datetime import datetime
 from django.utils import timezone
 from django.contrib.auth import authenticate, login
@@ -12,7 +12,7 @@ from django.contrib.sessions.models import Session
 
 
 #Global variables
-
+reload=0
 
 #@login_required   
 def inlog(request):
@@ -40,12 +40,14 @@ def gtrselect(request):
 def daily(request,gtr):
     datacheck = DailyTest.objects.filter(gantry=gtr,date_added__contains=timezone.now().date())
     if datacheck.count()==0:
-        print("Create new input")
+        print("Create new input") 
         form = DailyTest.objects.create(gantry=gtr, date_added = timezone.now())
+
         if gtr==3: 
             lynxform70 = DLynxMeasurement.objects.create(energy=70, measurementid=form)
             icform70 = DIcMeasurement.objects.create(energy=70, measurementid=form)
             mlicform70 = DMlicMeasurement.objects.create(energy=70, measurementid=form)
+
         lynxform115 = DLynxMeasurement.objects.create(energy=115, measurementid=form)
         lynxform145 = DLynxMeasurement.objects.create(energy=145, measurementid=form)
         lynxform226 = DLynxMeasurement.objects.create(energy=226, measurementid=form)
@@ -55,6 +57,10 @@ def daily(request,gtr):
         mlicform100 = DMlicMeasurement.objects.create(energy=100, measurementid=form)
         mlicform170 = DMlicMeasurement.objects.create(energy=170, measurementid=form)
         mlicform226 = DMlicMeasurement.objects.create(energy=226, measurementid=form)
+
+    elif reload==1:
+        rld = DailyTestDraft.objects.all()
+        
     
     #identify record's index
     listbygantry = DailyTest.objects.values().filter(gantry=gtr)#.order_by("-index",)[0]
@@ -75,17 +81,43 @@ def daily(request,gtr):
     mlicform170 = DMlicMeasurement.objects.get(measurementid=index,energy=170)
     mlicform226 = DMlicMeasurement.objects.get(measurementid=index,energy=226)
 
-    if request.method == "POST":    
-        #form2 = DailyTestInput(indexid=form)
-        #form2.save()
+    #print(data)
+    #if request.POST.values()!=None:
+    #    lst=list(request.POST.values())
+    #print(type(lst))
+    #print(list.__getitem__[0])
+    #print(HttpResponse)
+    if request.method == "POST":   
+
+        #data=request.POST
+        #if (data.indexOf('115')>= 0):
+        #    print('E is 115')   
         
-        #lynxform70.save()
-        print("Temp: ", request.POST.get('Temp'))
+        #device = ['ic', 'lynx', 'mlic']
+        #energy = [70,100,145,170,226]
+        #val = ['95', '99', 'avg', 'max', 'nc', 'mu', 'range']
+
+        #for a in device:
+        #    for b in energy:
+        #        for c in val:
+        #            if a=='L':
+        #                break
+        #            data=a+str(b)+c
+        #            form = a+'form'+str(b)
+        #            print(form)
+        #            value='val'+str(c)
+        #            print(value)
+        #            form.response_mu = request.POST.get('L'+str(b)+c)
+        #            print(form.value)
+
+
+                    
+
         if request.POST.get('Temp'): 
             form.temperature = request.POST.get('Temp')
         elif request.POST.get('Temp')=='':
             form.temperature = None
-            
+
         if request.POST.get('Pres'): 
             form.pressure = request.POST.get('Pres')
 
@@ -245,7 +277,10 @@ def daily(request,gtr):
 
                 
         return HttpResponseRedirect('/daily'+str(gtr))
-    return render(request, 'daily_QA/'+str(gtr)+'.html', {'gtr':gtr})
+    
+    #if submitted
+        #
+    return render(request, 'daily_QA/'+str(gtr)+'.html', {'gtr':gtr, 'datacheck': datacheck})
 
 
 def weekly(request):
@@ -253,3 +288,6 @@ def weekly(request):
 
 def monthly(request):
     return render(request, 'daily_QA/monthly.html', {})
+
+def daily_reload(request):
+    return render(request, 'daily_QA/daily_reload.html')

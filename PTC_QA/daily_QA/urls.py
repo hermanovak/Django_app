@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 
 app_name='daily_QA'
+#from daily_QA.views import daily_reload
 
 urlpatterns = [
     path('home', views.home, name="home"),
@@ -9,5 +10,6 @@ urlpatterns = [
     path('daily<int:gtr>', views.daily, name="daily"), #path converter
     path('weekly', views.weekly, name="weekly"),
     path('monthly', views.monthly, name="monthly"),
-    path('', views.inlog, name="inlog")
+    path('', views.inlog, name="inlog"), 
+    #path('daily_reload/<int:pk>', views.daily_reload, name='daily_reload')
 ]
