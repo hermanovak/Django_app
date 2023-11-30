@@ -282,7 +282,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function DoseCalc () {
         D70 = parseFloat(K70nc) * 100 / parseFloat(K70mu) * parseFloat(NDW) * parseFloat(KtpOut.value) * parseFloat(KsatOut.value) * parseFloat(KpolOut.value) * parseFloat(KqqOut.value) * 1e-9;
         dev70 = ((D70 / K70ref) - 1) * 100;
-        D100 = parseFloat(K100nc) * 100 / parseFloat(K100mu) * parseFloat(NDW) * parseFloat(KtpOut.value) * parseFloat(KsatOut.value) * parseFloat(KpolOut.value) * parseFloat(KqqOut.value) * 1e-9;
+        D100 = parseFloat(K100nc) * 100 / parseFloat(K100mu-K70mu) * parseFloat(NDW) * parseFloat(KtpOut.value) * parseFloat(KsatOut.value) * parseFloat(KpolOut.value) * parseFloat(KqqOut.value) * 1e-9;
         dev100 = ((D100 / K100ref) - 1) * 100;
         D170 = parseFloat(K170nc) * 100 / parseFloat(K170mu-K100mu) * parseFloat(NDW) * parseFloat(KtpOut.value) * parseFloat(KsatOut.value) * parseFloat(KpolOut.value) * parseFloat(KqqOut.value) * 1e-9;
         dev170 = ((D170 / K170ref) - 1) * 100;
@@ -425,6 +425,8 @@ document.addEventListener('DOMContentLoaded', function () {
     DynR = document.getElementById("dynr");
     miscChecks0 = document.querySelectorAll('input[type="checkbox"]:enabled');
 
+    submitB = document.getElementById("submit");
+
     iconMisc = document.getElementById("icon-misc");
        
     Temp = document.getElementById("tempOut");
@@ -521,7 +523,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     inputValueK.addEventListener("input", function () {
-        if (inputValueK.value >= 1 && inputValueK.value <= 1.1) {
+        if (inputValueK.value >= 0.9 && inputValueK.value <= 1.1) {
             iconK.innerHTML = "&#10004;"; // pass icon
             iconK.style.color = "green";
         } else {
@@ -534,7 +536,7 @@ document.addEventListener('DOMContentLoaded', function () {
         KtpOut.textContent = KtpOut.value;
     });
     inputValueK.addEventListener("blur", function(){
-        if (inputValueK.value >= 1 && inputValueK.value <= 1.1) {
+        if (inputValueK.value >= 0.9 && inputValueK.value <= 1.1) {
             $(function() {
                 $.ajax({
                     type: 'POST',
@@ -654,6 +656,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 type: 'POST',
                 url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, VisionRT: VisionRT.value},
+                success:function(response){}});
+        });
+    });
+
+    submitB.addEventListener("click", function(){
+        $(function() {
+            $.ajax({
+                type: 'POST',
+                url:"/daily"+String(gtr),
+                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, tlacitko: submitB.value},
                 success:function(response){}});
         });
     });

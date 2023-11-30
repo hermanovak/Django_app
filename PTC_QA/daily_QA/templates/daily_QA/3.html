@@ -49,14 +49,14 @@
                 <tr id="misc">
                     <td>Temperature [°C]: <input type="number" step="0.01" id="temperature" required><span class="check-icon" id="icon-temp"></span></td>
                     <td>Pressure [hPa]: <input type="number" step="0.01" id="pressure" required><span class="check-icon" id="icon-press"></span></td>
-                    <td>Dose correction factor: <input type="number" step="0.01" id="k" required><span class="check-icon" id="icon-k"></span></td>
+                    <td>Dose correction factor: <input type="number" step="0.001" id="k" required><span class="check-icon" id="icon-k"></span></td>
                     <td>k<sub>T,p</sub>:  <b><span id="ktpOut"></span></b></td>
                 </tr>
                 <tr>
                     <td>Temperature [K]: <span id="tempOut"></span></td>
                     <td>Pressure [hPa]: <span id="presOut"></span></td>
                     <td>k<sub>sat</sub>: <span id="ksatOut"></span> &nbsp;&nbsp;|&nbsp;&nbsp; k<sub>pol</sub>: <span id="kpolOut"></span> &nbsp;&nbsp;|&nbsp;&nbsp; k<sub>QQ</sub>: <span id="kqqOut"></span></td>
-                    <td><span class="check-icon" id="icon-misc"></span></td>
+                    <td></td>
                 </tr>
                 <tr>
                     <td>Flat panels <input type="checkbox" id="flat-panels"></td>
@@ -68,7 +68,7 @@
                     <td>Vision RT Daily QA <input type="checkbox" id="vision"></td>
                     <td>DynR Daily Calibration <input type="checkbox" id="dynr" disabled="disabled"></td>
                     <td></td>
-                    <td></td>
+                    <td><span class="check-icon" id="icon-misc"></span></td>
                 </tr>
             </tbody>
         </table>
@@ -157,119 +157,6 @@
             </table>
         </div>
 
-        <div id="komora" style="display:none">
-            <h3>Davka</h3>
-            <table class="table table-striped">
-                <thead>
-                    100 MeV
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Chamber response [nC]</td>
-                        <td><input type="number" step="0.01" id="K100-nC" required></td>
-                        <td>&nbsp;&nbsp; IC2 [MU]</td>
-                        <td><input type="number" step="0.01" id="K100-mu" required></td>
-                        <td>&nbsp;&nbsp; Reference dose: <span id="K100refD"></span> Gy; &nbsp;&nbsp; Calculated dose: <span id="K100outD"></span> Gy</td>
-                        <td><span id="K100out"></span><span class="check-icon" id="iconK100"></span></td>
-                    </tr>
-                </tbody>
-            </table>
-            <table class="table table-striped">
-                <thead>
-                    170 MeV
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Chamber response [nC]</td>
-                        <td><input type="number" step="0.01" id="K170-nC" required></td>
-                        <td>&nbsp;&nbsp; IC2 [MU]</td>
-                        <td><input type="number" step="0.01" id="K170-mu" required></td>
-                        <td>&nbsp;&nbsp; Reference dose: <span id="K170refD"></span> Gy; &nbsp;&nbsp; Calculated dose: <span id="K170outD"></span> Gy</td>
-                        <td><span id="K170out"></span><span class="check-icon" id="iconK170"></span></td>
-                    </tr>
-                </tbody>
-            </table>
-            <table class="table table-striped">
-                <thead>
-                    226 MeV
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Chamber response [nC]</td>
-                        <td><input type="number" step="0.01" id="K226-nC" required></td>
-                        <td>&nbsp;&nbsp; IC2 [MU]</td>
-                        <td><input type="number" step="0.01" id="K226-mu" required></td>
-                        <td>&nbsp;&nbsp; Reference dose: <span id="K226refD"></span> Gy; &nbsp;&nbsp; Calculated dose: <span id="K226outD"></span> Gy</td>
-                        <td><span id="K226out"></span><span class="check-icon" id="iconK226"></span></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div id="komoraLR" style="display:none">
-            <h3>Davka</h3>
-            <table class="table table-striped">
-                <thead>
-                    70 MeV
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Chamber response [nC]</td>
-                        <td><input type="number" step="0.01" id="K70-nCLR" required></td>
-                        <td>IC2 [MU]</td>
-                        <td><input type="number" step="0.01" id="K70-muLR" required></td>
-                        <td>Reference dose: <span id="K70refDLR"></span></td> Gy; Calculated dose: <span id="K70outDLR"></span> Gy</td>
-                        <td><span id="K70outLR"></span><span class="check-icon" id="iconK70LR"></span></td>
-                    </tr>
-                </tbody>
-            </table>
-            <table class="table table-striped">
-                <thead>
-                    100 MeV
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Chamber response [nC]</td>
-                        <td><input type="number" step="0.01" id="K100-nCLR" required></td>
-                        <td>IC2 [MU]</td>
-                        <td><input type="number" step="0.01" id="K100-muLR" required></td>
-                        <td>Reference dose: <span id="K100refDLR"></span> Gy; Calculated dose: <span id="K100outDLR"></span> Gy</td>
-                        <td><span id="K100outLR"></span><span class="check-icon" id="iconK100LR"></span></td>
-                    </tr>
-                </tbody>
-            </table>
-            <table class="table table-striped">
-                <thead>
-                    170 MeV
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Chamber response [nC]</td>
-                        <td><input type="number" step="0.01" id="K170-nCLR" required></td>
-                        <td>IC2 [MU]</td>
-                        <td><input type="number" step="0.01" id="K170-muLR" required></td>
-                        <td>Reference dose: <span id="K170refDLR"></span> Gy; Calculated dose: <span id="K170outDLR"></span> Gy</td>
-                        <td><span id="K170outLR"></span><span class="check-icon" id="iconK170LR"></span></td>
-                    </tr>
-                </tbody>
-            </table>
-            <table class="table table-striped">
-                <thead>
-                    226 MeV
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Chamber response [nC]</td>
-                        <td><input type="number" step="0.01" id="K226-nCLR" required></td>
-                        <td>IC2 [MU]</td>
-                        <td><input type="number" step="0.01" id="K226-muLR" required></td>
-                        <td>Reference dose: <span id="K226refDLR"></span> Gy; Calculated dose: <span id="K226outDLR"></span> Gy</td>
-                        <td><span id="K226outLR"></span><span class="check-icon" id="iconK226LR"></span></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-
         <div id="mlic" style="display:none">
             <h3>MLIC</h3>
             <table class="table table-striped">
@@ -285,7 +172,6 @@
                     </tr>
                 </tbody>
             </table>
-
             <table class="table table-striped">
                 <thead>
                     170 MeV
@@ -299,7 +185,6 @@
                     </tr>
                 </tbody>
             </table>
-
             <table class="table table-striped">
                 <thead>
                     226 MeV
@@ -369,7 +254,119 @@
                 </tbody>
             </table>
         </div>
-        <input type="submit" value="Submit">
+
+        <div id="komora" style="display:none">
+            <h3>Davka</h3>
+            <table class="table table-striped">
+                <thead>
+                    100 MeV
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Chamber response [nC]</td>
+                        <td><input type="number" step="0.001" id="K100-nC" required></td>
+                        <td>&nbsp;&nbsp; IC2 [MU]</td>
+                        <td><input type="number" step="0.001" id="K100-mu" required></td>
+                        <td>&nbsp;&nbsp; Reference dose: <span id="K100refD"></span> Gy; &nbsp;&nbsp; Calculated dose: <span id="K100outD"></span> Gy</td>
+                        <td><span id="K100out"></span><span class="check-icon" id="iconK100"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-striped">
+                <thead>
+                    170 MeV
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Chamber response [nC]</td>
+                        <td><input type="number" step="0.001" id="K170-nC" required></td>
+                        <td>&nbsp;&nbsp; IC2 [MU]</td>
+                        <td><input type="number" step="0.001" id="K170-mu" required></td>
+                        <td>&nbsp;&nbsp; Reference dose: <span id="K170refD"></span> Gy; &nbsp;&nbsp; Calculated dose: <span id="K170outD"></span> Gy</td>
+                        <td><span id="K170out"></span><span class="check-icon" id="iconK170"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-striped">
+                <thead>
+                    226 MeV
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Chamber response [nC]</td>
+                        <td><input type="number" step="0.001" id="K226-nC" required></td>
+                        <td>&nbsp;&nbsp; IC2 [MU]</td>
+                        <td><input type="number" step="0.001" id="K226-mu" required></td>
+                        <td>&nbsp;&nbsp; Reference dose: <span id="K226refD"></span> Gy; &nbsp;&nbsp; Calculated dose: <span id="K226outD"></span> Gy</td>
+                        <td><span id="K226out"></span><span class="check-icon" id="iconK226"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="komoraLR" style="display:none">
+            <h3>Davka</h3>
+            <table class="table table-striped">
+                <thead>
+                    70 MeV
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Chamber response [nC]</td>
+                        <td><input type="number" step="0.001" id="K70-nCLR" required></td>
+                        <td>IC2 [MU]</td>
+                        <td><input type="number" step="0.001" id="K70-muLR" required></td>
+                        <td>Reference dose: <span id="K70refDLR"></span> Gy; Calculated dose: <span id="K70outDLR"></span> Gy</td>
+                        <td><span id="K70outLR"></span><span class="check-icon" id="iconK70LR"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-striped">
+                <thead>
+                    100 MeV
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Chamber response [nC]</td>
+                        <td><input type="number" step="0.001" id="K100-nCLR" required></td>
+                        <td>IC2 [MU]</td>
+                        <td><input type="number" step="0.001" id="K100-muLR" required></td>
+                        <td>Reference dose: <span id="K100refDLR"></span> Gy; Calculated dose: <span id="K100outDLR"></span> Gy</td>
+                        <td><span id="K100outLR"></span><span class="check-icon" id="iconK100LR"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-striped">
+                <thead>
+                    170 MeV
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Chamber response [nC]</td>
+                        <td><input type="number" step="0.001" id="K170-nCLR" required></td>
+                        <td>IC2 [MU]</td>
+                        <td><input type="number" step="0.001" id="K170-muLR" required></td>
+                        <td>Reference dose: <span id="K170refDLR"></span> Gy; Calculated dose: <span id="K170outDLR"></span> Gy</td>
+                        <td><span id="K170outLR"></span><span class="check-icon" id="iconK170LR"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-striped">
+                <thead>
+                    226 MeV
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Chamber response [nC]</td>
+                        <td><input type="number" step="0.001" id="K226-nCLR" required></td>
+                        <td>IC2 [MU]</td>
+                        <td><input type="number" step="0.001" id="K226-muLR" required></td>
+                        <td>Reference dose: <span id="K226refDLR"></span> Gy; Calculated dose: <span id="K226outDLR"></span> Gy</td>
+                        <td><span id="K226outLR"></span><span class="check-icon" id="iconK226LR"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <input type="submit" id="submit" value="Submit">
     </form>
 </body>
 
@@ -384,9 +381,9 @@
     K226ref = 0.10222064;
 
     MLIC70ref = 4.11;
-    MLIC100ref = 7.71;
-    MLIC170ref = 19.63;
-    MLIC226ref = 31.90;
+    MLIC100ref = 7.77;
+    MLIC170ref = 19.7;
+    MLIC226ref = 32.03;
 </script>
 
 

@@ -17,6 +17,23 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });*/
     //console.log("/daily"+String(gtr))
+
+    // if (datacheck==1) {
+    //     x = window.confirm("Do you want to reload the last test?") 
+    //     if (x === true) {
+    //         $(function() {
+    //             $.ajax({
+    //                 type: 'POST',
+    //                 url:"/daily"+String(gtr),
+    //                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, reload: 1},
+    //                 success:function(response){}});
+    //     });
+    //     }
+
+    // }
+
+
+
     const lynxSelect = document.getElementById("lynx-select");
     const lynx = document.getElementById("lynx");
     const lynxLR = document.getElementById("lynxLR");
@@ -384,6 +401,8 @@ document.addEventListener('DOMContentLoaded', function () {
     DynR = document.getElementById("dynr");
     miscChecks0 = document.querySelectorAll('input[type="checkbox"]:enabled');
 
+    submitB = document.getElementById("submit");
+
     iconMisc = document.getElementById("icon-misc");
        
     Temp = document.getElementById("tempOut");
@@ -394,7 +413,15 @@ document.addEventListener('DOMContentLoaded', function () {
     KpolOut = document.getElementById("kpolOut");
     KsatOut = document.getElementById("ksatOut");
     KqqOut = document.getElementById("kqqOut");
-
+    console.log(inputValueTemp.value)
+    MiscUpdate();
+    MiscCalc();
+    //DoseCalc ();
+    // if (datacheck==1) {
+    //     console.log(reload)
+    //     if (reload['temperature']!=null) {
+    //         inputValueTemp.value = reload['temperature'];}
+    // }
     // var count = 0;
     // miscChecks.forEach(check=>{
     //     check.addEventListener("change", function(){
@@ -480,7 +507,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     inputValueK.addEventListener("input", function () {
-        if (inputValueK.value >= 1 && inputValueK.value <= 1.1) {
+        if (inputValueK.value >= 0.9 && inputValueK.value <= 1.1) {
             iconK.innerHTML = "&#10004;"; // pass icon
             iconK.style.color = "green";
         } else {
@@ -493,7 +520,7 @@ document.addEventListener('DOMContentLoaded', function () {
         KtpOut.textContent = KtpOut.value;
     });
     inputValueK.addEventListener("blur", function(){
-        if (inputValueK.value >= 1 && inputValueK.value <= 1.1) {
+        if (inputValueK.value >= 0.9 && inputValueK.value <= 1.1) {
             $(function() {
                 $.ajax({
                     type: 'POST',
@@ -613,6 +640,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 type: 'POST',
                 url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, VisionRT: VisionRT.value},
+                success:function(response){}});
+        });
+    });
+
+    submitB.addEventListener("click", function(){
+        $(function() {
+            $.ajax({
+                type: 'POST',
+                url:"/daily"+String(gtr),
+                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, tlacitko: submitB.value},
                 success:function(response){}});
         });
     });
@@ -1095,6 +1132,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 success:function(response){}});
         });
     });
+
+
+    //var datacheck = json.parse("{{ datacheck }}");
+    //alert(datacheck);
+    
 
     //function updateState() {
     //    let allChecked = true;
