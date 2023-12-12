@@ -149,7 +149,7 @@ class DailyTest(models.Model):
     laserz = models.IntegerField(db_column='Laserz', blank=True, null=True)
     temperature = models.DecimalField(db_column='Temperature', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
     pressure = models.DecimalField(db_column='Pressure', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
-    kfactor = models.DecimalField(db_column='KFactor', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
+    kfactor = models.DecimalField(db_column='KFactor', max_digits=10, decimal_places=3, blank=True, null=True)  # Field name made lowercase.
     
     #def __str__(self):
     #    return f'This record is from {self.date_added.date()} and gantry #{self.gantry}'
@@ -256,6 +256,7 @@ class DailyTestDraft(models.Model):
     mlic100_range = models.DecimalField(db_column='Mlic100_range', max_digits=10, decimal_places=3, blank=True, null=True)
     mlic170_range = models.DecimalField(db_column='Mlic170_range', max_digits=10, decimal_places=3, blank=True, null=True)
     mlic226_range = models.DecimalField(db_column='Mlic226_range', max_digits=10, decimal_places=3, blank=True, null=True)
+    validate = models.IntegerField(db_column='Validate', blank=True, null=True)
 
 
     def __str__(self):

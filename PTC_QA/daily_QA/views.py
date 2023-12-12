@@ -11,6 +11,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.sessions.models import Session
 #from json import dumps as jdumps
 from itertools import chain
+from django import forms
+from django.db.models import Q
 
 #@login_required   
 def inlog(request):
@@ -307,9 +309,78 @@ def daily(request,gtr):
 
         if request.POST.get('tlacitko')=='Submit':
             #if request.POST.get('checksAllChecks')=='1':
+                #form.validate = 1
             #submit code here
-            print("Jdeme validovat")
-            return redirect('daily_QA:home')
+            #print("Jdeme validovat") #check
+
+            # Check if the DailyTest instance already exists based on certain criteria
+            existing_hlavicka_instance = DailyTest.objects.filter(
+                date_added=form.date_added,
+                gantry=form.gantry,
+                visionrt_check=form.visionrt_check,
+                flatpanels_check=form.flatpanels_check,
+                dynr=form.dynr,
+                temperature=form.temperature,
+                pressure=form.pressure,
+                kfactor=form.kfactor,
+                laserx=form.laserx,
+                lasery=form.lasery,
+                laserz=form.laserz
+            ).first()
+            print(existing_hlavicka_instance)
+
+            # Create hlavicka_instance if it doesn't already exist
+            if existing_hlavicka_instance is None:
+                hlavicka_instance = DailyTest.objects.create(
+                    date_added=form.date_added,
+                    gantry=form.gantry,
+                    visionrt_check=form.visionrt_check,
+                    flatpanels_check=form.flatpanels_check,
+                    dynr=form.dynr,
+                    temperature=form.temperature,
+                    pressure=form.pressure,
+                    kfactor=form.kfactor,
+                    laserx=form.laserx,
+                    lasery=form.lasery,
+                    laserz=form.laserz
+                )
+                
+            else:
+                # Use the existing instance
+                hlavicka_instance = existing_hlavicka_instance
+
+
+            hlavicka_instance.save()
+
+            for energy_var in [70,115,145,226]:
+                    
+                existing_lynx_instance = DLynxMeasurement.objects.filter(
+                    Q(energy=energy_var) &
+                    Q(measurementid=hlavicka_instance) &
+                    Q(lynxid=form.lynxid)
+                ).first()
+                
+                if existing_lynx_instance is None:
+
+                    lynx_instance = DLynxMeasurement(
+                    energy = energy_var,
+                    measurementid=hlavicka_instance,
+                    lynxid = form.lynxid,
+                    val99 = getattr(form,'lynx'+str(energy_var)+'_99'),
+                    val95 = getattr(form,'lynx'+str(energy_var)+'_95'),
+                    avg = getattr(form,'lynx'+str(energy_var)+'_avg'),
+                    max = getattr(form,'lynx'+str(energy_var)+'_max')
+                    )
+                lynx_instance.save()
+
+
+
+
+
+
+        #form.delete()
+
+        #return redirect('sucess_url')
 
         return HttpResponseRedirect('/daily'+str(gtr))
     #datajson = jdumps({'datacheck': datacheck.count()})
@@ -318,12 +389,18 @@ def daily(request,gtr):
     return render(request, 'daily_QA/'+str(gtr)+'.html', {'gtr':gtr, 'datacheck': datacheck.count(), 'reload': last})
 
 def validovat(request,gtr):
-    print("Now validate")
-
+    
     listbygantry = DailyTestDraft.objects.values().filter(gantry=gtr)#.order_by("-index",)[0]
     last=listbygantry.order_by('-index')[0]
     index = (last['index'])
     form = DailyTest.objects.get(pk=index)
+    print("Hi, " + form)
+
+    if request.POST.get('tlacitko')=='Submit':
+        print("Now validate")
+        #destination_instance = DailyTest()
+        #destination_instance.gantry = gantry
+
 
     return render(request, 'submitted.html')
  
