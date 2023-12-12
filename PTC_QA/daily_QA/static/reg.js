@@ -32,7 +32,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // }
 
-
+    const MLICenable = document.getElementById("mlic-enable");
+    if (MLICenable.checked == false) {document.getElementById("mlic-select").disabled = true};
+    MLICenable.addEventListener("change", function () {
+        //MLICenable.value = MLICenable.checked;
+        if (MLICenable.checked == true) {
+            document.getElementById("mlic-select").disabled = false;
+        }
+        else {document.getElementById("mlic-select").disabled = true}
+    })
 
     const lynxSelect = document.getElementById("lynx-select");
     const lynx = document.getElementById("lynx");

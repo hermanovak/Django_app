@@ -33,6 +33,8 @@
             <option value="5414" id="k5414">FC65 P 5414 500V</option>
         </select>
 
+        <tr>MLIC<input type="checkbox" id="mlic-enable" checked></tr>
+        <br>
         <label for="mlic-select">Select MLIC:</label>
         <!-- <select class="form-control" id="mlic-select" name="mlic-select" disabled="disabled"> -->
         <select class="form-control" id="mlic-select" name="mlic-select">
@@ -315,7 +317,8 @@
                         <td><input type="number" step="0.001" id="K70-nCLR" required></td>
                         <td>IC2 [MU]</td>
                         <td><input type="number" step="0.001" id="K70-muLR" required></td>
-                        <td>Reference dose: <span id="K70refDLR"></span></td> Gy; Calculated dose: <span id="K70outDLR"></span> Gy</td>
+                        <td>Reference dose: <span id="K70refDLR"></span></td> Gy; Calculated dose:
+                        <span id="K70outDLR"></span> Gy</td>
                         <td><span id="K70outLR"></span><span class="check-icon" id="iconK70LR"></span></td>
                     </tr>
                 </tbody>

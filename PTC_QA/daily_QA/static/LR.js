@@ -1,6 +1,17 @@
 ﻿//db
 // Construct the data object with your variables
 document.addEventListener('DOMContentLoaded', function () {
+    const MLICenable = document.getElementById("mlic-enable");
+    console.log(MLICenable.checked);
+    if (MLICenable.checked == false) {document.getElementById("mlic-select").disabled = true};
+    MLICenable.addEventListener("change", function () {
+        console.log(MLICenable.checked)
+        //MLICenable.value = MLICenable.checked;
+        if (MLICenable.checked == true) {
+            document.getElementById("mlic-select").disabled = false;
+        }
+        else {document.getElementById("mlic-select").disabled = true}
+    })
     var isPost = 0;
     const lynxSelect = document.getElementById("lynx-select");
     const lynx = document.getElementById("lynx");

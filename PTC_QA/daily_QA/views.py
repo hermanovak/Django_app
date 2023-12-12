@@ -313,7 +313,7 @@ def daily(request,gtr):
             #submit code here
             #print("Jdeme validovat") #check
 
-            # Check if the DailyTest instance already exists based on certain criteria
+            # Check if the DailyTest instance already exists
             existing_hlavicka_instance = DailyTest.objects.filter(
                 date_added=form.date_added,
                 gantry=form.gantry,
@@ -327,7 +327,6 @@ def daily(request,gtr):
                 lasery=form.lasery,
                 laserz=form.laserz
             ).first()
-            print(existing_hlavicka_instance)
 
             # Create hlavicka_instance if it doesn't already exist
             if existing_hlavicka_instance is None:
@@ -348,8 +347,6 @@ def daily(request,gtr):
             else:
                 # Use the existing instance
                 hlavicka_instance = existing_hlavicka_instance
-
-
             hlavicka_instance.save()
 
             for energy_var in [70,115,145,226]:
@@ -371,11 +368,54 @@ def daily(request,gtr):
                     avg = getattr(form,'lynx'+str(energy_var)+'_avg'),
                     max = getattr(form,'lynx'+str(energy_var)+'_max')
                     )
+                else:
+                # Use the existing instance
+                    lynx_instance = existing_lynx_instance
                 lynx_instance.save()
 
+            for energy_var in [70,100,170,226]:
 
+                existing_ic_instance = DIcMeasurement.objects.filter(
+                    Q(energy=energy_var) &
+                    Q(measurementid=hlavicka_instance) &
+                    Q(ic_id=form.icid)
+                ).first()
+                print(hlavicka_instance)
+                print(existing_ic_instance)
+                
+                if existing_ic_instance is None:
 
+                    ic_instance = DIcMeasurement(
+                    energy = energy_var,
+                    measurementid=hlavicka_instance,
+                    ic_id = form.icid,
+                    response_mu = getattr(form,'ic'+str(energy_var)+'_mu'),
+                    response_nc = getattr(form,'ic'+str(energy_var)+'_nc')
+                    )
+                else:
+                # Use the existing instance
+                    ic_instance = existing_ic_instance
+                print(ic_instance)
+                ic_instance.save()
 
+                existing_mlic_instance = DMlicMeasurement.objects.filter(
+                    Q(energy=energy_var) &
+                    Q(measurementid=hlavicka_instance) &
+                    Q(icid=form.icid)
+                ).first()
+                
+                if existing_mlic_instance is None:
+
+                    mlic_instance = DMlicMeasurement(
+                    energy = energy_var,
+                    measurementid=hlavicka_instance,
+                    mlicid = form.mlicid,
+                    range = getattr(form,'mlic'+str(energy_var)+'_range')
+                    )
+                else:
+                # Use the existing instance
+                    mlic_instance = existing_mlic_instance
+                mlic_instance.save()
 
 
         #form.delete()
