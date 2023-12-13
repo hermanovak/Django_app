@@ -13,4 +13,5 @@ urlpatterns = [
     path('', views.inlog, name="inlog"), 
     #path('daily_reload/<int:pk>', views.daily_reload, name='daily_reload')
     path('validate', views.validovat, name='validovat'),
+    path('success', views.success, name='success'),
 ]
