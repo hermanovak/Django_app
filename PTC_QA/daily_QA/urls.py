@@ -14,5 +14,5 @@ urlpatterns = [
     #path('daily_reload/<int:pk>', views.daily_reload, name='daily_reload')
     #path('validate', views.validovat, name='validovat'),
     path('success2/<str:gtr>/', views.success2, name="success2"),
-    path('submitted/<str:gtr>/', views.submitted, name="submitted")
+    path('submitted/<int:gtr>/', views.submitted, name="submitted")
 ]

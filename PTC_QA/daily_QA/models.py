@@ -150,6 +150,7 @@ class DailyTest(models.Model):
     temperature = models.DecimalField(db_column='Temperature', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
     pressure = models.DecimalField(db_column='Pressure', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
     kfactor = models.DecimalField(db_column='KFactor', max_digits=10, decimal_places=3, blank=True, null=True)  # Field name made lowercase.
+    user = models.CharField(db_column = 'user', max_length=45, blank=True, null=True)
     
     #def __str__(self):
     #    return f'This record is from {self.date_added.date()} and gantry #{self.gantry}'

@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
 from .models import DailyTest, DailyTestInput, DLynxMeasurement, DailyTestDraft, DIcMeasurement, DMlicMeasurement #must import all needed tables
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.utils import timezone
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.db.models import Q
 from django.urls import reverse
+
 
 #@login_required   
 def inlog(request):
@@ -99,12 +101,9 @@ def daily(request,gtr):
                     setattr(form, field_name, param_value)
             
         form.save()
-        #Joining querysets:
-        #hlavicka = DailyTest.objects.values().filter(pk=index)
-        #lynx115 = DLynxMeasurement.objects.values().filter(measurementid=index,energy=115)
-        #print(list(chain(hlavicka, lynx115)))
 
     if request.POST.get('tlacitko')=='Submit':
+        #current_user = request.user  # Retrieve the currently logged-in user
         #if request.POST.get('checksAllChecks')=='1':
             #form.validate = 1
         #submit code here
@@ -129,8 +128,10 @@ def daily(request,gtr):
                 kfactor=form.kfactor,
                 laserx=form.laserx,
                 lasery=form.lasery,
-                laserz=form.laserz
+                laserz=form.laserz,
+                user=str(request.user)  # Assign the user to the instance
             )
+            
         else:
             # Use the existing instance
             hlavicka_instance = existing_hlavicka_instance
@@ -200,15 +201,14 @@ def daily(request,gtr):
                 ic_instance = existing_ic_instance
             ic_instance.save()
 
-        #print("Submitted")
         return HttpResponseRedirect(reverse('daily_QA:submitted', args=(gtr,)))
         
         #form.delete()
-        #return redirect('sucess_url')
-
+        #return redirect('daily_QA:submitted', kwargs=(gtr,))
     return render(request, 'daily_QA/'+str(gtr)+'.html', {'gtr':gtr, 'datacheck': datacheck.count(), 'reload': last})
 
 def submitted(request,gtr):
+    #return HttpResponse("Submitted Page")
     return render(request, 'daily_QA/submitted.html', {'gtr': gtr})
  
 def success2(request,gtr):
