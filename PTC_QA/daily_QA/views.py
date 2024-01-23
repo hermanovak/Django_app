@@ -2,11 +2,13 @@ from django.shortcuts import render, redirect
 from .models import DailyTest, DailyTestInput, DLynxMeasurement, DailyTestDraft, DIcMeasurement, DMlicMeasurement #must import all needed tables
 from django.http import HttpResponseRedirect, HttpResponse
 from django.utils import timezone
+from datetime import datetime
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.db.models import Q
 from django.urls import reverse
+import json
 
 
 #@login_required   
@@ -103,122 +105,150 @@ def daily(request,gtr):
         form.save()
 
     if request.POST.get('tlacitko')=='Submit':
-        #current_user = request.user  # Retrieve the currently logged-in user
+        current_user = request.user  # Retrieve the currently logged-in user
+        print(current_user)
+        print(str(current_user))
         #if request.POST.get('checksAllChecks')=='1':
             #form.validate = 1
-        #submit code here
-        #print("Jdeme validovat") #check
-
-        # Check if the DailyTest instance already exists
-        existing_hlavicka_instance = DailyTest.objects.filter(
-            date_added=form.date_added,
-            gantry=form.gantry
-        ).first()
-
-        # Create hlavicka_instance if it doesn't already exist
-        if existing_hlavicka_instance is None:
-            hlavicka_instance = DailyTest.objects.create(
-                date_added=form.date_added,
-                gantry=form.gantry,
-                visionrt_check=form.visionrt_check,
-                flatpanels_check=form.flatpanels_check,
-                dynr=form.dynr,
-                temperature=form.temperature,
-                pressure=form.pressure,
-                kfactor=form.kfactor,
-                laserx=form.laserx,
-                lasery=form.lasery,
-                laserz=form.laserz,
-                user=str(request.user)  # Assign the user to the instance
-            )
-            
-        else:
-            # Use the existing instance
-            hlavicka_instance = existing_hlavicka_instance
-        hlavicka_instance.save()
-
-        for energy_var in [70,115,145,226]:
-                
-            existing_lynx_instance = DLynxMeasurement.objects.filter(
-                Q(energy=energy_var) &
-                Q(measurementid=hlavicka_instance)
-            ).first()
-            
-            if existing_lynx_instance is None:
-
-                lynx_instance = DLynxMeasurement(
-                energy = energy_var,
-                measurementid=hlavicka_instance,
-                lynxid = form.lynxid,
-                val99 = getattr(form,'lynx'+str(energy_var)+'_99'),
-                val95 = getattr(form,'lynx'+str(energy_var)+'_95'),
-                avg = getattr(form,'lynx'+str(energy_var)+'_avg'),
-                max = getattr(form,'lynx'+str(energy_var)+'_max')
-                )
-            else:
-            # Use the existing instance
-                lynx_instance = existing_lynx_instance
-            lynx_instance.save()
-
-        for energy_var in [70,100,170,226]:
-
-            existing_mlic_instance = DMlicMeasurement.objects.filter(
-                Q(energy=energy_var) &
-                Q(measurementid=hlavicka_instance)
-            ).first()
-            
-            if existing_mlic_instance is None: # && mlic enabled
-                mlic_instance = DMlicMeasurement(
-                energy = energy_var,
-                measurementid=hlavicka_instance,
-                mlicid = form.mlicid,
-                range = getattr(form,'mlic'+str(energy_var)+'_range')
-                )
-                mlic_instance.save()
-            
-            #else:
-            # Use the existing instance
-                #mlic_instance = existing_mlic_instance
-            
-
-            existing_ic_instance = DIcMeasurement.objects.filter(
-                Q(energy=energy_var) &
-                Q(measurementid=hlavicka_instance)
-            ).first()
-
-            
-            if existing_ic_instance is None:
-
-                ic_instance = DIcMeasurement(
-                energy = energy_var,
-                measurementid=hlavicka_instance,
-                ic_id = form.icid,
-                response_mu = getattr(form,'ic'+str(energy_var)+'_mu'),
-                response_nc = getattr(form,'ic'+str(energy_var)+'_nc')
-                )
-            else:
-            # Use the existing instance
-                ic_instance = existing_ic_instance
-            ic_instance.save()
-
-        return HttpResponseRedirect(reverse('daily_QA:submitted', args=(gtr,)))
+        
+        #submit code here      
+        submitted(form, current_user)
+        #return HttpResponseRedirect(reverse('daily_QA:submitted', args=(gtr,)))
+        return render(request, 'daily_QA/success2.html',{})
         
         #form.delete()
-        #return redirect('daily_QA:submitted', kwargs=(gtr,))
-    return render(request, 'daily_QA/'+str(gtr)+'.html', {'gtr':gtr, 'datacheck': datacheck.count(), 'reload': last})
+        #return json.dumps({'status': 'ok'})
+        #return HttpResponseRedirect(reverse('daily_QA:submitted', args=(current_user,)))
+    else:
+        #return json.dumps({'status': 'ok'})
+        return render(request, 'daily_QA/'+str(gtr)+'.html', {'gtr':gtr,}) #'datacheck': datacheck.count(), 'reload': last})
 
-def submitted(request,gtr):
-    #return HttpResponse("Submitted Page")
-    return render(request, 'daily_QA/submitted.html', {'gtr': gtr})
+def submitted(form, current_user):
+    #Check dailyDraft length 
+    #draft_length = (DailyTestDraft.objects.all)
+    # Check if the DailyTest instance already exists
+    existing_hlavicka_instance = DailyTest.objects.filter(
+        date_added=form.date_added,
+        gantry=form.gantry
+    ).first()
+
+    # Create hlavicka_instance if it doesn't already exist
+    if existing_hlavicka_instance is None:
+        hlavicka_instance = DailyTest.objects.create(
+            date_added= form.date_added,
+            gantry=form.gantry,
+            visionrt_check=form.visionrt_check,
+            flatpanels_check=form.flatpanels_check,
+            dynr=form.dynr,
+            temperature=form.temperature,
+            pressure=form.pressure,
+            kfactor=form.kfactor,
+            laserx=form.laserx,
+            lasery=form.lasery,
+            laserz=form.laserz,
+            user=str(current_user)  # Assign the user to the instance
+        )
+        
+    else:
+        # Use the existing instance
+        hlavicka_instance = existing_hlavicka_instance
+    hlavicka_instance.save()
+
+    for energy_var in [70,115,145,226]:
+            
+        existing_lynx_instance = DLynxMeasurement.objects.filter(
+            Q(energy=energy_var) &
+            Q(measurementid=hlavicka_instance)
+        ).first()
+        
+        if existing_lynx_instance is None:
+
+            lynx_instance = DLynxMeasurement(
+            energy = energy_var,
+            measurementid=hlavicka_instance,
+            lynxid = form.lynxid,
+            val99 = getattr(form,'lynx'+str(energy_var)+'_99'),
+            val95 = getattr(form,'lynx'+str(energy_var)+'_95'),
+            avg = getattr(form,'lynx'+str(energy_var)+'_avg'),
+            max = getattr(form,'lynx'+str(energy_var)+'_max')
+            )
+        else:
+        # Use the existing instance
+            lynx_instance = existing_lynx_instance
+        lynx_instance.save()
+
+    for energy_var in [70,100,170,226]:
+
+        existing_mlic_instance = DMlicMeasurement.objects.filter(
+            Q(energy=energy_var) &
+            Q(measurementid=hlavicka_instance)
+        ).first()
+        
+        if existing_mlic_instance is None: # && mlic enabled
+            mlic_instance = DMlicMeasurement(
+            energy = energy_var,
+            measurementid=hlavicka_instance,
+            mlicid = form.mlicid,
+            range = getattr(form,'mlic'+str(energy_var)+'_range')
+            )
+            mlic_instance.save()
+        
+        #else:
+        # Use the existing instance
+            #mlic_instance = existing_mlic_instance
+        
+
+        existing_ic_instance = DIcMeasurement.objects.filter(
+            Q(energy=energy_var) &
+            Q(measurementid=hlavicka_instance)
+        ).first()
+
+        
+        if existing_ic_instance is None:
+
+            ic_instance = DIcMeasurement(
+            energy = energy_var,
+            measurementid=hlavicka_instance,
+            ic_id = form.icid,
+            response_mu = getattr(form,'ic'+str(energy_var)+'_mu'),
+            response_nc = getattr(form,'ic'+str(energy_var)+'_nc')
+            )
+        else:
+        # Use the existing instance
+            ic_instance = existing_ic_instance
+        ic_instance.save()
+
+    #return render(request, 'daily_QA/submitted.html', {'gtr': gtr})
  
-def success2(request,gtr):
-    return render(request, 'daily_QA/success2.html', {'gtr': gtr})
+def success2(request):
+    return render(request, 'daily_QA/success2.html', {})
 
 def weekly(request):
+    if request.method == 'POST':
+        print("posting")
+        if 'tlacitko1' in request.POST:
+            print(request.POST['tlacitko1'])  # Print the button value
+
     return render(request, 'daily_QA/weekly.html', {})
 
 def monthly(request):
     return render(request, 'daily_QA/monthly.html', {})
 
 def daily_reload(request):
-    return render(request, 'daily_QA/daily_reload.html')
+    # Get date and gantry parameters from the URL or query parameters
+    selected_date_str = request.GET.get('selected_date')
+    selected_gantry = request.GET.get('selected_gantry')
+
+    # Convert the date parameter to a datetime object
+    selected_date = datetime.strptime(selected_date_str, '%Y-%m-%d').date() if selected_date_str else None
+
+    # Fetch rows based on the selected date and gantry
+    if selected_date and selected_gantry:
+        filtered_rows = DailyTestDraft.objects.filter(
+            date_added__date=selected_date,
+            gantry=selected_gantry
+        )
+    else:
+        filtered_rows = None
+
+    return render(request, 'daily_QA/daily_reload.html', {'selected_date': selected_date, 'selected_gantry': selected_gantry, 'filtered_rows': filtered_rows})

@@ -11,7 +11,7 @@
 <h2>Daily QA Test for FBTR1</h2>
 
 <body>
-    <form method="post">
+    <form method="post" novalidate>
         {% csrf_token %}
         <label for="lynx-select">Select Lynx:</label>
         <select class="form-control" id="lynx-select" name="lynx-select">
@@ -364,7 +364,7 @@
                 </tbody>
             </table>
         </div>
-        <input type="submit" id="submit" value="Submit">
+        <input type="button" id="submit" value="Submit">
     </form>
 </body>
 

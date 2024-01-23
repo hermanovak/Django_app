@@ -652,15 +652,18 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+
     submitB.addEventListener("click", function(){
         $(function() {
             $.ajax({
                 type: 'POST',
                 url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, tlacitko: submitB.value},
-                success:function(response){}});
+                success: function(response){
+                    document.location.href = "/success2";}});
         });
     });
+
 
     //console.log(Pres.value);
     

@@ -1,0 +1,65 @@
+{% extends "daily_QA/base.html" %}
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+{% block content %}
+
+<h2>View the submitted daily tests</h2>
+
+<label for="datepicker">Select Date:</label>
+<input type="text" id="datepicker" placeholder="Select date">
+
+<!-- Gantry selection dropdown -->
+<label for="gantryDropdown">Select Gantry:</label>
+<select id="gantryDropdown" onchange="selectGantry(this.value)">
+  <option value="1">Gantry 1</option>
+  <option value="2">Gantry 2</option>
+  <option value="3">Gantry 3</option>
+  <option value="4">Gantry 4</option>
+</select>
+
+<!-- Display the selected date and gantry -->
+{% if selected_date %}
+  <p>Selected Date: {{ selected_date }}</p>
+{% endif %}
+{% if selected_gantry %}
+  <p>Selected Gantry: {{ selected_gantry }}</p>
+{% endif %}
+
+{% if filtered_rows %}
+  <table border="1">
+    <tr>
+      <th>Index</th>
+      <th>Gantry</th>
+      <th>Date Added</th>
+      <!-- Add more columns as needed -->
+    </tr>
+    {% for row in filtered_rows %}
+      <tr>
+        <td>{{ row.index }}</td>
+        <td>{{ row.gantry }}</td>
+        <td>{{ row.date_added }}</td>
+        <!-- Add more columns as needed -->
+      </tr>
+    {% endfor %}
+  </table>
+{% endif %}
+
+<!-- Initialize the date picker -->
+<script>
+  flatpickr("#datepicker", {
+    dateFormat: "Y-m-d",
+    onChange: function(selectedDates, dateStr, instance) {
+      // Handle date selection, e.g., update URL or perform an action
+      console.log(dateStr);
+    }
+  });
+
+  function selectGantry(gantry) {
+    // Handle gantry selection, e.g., update URL or perform an action
+    console.log(gantry);
+  }
+</script>
+
+{% endblock %}

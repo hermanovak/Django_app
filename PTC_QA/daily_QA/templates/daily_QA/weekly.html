@@ -1,0 +1,6 @@
+{% load static %}
+
+<input type="submit" id="submit" value="Submit">
+
+<script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
+<script type="text/javascript" src="{% static 'xd.js' %}"></script>
