@@ -364,7 +364,11 @@
                 </tbody>
             </table>
         </div>
-        <input type="button" id="submit" value="Submit">
+        <input type="button" class="btn btn-secondary" id="submit" value="Submit">
+        <input type="button" class="btn btn-secondary" id="reload" value="Reload">
+        <a type="button" class="btn btn-secondary" href="{% url 'daily_QA:entries_by_gtr' gtr %}">{{ 'View entries' }}  </a>
+      
+        
     </form>
 </body>
 
