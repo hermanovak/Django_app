@@ -61,8 +61,6 @@ def daily(request,gtr):
     index = (last['index'])
     form = DailyTestDraft.objects.get(pk=index)
     
-
-
     if request.GET.get('reload', None):
         # Retrieve the data from the database and pass it to the template
         print('boa jeho')

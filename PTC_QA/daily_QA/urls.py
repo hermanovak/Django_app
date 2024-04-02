@@ -17,5 +17,7 @@ urlpatterns = [
     #path('success2/<str:gtr>/', views.success2, name="success2"),
     path('success2', views.success2, name="success2"),
     path('submitted', views.submitted, name="submitted"),
+    path('entries_by_gtr<int:gtr>', views.view_entries_by_gtr, name="entries_by_gtr"),
+    path('entry_detail/<index>', views.entry_detail, name="entry_detail"),
     path('logout/', auth_views.LogoutView.as_view(), name='logout')
 ]
