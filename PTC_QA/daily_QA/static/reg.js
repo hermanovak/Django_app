@@ -673,20 +673,22 @@ document.addEventListener('DOMContentLoaded', function () {
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, reload: reload.value},
                 success:function(response){}});
         });
-        fetch('ajax_get_view', {
-            headers:{
-                'Accept': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest', //Necessary to work with request.is_ajax()
-            },
-        })
-        .then(response => {
-            return response.json() //Convert response to JSON
-        })
-        .then(data => {
-            // if data key != none, tak spravi list non none keys. for loop cez ten list na priradenie
-            inputValueTemp.value = data['my_data']
-            console.log(data['my_data'])
-        })
+        // fetch('http://127.0.0.1:8000/daily'+String(gtr), {
+        //     headers:{
+        //         'Accept': 'application/json',
+        //         'X-Requested-With': 'XMLHttpRequest', //Necessary to work with request.is_ajax()
+        //         },
+        //     })
+        //     .then(response => {
+        //         return response.json() //Convert response to JSON
+        //     })
+        //     .then(data => {
+        //         // if data key != none, tak spravi list non none keys. for loop cez ten list na priradenie
+        //         inputValueTemp.value = data['my_data']
+        //         console.log(data['my_data'])
+        //     })
+    });
+
         //$(function () {
         //    $.ajax({
         //        type: 'GET',
@@ -698,7 +700,6 @@ document.addEventListener('DOMContentLoaded', function () {
         //        success:function(response){
         //            console.log(tempJS)
         //        }})});
-    });
 
 
     //console.log(Pres.value);

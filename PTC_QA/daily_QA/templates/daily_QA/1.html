@@ -29,6 +29,8 @@
             <option value="3565" id="k3565">FC65 P 3565 500V</option>
             <option value="4218" id="k4218">FC65 P 4218 500V</option>
             <option value="5414" id="k5414">FC65 P 5414 500V</option>
+            <option value="6414" id="k6414">FC65 P 6414 500V</option>
+            <option value="6415" id="k6415">FC65 P 6415 500V</option>
         </select>
         <tr>MLIC<input type="checkbox" id="mlic-enable"></tr>
         <br>
@@ -46,7 +48,7 @@
             <tbody>
                 <tr id="misc">
                     <td>Temperature [°C]: <input type="number" step="0.01" id="temperature" required><span class="check-icon" id="icon-temp"></span></td>
-                    <td>Pressure [hPa]: <input type="number" step="0.01" id="pressure" required><span class="check-icon" id="icon-press"></span></td>
+                    <td>Pressure [hPa]: <input oninput="" type="number" step="0.01" id="pressure" required><span class="check-icon" id="icon-press"></span></td>
                     <td>Dose correction factor: <input type="number" step="0.001" id="k" required><span class="check-icon" id="icon-k"></span></td>
                     <td>k<sub>T,p</sub>:  <b><span id="ktpOut"></span></b></td>
                 </tr>

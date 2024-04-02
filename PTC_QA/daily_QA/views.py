@@ -2,15 +2,13 @@ from django.shortcuts import render, redirect
 from .models import DailyTest, DailyTestInput, DLynxMeasurement, DailyTestDraft, DIcMeasurement, DMlicMeasurement #must import all needed tables
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.utils import timezone
-from datetime import datetime
+from datetime import date
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.db.models import Q
 from django.urls import reverse
 import json
-
-
 
 #@login_required   
 def inlog(request):
@@ -34,21 +32,9 @@ def home(request):
 def gtrselect(request): 
     return render(request, 'daily_QA/gtrselect.html')
 
-def ajax_get_view(request, form): # May include more arguments depending on URL parameters
-    # Get data from the database - Ex. Model.object.get(...)
-    #identify record's index
-    listbygantry = DailyTestDraft.objects.values().filter(gantry=gtr)#.order_by("-index",)[0]
-    last=listbygantry.order_by('-index')[0]
-    index = (last['index'])
-    form = DailyTestDraft.objects.get(pk=index)
-    Temp_test = form.temperature
-    print(Temp_test)
-    data = {
-            'my_data':Temp_test
-    }
-    return JsonResponse(data)
 
 def daily(request,gtr):
+    path_name = request.resolver_match.view_name
     datacheck = DailyTestDraft.objects.filter(gantry=gtr,date_added__contains=timezone.now().date())
     if datacheck.count()==0: 
         form = DailyTestDraft.objects.create(gantry=gtr, date_added = timezone.now()) 
@@ -58,21 +44,6 @@ def daily(request,gtr):
     last=listbygantry.order_by('-index')[0]
     index = (last['index'])
     form = DailyTestDraft.objects.get(pk=index)
-
-
-    if request.GET.get('reload', None):
-        # Retrieve the data from the database and pass it to the template
-        print('boa jeho')
-        #reload_function()
-        #username = request.GET.get('Temp_test', None)
-        #print(temp_test)
-        #print(request.GET.get(''))
-        print(str(form.temperature))
-        response1 = dict()
-        response1.update({'temp_test': str(form.temperature)})
-        print(response1)
-        return JsonResponse({'temp_test': str(form.temperature)}) 
-        #return HttpResponse(response1) 
     
 
     if request.method == "POST" and request.POST.get('tlacitko')!='Submit':   
@@ -134,15 +105,21 @@ def daily(request,gtr):
             
         form.save()
 
-    #if request.POST.get('reload') == 'Reload':
-        
+    #if request.GET.get('reload'):
+        #Temp_test = form.temperature
+        #print(Temp_test)
+        #data = {
+        #        'my_data':Temp_test,
+        #        'gtr': gtr
+        #}
+        #return JsonResponse(data)
+        #return JsonResponse(data)
+        #return render(request, 'daily_QA/'+str(gtr)+'.html', {'data': json.dumps(response)})
         
 
             #return render(request, 'daily_QA/' + str(gtr) + '.html', {'gtr': gtr, 'Temp_test': temp_test})
         #return render(request, 'daily_QA/' + str(gtr) + '.html', {'gtr': gtr})
-    
-
-
+ 
     if request.POST.get('tlacitko')=='Submit':
         current_user = request.user  # Retrieve the currently logged-in user
 
@@ -158,10 +135,6 @@ def daily(request,gtr):
     else:
         #return json.dumps({'status': 'ok'})
         return render(request, 'daily_QA/'+str(gtr)+'.html', {'gtr': gtr, 'form': form}) #'datacheck': datacheck.count(), 'reload': last})
-
-#def reload_function(request, gtr,form):
-    #data = form.temperature
-    #return render(request, 'daily_QA/'+str(gtr)+'.html', {'temp_testJS':data})
 
 def submitted(form, current_user):
     
@@ -270,6 +243,7 @@ def submitted(form, current_user):
         ic_instance.save()
 
     #return render(request, 'daily_QA/submitted.html', {'gtr': gtr})
+
  
 def success2(request):
     return render(request, 'daily_QA/success2.html', {})

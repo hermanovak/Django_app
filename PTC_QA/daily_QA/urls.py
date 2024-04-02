@@ -20,5 +20,4 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('entries/<int:gtr>/', views.view_entries_by_gtr, name='entries_by_gtr'),
     path('entry/<int:index>/', views.entry_detail, name='entry_detail'),
-    path('ajax_get_view', views.ajax_get_view, name='ajax_get_view'),
 ]

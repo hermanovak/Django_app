@@ -1,0 +1,13 @@
+{% extends "daily_QA/base.html" %}
+
+{% block content %}
+
+<h2>Daily QA Test</h2>
+
+<form action="{% url 'daily' %}"  method="post">
+    {% csrf_token %}
+    {{ dailytestform.as_p }}
+    <input type="submit" value="Submit">
+</form>
+
+{% endblock %}
