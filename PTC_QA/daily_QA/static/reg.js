@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    var data = {
+    var dataP = {
     Temp: Temp,
     Pres: Pres,
     Ktp: KtpOut,
@@ -393,7 +393,7 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     //checkboxes check + check of all checks, czechs number one
-
+    reload = document.getElementById("reload");
     inputValueTemp = document.getElementById("temperature");
     iconTemp = document.getElementById("icon-temp");
     inputValuePres = document.getElementById("pressure");
@@ -481,6 +481,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         };
     });
+
 
     inputValuePres.addEventListener("input", function () {
         if (inputValuePres.value >= 900 && inputValuePres.value <= 1100) {
@@ -652,15 +653,54 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+
     submitB.addEventListener("click", function(){
         $(function() {
             $.ajax({
                 type: 'POST',
                 url:"/daily"+String(gtr),
                 data: {csrfmiddlewaretoken: window.CSRF_TOKEN, tlacitko: submitB.value},
-                success:function(response){}});
+                success: function(response){
+                    document.location.href = "/success2";}});
         });
     });
+    var tempJS
+    reload.addEventListener("click", function(){
+        $(function() {
+            $.ajax({
+            type: 'POST',
+                url:"/daily"+String(gtr),
+                data: {csrfmiddlewaretoken: window.CSRF_TOKEN, reload: reload.value},
+                success:function(response){}});
+        });
+        // fetch('http://127.0.0.1:8000/daily'+String(gtr), {
+        //     headers:{
+        //         'Accept': 'application/json',
+        //         'X-Requested-With': 'XMLHttpRequest', //Necessary to work with request.is_ajax()
+        //         },
+        //     })
+        //     .then(response => {
+        //         return response.json() //Convert response to JSON
+        //     })
+        //     .then(data => {
+        //         // if data key != none, tak spravi list non none keys. for loop cez ten list na priradenie
+        //         inputValueTemp.value = data['my_data']
+        //         console.log(data['my_data'])
+        //     })
+    });
+
+        //$(function () {
+        //    $.ajax({
+        //        type: 'GET',
+        //        url:"/daily"+String(gtr),
+        //       data: tempJS,
+        //        //dataType: 'json',
+        //        error:function(response){
+        //            console.log('EEE')},
+        //        success:function(response){
+        //            console.log(tempJS)
+        //        }})});
+
 
     //console.log(Pres.value);
     

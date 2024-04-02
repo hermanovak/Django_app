@@ -7,11 +7,20 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         
-        
       </ul> 
       <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        {% if user.is_authenticated %}
+            <span class="navbar-text">
+                You are logged in as {{ user.first_name }}  
+            </span>
+
+            <!-- Add space between text and button -->
+            <div class="mr-2"></div>
+            
+            <a href="{% url 'daily_QA:logout' %}" class="btn btn-outline-danger my-2 my-sm-0">Logout</a>
+        {% endif %}
+
+
       </form>
     </div>
   </nav>

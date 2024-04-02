@@ -1,0 +1,180 @@
+{% extends "daily_QA/base.html" %}
+
+{% block content %}
+
+<!-- entry_detail.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Daily Test viewer</title>
+    <style>       
+        table {
+            border-collapse: collapse;
+            width: 69%;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .section-header {
+            background-color: #68b9d4;
+            color: #fff;
+            padding: 10px;
+            margin-top: 20px;
+            width: 69%;
+            font-size: 20px; /* Adjust the font size as needed */
+            font-weight: bold; /* Make the font bold */
+        }
+    </style>
+</head>
+<body>
+    <h1>Details for Entry {{ entry.index }} on {{ entry.date_added|date:"Y-m-d" }}</h1>
+    
+    <table>
+        <tr>
+            <th>Field</th>
+            <th>Value</th>
+        </tr>
+        <tr>
+            <td><strong>Gantry</strong></td>
+            <td>{{ entry.gantry }}</td>
+        </tr>
+        <!-- Add other fields as needed -->
+        <tr>
+            <td><strong>VisionRT</strong></td>
+            <td>
+                {% if entry.visionrt_check == 1 %}
+                    Pass
+                {% elif entry.visionrt_check == None %}
+                    None
+                {% else %}
+                    Fail
+                {% endif %}
+            </td>
+        </tr>
+
+        <tr>
+            <td><strong>Flat Panels</strong></td>
+            <td>
+                {% if entry.flatpanels_check == 1 %}
+                    Pass
+                {% elif entry.flatpanels_check == None %}
+                    None
+                {% else %}
+                    Fail
+                {% endif %}
+            </td>
+        </tr>
+
+        <tr>
+            <td><strong>DynR</strong></td>
+            <td>
+                {% if entry.dynr_check == 1 %}
+                    Pass
+                {% elif entry.dynr_check == None %}
+                    None
+                {% else %}
+                    Fail
+                {% endif %}
+            </td>
+        </tr>
+
+        <tr>
+            <td><strong>Lasers XYZ</strong></td>
+            <td>{{ entry.laserx }} {{ entry.lasery }} {{ entry.laserz }}</td>
+        </tr>
+
+        <tr>
+            <td><strong>Temperature</strong></td>
+            <td>{{ entry.temperature }}</td>
+        </tr>
+
+        <tr>
+            <td><strong>Pressure</strong></td>
+            <td>{{ entry.pressure }}</td>
+        </tr>
+
+        <tr>
+            <td><strong>K factor</strong></td>
+            <td>{{ entry.kfactor }}</td>
+        </tr>
+
+        <tr>
+            <td><strong>User</strong></td>
+            <td>{{ entry.user }}</td>
+        </tr>
+    </table>
+
+    <div class="section-header">RANGE CHECK -  MLIC ID: {{ mlic.0.mlicid }}</div>
+    
+    <table>
+        <tr>
+            <th>Energy</th>
+            <th>Range</th>
+        </tr>
+        {% for instance in mlic %}
+            <tr>
+                <td>{{ instance.energy }}</td>
+                <td>{{ instance.range }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <div class="section-header">FIELD CHECK -  LYNX ID: {{ lynx.0.lynxid }}</div>
+    
+    <table>
+        <tr>
+            <th>Energy</th>
+            <th>Gamma &le; 1 [%]</th>
+            <th>Gamma &le; 1,5 [%]</th>
+            <th>Average</th>
+            <th>Maximum</th>
+        </tr>
+        {% for instance in lynx %}
+            <tr>
+                <td>{{ instance.energy }}</td>
+                <td>{{ instance.val95 }}</td>
+                <td>{{ instance.val99 }}</td>
+                <td>{{ instance.avg }}</td>
+                <td>{{ instance.max }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+
+    <div class="section-header">DOSE OUTPUT CHECK -  IC ID: {{ ic.0.ic_id }}</div>
+    
+    <table>
+        <tr>
+            <th>Energy</th>
+            <th>Charge</th>
+            <th>MU</th>
+        </tr>
+        {% for instance in ic %}
+            <tr>
+                <td>{{ instance.energy }}</td>
+                <td>{{ instance.response_nc }}</td>
+                <td>{{ instance.response_mu }}</td>
+
+            </tr>
+        {% endfor %}
+    </table>
+
+</body>
+
+
+
+
+
+</html>
+
+{% endblock %}
+

@@ -1,0 +1,21 @@
+{% extends "daily_QA/base.html" %}
+
+{% block content %}
+
+<!-- entries_by_gtr.html -->
+<!DOCTYPE html>
+<html>
+
+<body>
+    <h1>Entries for TR {{ gtr }}</h1>
+    <ul>
+        {% for entry in entries %}
+            <li>
+                <a href="{% url 'daily_QA:entry_detail' entry.index %}">{{ entry.date_added|date:"Y-m-d" }} ({{ entry.index }})  </a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+
+{% endblock %}
