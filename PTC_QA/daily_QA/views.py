@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import DailyTest, DailyTestInput, DLynxMeasurement, DailyTestDraft, DIcMeasurement, DMlicMeasurement #must import all needed tables
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.utils import timezone
 from datetime import date
 from django.contrib.auth import authenticate, login
@@ -9,6 +10,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.db.models import Q
 from django.urls import reverse
 import json
+
+
 
 #@login_required   
 def inlog(request):
@@ -32,6 +35,19 @@ def home(request):
 def gtrselect(request): 
     return render(request, 'daily_QA/gtrselect.html')
 
+def ajax_get_view(request, form): # May include more arguments depending on URL parameters
+    # Get data from the database - Ex. Model.object.get(...)
+    #identify record's index
+    listbygantry = DailyTestDraft.objects.values().filter(gantry=gtr)#.order_by("-index",)[0]
+    last=listbygantry.order_by('-index')[0]
+    index = (last['index'])
+    form = DailyTestDraft.objects.get(pk=index)
+    Temp_test = form.temperature
+    print(Temp_test)
+    data = {
+            'my_data':Temp_test
+    }
+    return JsonResponse(data)
 
 def daily(request,gtr):
     path_name = request.resolver_match.view_name
@@ -44,6 +60,22 @@ def daily(request,gtr):
     last=listbygantry.order_by('-index')[0]
     index = (last['index'])
     form = DailyTestDraft.objects.get(pk=index)
+    
+
+
+    if request.GET.get('reload', None):
+        # Retrieve the data from the database and pass it to the template
+        print('boa jeho')
+        #reload_function()
+        #username = request.GET.get('Temp_test', None)
+        #print(temp_test)
+        #print(request.GET.get(''))
+        print(str(form.temperature))
+        response1 = dict()
+        response1.update({'temp_test': str(form.temperature)})
+        print(response1)
+        return JsonResponse({'temp_test': str(form.temperature)}) 
+        #return HttpResponse(response1) 
     
 
     if request.method == "POST" and request.POST.get('tlacitko')!='Submit':   
@@ -120,8 +152,19 @@ def daily(request,gtr):
             #return render(request, 'daily_QA/' + str(gtr) + '.html', {'gtr': gtr, 'Temp_test': temp_test})
         #return render(request, 'daily_QA/' + str(gtr) + '.html', {'gtr': gtr})
  
+
+    #if request.POST.get('reload') == 'Reload':
+        
+        
+
+            #return render(request, 'daily_QA/' + str(gtr) + '.html', {'gtr': gtr, 'Temp_test': temp_test})
+        #return render(request, 'daily_QA/' + str(gtr) + '.html', {'gtr': gtr})
+    
+
+
     if request.POST.get('tlacitko')=='Submit':
         current_user = request.user  # Retrieve the currently logged-in user
+
 
         #if request.POST.get('checksAllChecks')=='1':
             #form.validate = 1
@@ -132,11 +175,14 @@ def daily(request,gtr):
         
         #form.delete()
 
+
     else:
         #return json.dumps({'status': 'ok'})
         return render(request, 'daily_QA/'+str(gtr)+'.html', {'gtr': gtr, 'form': form}) #'datacheck': datacheck.count(), 'reload': last})
 
 def submitted(form, current_user):
+    
+
     
 
     # Check if the DailyTest instance already exists
@@ -165,6 +211,17 @@ def submitted(form, current_user):
     else:
         # Use the existing instance
         hlavicka_instance = existing_hlavicka_instance
+
+    #Check dailyDraft length 
+    total_non_none_count = 0
+    total_non_none_count = sum(1 for field in form._meta.fields if getattr(form, field.name) is not None)
+    print("Total count of non-None values across all fields in the dailydraft instance: {}".format(total_non_none_count)) #11 13 12 13
+
+    total_non_none_count = sum(1 for field in hlavicka_instance._meta.fields if getattr(hlavicka_instance, field.name) is not None)
+    print("Total count of non-None values across all fields in the daily instance: {}".format(total_non_none_count)) #30 32 37 43
+
+    ### anebo toto nahradit disabled Submit btn dokud neni checkOfAllChecks
+    
 
     #Check dailyDraft length 
     total_non_none_count = 0
@@ -247,6 +304,17 @@ def submitted(form, current_user):
  
 def success2(request):
     return render(request, 'daily_QA/success2.html', {})
+
+def view_entries_by_gtr(request, gtr):
+    entries = DailyTest.objects.filter(gantry=gtr)
+    return render(request, 'daily_QA/entries_by_gtr.html', {'entries': entries, 'gtr': gtr})
+
+def entry_detail(request,index):
+    entry = DailyTest.objects.get(pk=index)
+    mlic = DMlicMeasurement.objects.filter(measurementid=index)
+    lynx = DLynxMeasurement.objects.filter(measurementid=index)
+    ic = DIcMeasurement.objects.filter(measurementid=index)
+    return render(request, 'daily_QA/entry_detail.html', {'entry': entry, 'mlic': mlic, 'lynx': lynx, 'ic': ic})
 
 def view_entries_by_gtr(request, gtr):
     entries = DailyTest.objects.filter(gantry=gtr)
